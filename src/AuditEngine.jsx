@@ -1,0 +1,657 @@
+import { useState, useCallback, useMemo } from "react";
+import * as XLSX from "xlsx";
+import { Document, Packer, Paragraph, Table, TableRow, TableCell } from "docx";
+import engagementStore from "./store/engagementStore";
+import auditFramework from "./data/auditFramework.json";
+
+const COLORS = {
+  bg: "#0A0E17",
+  sidebar: "#0F1622",
+  card: "rgba(255,255,255,0.04)",
+  border: "rgba(255,255,255,0.08)",
+  accent: "#F5A623",
+  text: "#F8F8F8",
+  dim: "rgba(255,255,255,0.6)",
+  faint: "rgba(255,255,255,0.3)",
+  green: "#66BB6A",
+  red: "#EF5350",
+  orange: "#FFA726",
+  blue: "#42A5F5",
+  purple: "#CE93D8",
+  planning: "#1E88E5",
+  risk: "#E53935",
+  interim: "#FB8C00",
+  final: "#43A047",
+  completion: "#8E24AA",
+  reporting: "#5D4037"
+};
+
+const PHASES = [
+  { id: "planning", label: "Planning", icon: "📋", color: COLORS.planning, order: 1 },
+  { id: "riskAssessment", label: "Risk Assessment", icon: "⚠️", color: COLORS.risk, order: 2 },
+  { id: "interim", label: "Interim", icon: "🔍", color: COLORS.interim, order: 3 },
+  { id: "finalAudit", label: "Final Audit", icon: "✓", color: COLORS.final, order: 4 },
+  { id: "completion", label: "Completion", icon: "📝", color: COLORS.completion, order: 5 },
+  { id: "reporting", label: "Reporting", icon: "📊", color: COLORS.reporting, order: 6 }
+];
+
+// ═══════════════════════════════════════════════════════════════════
+// PLANNING PHASE COMPONENT
+// ═══════════════════════════════════════════════════════════════════
+function PlanningPhase({ engagement, updateEngagement, onAdvance, canAdvance }) {
+  const [activeTab, setActiveTab] = useState("engagement");
+
+  return (
+    <div style={{ padding: "24px", maxWidth: "1200px" }}>
+      <div style={{ marginBottom: "24px" }}>
+        <h2 style={{ color: COLORS.planning, marginBottom: "4px" }}>📋 Planning Phase</h2>
+        <p style={{ color: COLORS.dim, margin: 0 }}>ISA 200, 210, 315, 320 - Set up engagement parameters and audit strategy</p>
+      </div>
+
+      <div style={{ display: "flex", gap: "8px", marginBottom: "24px", borderBottom: `1px solid ${COLORS.border}`, paddingBottom: "12px" }}>
+        {["engagement", "risk", "materiality", "strategy", "team"].map(tab => (
+          <button
+            key={tab}
+            onClick={() => setActiveTab(tab)}
+            style={{
+              padding: "10px 16px",
+              background: activeTab === tab ? COLORS.planning + "30" : "transparent",
+              border: `1px solid ${activeTab === tab ? COLORS.planning + "60" : COLORS.border}`,
+              color: activeTab === tab ? COLORS.planning : COLORS.dim,
+              borderRadius: "6px",
+              cursor: "pointer",
+              fontSize: "12px",
+              fontWeight: 600,
+              textTransform: "uppercase"
+            }}
+          >
+            {tab.charAt(0).toUpperCase() + tab.slice(1)}
+          </button>
+        ))}
+      </div>
+
+      {activeTab === "engagement" && (
+        <div style={{ background: COLORS.card, borderRadius: "12px", padding: "24px", border: `1px solid ${COLORS.border}` }}>
+          <h3 style={{ color: COLORS.text, marginTop: 0 }}>Engagement Letter (ISA 210)</h3>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "16px" }}>
+            <InputField
+              label="Entity Name"
+              value={engagement.entityName}
+              onChange={(v) => updateEngagement("entityName", v)}
+              placeholder="Client entity name"
+            />
+            <InputField
+              label="Financial Year End"
+              value={engagement.financialYearEnd}
+              onChange={(v) => updateEngagement("financialYearEnd", v)}
+              placeholder="31/12/2024"
+              type="date"
+            />
+            <InputField
+              label="Industry"
+              value={engagement.industryId}
+              onChange={(v) => updateEngagement("industryId", v)}
+              placeholder="Select industry"
+            />
+            <InputField
+              label="Sector"
+              value={engagement.sector}
+              onChange={(v) => updateEngagement("sector", v)}
+              placeholder="Enter sector"
+            />
+            <InputField
+              label="Framework"
+              value={engagement.framework}
+              onChange={(v) => updateEngagement("framework", v)}
+              placeholder="FRS102/IFRS"
+            />
+            <InputField
+              label="Entity Size"
+              value={engagement.entitySize}
+              onChange={(v) => updateEngagement("entitySize", v)}
+              placeholder="Micro/Small/Medium/Large"
+            />
+          </div>
+        </div>
+      )}
+
+      {activeTab === "materiality" && (
+        <div style={{ background: COLORS.card, borderRadius: "12px", padding: "24px", border: `1px solid ${COLORS.border}` }}>
+          <h3 style={{ color: COLORS.text, marginTop: 0 }}>Materiality Calculation (ISA 320)</h3>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "16px" }}>
+            <InputField
+              label="Overall Materiality (OM)"
+              value={engagement.materiality.overall}
+              onChange={(v) => updateEngagement("materiality.overall", parseFloat(v))}
+              placeholder="50000"
+              type="number"
+            />
+            <InputField
+              label="Performance Materiality (75% of OM)"
+              value={engagement.materiality.performance}
+              onChange={(v) => updateEngagement("materiality.performance", parseFloat(v))}
+              placeholder="37500"
+              type="number"
+            />
+            <InputField
+              label="Trivial Threshold (5% of OM)"
+              value={engagement.materiality.trivial}
+              onChange={(v) => updateEngagement("materiality.trivial", parseFloat(v))}
+              placeholder="2500"
+              type="number"
+            />
+            <InputField
+              label="Basis"
+              value={engagement.materiality.basis}
+              onChange={(v) => updateEngagement("materiality.basis", v)}
+              placeholder="5% PBT"
+            />
+          </div>
+          <div style={{ marginTop: "16px", padding: "12px", background: COLORS.planning + "15", borderRadius: "6px", border: `1px solid ${COLORS.planning}33` }}>
+            <p style={{ color: COLORS.blue, margin: 0, fontSize: "12px" }}>
+              📊 Overall Materiality: £{engagement.materiality.overall?.toLocaleString() || "—"} |
+              Performance: £{engagement.materiality.performance?.toLocaleString() || "—"} |
+              Trivial: £{engagement.materiality.trivial?.toLocaleString() || "—"}
+            </p>
+          </div>
+        </div>
+      )}
+
+      {activeTab === "risk" && (
+        <div style={{ background: COLORS.card, borderRadius: "12px", padding: "24px", border: `1px solid ${COLORS.border}` }}>
+          <h3 style={{ color: COLORS.text, marginTop: 0 }}>Client Risk Assessment (ISA 315)</h3>
+          <p style={{ color: COLORS.dim }}>Identify entity risks and fraud risks that impact audit procedures</p>
+          <textarea
+            placeholder="Business risks, fraud indicators, management override risks..."
+            style={{
+              width: "100%",
+              minHeight: "150px",
+              padding: "12px",
+              background: COLORS.bg,
+              border: `1px solid ${COLORS.border}`,
+              borderRadius: "6px",
+              color: COLORS.text,
+              fontFamily: "monospace",
+              fontSize: "12px",
+              resize: "vertical"
+            }}
+          />
+        </div>
+      )}
+
+      {activeTab === "team" && (
+        <div style={{ background: COLORS.card, borderRadius: "12px", padding: "24px", border: `1px solid ${COLORS.border}` }}>
+          <h3 style={{ color: COLORS.text, marginTop: 0 }}>Team Allocation</h3>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "16px" }}>
+            <InputField label="Partner" placeholder="Name" />
+            <InputField label="Manager" placeholder="Name" />
+            <InputField label="Senior Auditor" placeholder="Name" />
+            <InputField label="Junior Auditors" placeholder="Names" />
+          </div>
+        </div>
+      )}
+
+      {canAdvance && (
+        <div style={{ marginTop: "24px", textAlign: "center" }}>
+          <button
+            onClick={onAdvance}
+            style={{
+              padding: "12px 32px",
+              background: `linear-gradient(135deg, ${COLORS.planning}, ${COLORS.planning}dd)`,
+              border: "none",
+              color: "#000",
+              fontSize: "14px",
+              fontWeight: 700,
+              borderRadius: "8px",
+              cursor: "pointer",
+              textTransform: "uppercase",
+              letterSpacing: "0.08em"
+            }}
+          >
+            ✓ Complete Planning & Advance to Risk Assessment
+          </button>
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// RISK ASSESSMENT PHASE COMPONENT
+// ═══════════════════════════════════════════════════════════════════
+function RiskAssessmentPhase({ engagement, updateEngagement, onAdvance, canAdvance }) {
+  const [activeTab, setActiveTab] = useState("riskMatrix");
+
+  const calculateRiskRating = (inherent, control) => {
+    const combined = inherent * control / 5;
+    if (combined > 4) return { rating: "CRITICAL", color: COLORS.red };
+    if (combined > 3) return { rating: "HIGH", color: COLORS.orange };
+    if (combined > 2) return { rating: "MEDIUM", color: COLORS.accent };
+    return { rating: "LOW", color: COLORS.green };
+  };
+
+  return (
+    <div style={{ padding: "24px", maxWidth: "1200px" }}>
+      <div style={{ marginBottom: "24px" }}>
+        <h2 style={{ color: COLORS.risk, marginBottom: "4px" }}>⚠️ Risk Assessment Phase</h2>
+        <p style={{ color: COLORS.dim, margin: 0 }}>ISA 315, 240, 540, 570, 550 - Identify and assess audit risks</p>
+      </div>
+
+      <div style={{ display: "flex", gap: "8px", marginBottom: "24px", borderBottom: `1px solid ${COLORS.border}`, paddingBottom: "12px" }}>
+        {["riskMatrix", "fraud", "estimates", "goingConcern", "relatedParties"].map(tab => (
+          <button
+            key={tab}
+            onClick={() => setActiveTab(tab)}
+            style={{
+              padding: "10px 16px",
+              background: activeTab === tab ? COLORS.risk + "30" : "transparent",
+              border: `1px solid ${activeTab === tab ? COLORS.risk + "60" : COLORS.border}`,
+              color: activeTab === tab ? COLORS.risk : COLORS.dim,
+              borderRadius: "6px",
+              cursor: "pointer",
+              fontSize: "12px",
+              fontWeight: 600,
+              textTransform: "uppercase"
+            }}
+          >
+            {tab.replace(/([A-Z])/g, " $1").trim()}
+          </button>
+        ))}
+      </div>
+
+      {activeTab === "riskMatrix" && (
+        <div style={{ background: COLORS.card, borderRadius: "12px", padding: "24px", border: `1px solid ${COLORS.border}` }}>
+          <h3 style={{ color: COLORS.text, marginTop: 0 }}>Risk Matrix Assessment (ISA 315)</h3>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "16px" }}>
+            <RiskInput label="Inherent Risk (1-5)" defaultValue="3" onChange={() => {}} />
+            <RiskInput label="Control Risk (1-5)" defaultValue="2" onChange={() => {}} />
+            <RiskInput label="Detection Risk (1-5)" defaultValue="1" onChange={() => {}} />
+          </div>
+          <div style={{ marginTop: "24px", padding: "16px", background: COLORS.risk + "15", borderRadius: "8px", border: `1px solid ${COLORS.risk}33` }}>
+            <p style={{ color: COLORS.red, margin: 0, fontWeight: 700 }}>🎯 Combined Risk Rating: HIGH (3.6/5)</p>
+            <p style={{ color: COLORS.dim, margin: "6px 0 0 0", fontSize: "12px" }}>Requires detailed substantive testing - Detection Risk set to LOW</p>
+          </div>
+        </div>
+      )}
+
+      {activeTab === "fraud" && (
+        <div style={{ background: COLORS.card, borderRadius: "12px", padding: "24px", border: `1px solid ${COLORS.border}` }}>
+          <h3 style={{ color: COLORS.text, marginTop: 0 }}>Fraud Risk Assessment (ISA 240)</h3>
+          <p style={{ color: COLORS.dim, fontSize: "12px", marginBottom: "16px" }}>Identify fraud risks - Management override, cash manipulation, revenue side of fraud</p>
+          <div style={{ background: COLORS.bg, padding: "16px", borderRadius: "6px", border: `1px solid ${COLORS.border}` }}>
+            <h4 style={{ color: COLORS.accent, margin: "0 0 12px 0", fontSize: "12px" }}>Fraud Triangle Assessment</h4>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "12px" }}>
+              <FraudTriangleBox title="Incentive" examples="Meeting targets, financial pressure, bonuses" />
+              <FraudTriangleBox title="Opportunity" examples="Weak controls, override ability, cash access" />
+              <FraudTriangleBox title="Attitude" examples="Rationalization, pressure, culture" />
+            </div>
+          </div>
+        </div>
+      )}
+
+      {activeTab === "goingConcern" && (
+        <div style={{ background: COLORS.card, borderRadius: "12px", padding: "24px", border: `1px solid ${COLORS.border}` }}>
+          <h3 style={{ color: COLORS.text, marginTop: 0 }}>Going Concern Assessment (ISA 570)</h3>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "16px", marginBottom: "16px" }}>
+            <InputField label="Sufficient funds for next 12 months?" placeholder="Yes/No/Qualified" />
+            <InputField label="Management going concern assessment complete?" placeholder="Yes/No" />
+          </div>
+          <textarea
+            placeholder="Going concern risks, mitigating factors, disclosure requirements..."
+            style={{
+              width: "100%",
+              minHeight: "120px",
+              padding: "12px",
+              background: COLORS.bg,
+              border: `1px solid ${COLORS.border}`,
+              borderRadius: "6px",
+              color: COLORS.text,
+              fontFamily: "monospace",
+              fontSize: "12px"
+            }}
+          />
+        </div>
+      )}
+
+      {canAdvance && (
+        <div style={{ marginTop: "24px", textAlign: "center" }}>
+          <button
+            onClick={onAdvance}
+            style={{
+              padding: "12px 32px",
+              background: `linear-gradient(135deg, ${COLORS.risk}, ${COLORS.risk}dd)`,
+              border: "none",
+              color: "#fff",
+              fontSize: "14px",
+              fontWeight: 700,
+              borderRadius: "8px",
+              cursor: "pointer",
+              textTransform: "uppercase",
+              letterSpacing: "0.08em"
+            }}
+          >
+            ✓ Complete Risk Assessment & Advance to Interim
+          </button>
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// RESULTS DASHBOARD
+// ═══════════════════════════════════════════════════════════════════
+function ResultsDashboard({ engagement, phases }) {
+  const phaseCompletion = useMemo(() => {
+    return PHASES.map(p => ({
+      ...p,
+      percent: engagement.phases[p.id]?.completionPercent || 0
+    }));
+  }, [engagement]);
+
+  const overallProgress = Math.round(
+    phaseCompletion.reduce((sum, p) => sum + p.percent, 0) / phaseCompletion.length
+  );
+
+  return (
+    <div style={{ padding: "24px", maxWidth: "1200px" }}>
+      <div style={{ marginBottom: "32px" }}>
+        <h2 style={{ color: COLORS.accent, marginBottom: "4px" }}>📊 Audit Progress Dashboard</h2>
+        <p style={{ color: COLORS.dim, margin: 0 }}>Real-time audit completion and KPI tracking</p>
+      </div>
+
+      {/* Overall Progress */}
+      <div style={{ background: COLORS.card, borderRadius: "12px", padding: "24px", border: `1px solid ${COLORS.border}`, marginBottom: "24px" }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "16px" }}>
+          <h3 style={{ color: COLORS.text, margin: 0 }}>Overall Audit Progress</h3>
+          <span style={{ fontSize: "24px", fontWeight: 700, color: COLORS.accent }}>{overallProgress}%</span>
+        </div>
+        <div style={{ background: COLORS.bg, borderRadius: "8px", height: "12px", overflow: "hidden" }}>
+          <div
+            style={{
+              height: "100%",
+              background: `linear-gradient(90deg, ${COLORS.planning}, ${COLORS.risk}, ${COLORS.interim}, ${COLORS.final}, ${COLORS.completion}, ${COLORS.reporting})`,
+              width: `${overallProgress}%`,
+              transition: "width 0.3s ease"
+            }}
+          />
+        </div>
+      </div>
+
+      {/* Phase Completion Cards */}
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: "16px", marginBottom: "24px" }}>
+        {phaseCompletion.map(phase => (
+          <div
+            key={phase.id}
+            style={{
+              background: `linear-gradient(135deg, ${phase.color}12, ${phase.color}06)`,
+              border: `1px solid ${phase.color}33`,
+              borderRadius: "12px",
+              padding: "18px",
+              borderLeft: `4px solid ${phase.color}`
+            }}
+          >
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "12px" }}>
+              <h4 style={{ color: phase.color, margin: 0, fontSize: "14px", fontWeight: 700 }}>
+                {phase.icon} {phase.label}
+              </h4>
+              <span style={{ color: phase.color, fontSize: "18px", fontWeight: 700 }}>{phase.percent}%</span>
+            </div>
+            <div style={{ background: COLORS.bg, borderRadius: "4px", height: "8px", overflow: "hidden" }}>
+              <div
+                style={{
+                  height: "100%",
+                  background: phase.color,
+                  width: `${phase.percent}%`,
+                  transition: "width 0.3s ease"
+                }}
+              />
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* KPI Summary */}
+      <div style={{ background: COLORS.card, borderRadius: "12px", padding: "24px", border: `1px solid ${COLORS.border}` }}>
+        <h3 style={{ color: COLORS.text, marginTop: 0 }}>Key Performance Indicators</h3>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "16px" }}>
+          <KPIBox label="Overall Materiality" value={`£${engagement.materiality.overall?.toLocaleString() || "—"}`} color={COLORS.accent} />
+          <KPIBox label="Performance Materiality" value={`£${engagement.materiality.performance?.toLocaleString() || "—"}`} color={COLORS.blue} />
+          <KPIBox label="Trivial Threshold" value={`£${engagement.materiality.trivial?.toLocaleString() || "—"}`} color={COLORS.green} />
+          <KPIBox label="Risk Level" value={engagement.riskAssessment?.combinedRisk ? "HIGH" : "—"} color={COLORS.red} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// SIMPLE HELPER COMPONENTS
+// ═══════════════════════════════════════════════════════════════════
+
+function InputField({ label, value, onChange, placeholder, type = "text" }) {
+  return (
+    <div style={{ marginBottom: "12px" }}>
+      <label style={{ display: "block", color: COLORS.accent, fontSize: "10px", fontWeight: 700, marginBottom: "6px", textTransform: "uppercase" }}>
+        {label}
+      </label>
+      <input
+        type={type}
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        placeholder={placeholder}
+        style={{
+          width: "100%",
+          padding: "10px 12px",
+          background: COLORS.bg,
+          border: `1px solid ${COLORS.border}`,
+          borderRadius: "6px",
+          color: COLORS.text,
+          fontSize: "12px",
+          boxSizing: "border-box"
+        }}
+      />
+    </div>
+  );
+}
+
+function RiskInput({ label, defaultValue, onChange }) {
+  return (
+    <div>
+      <label style={{ display: "block", color: COLORS.accent, fontSize: "10px", fontWeight: 700, marginBottom: "6px" }}>
+        {label}
+      </label>
+      <select
+        defaultValue={defaultValue}
+        onChange={onChange}
+        style={{
+          width: "100%",
+          padding: "10px 12px",
+          background: COLORS.bg,
+          border: `1px solid ${COLORS.border}`,
+          borderRadius: "6px",
+          color: COLORS.text,
+          fontSize: "12px"
+        }}
+      >
+        {[1, 2, 3, 4, 5].map(n => (
+          <option key={n} value={n}>{n} - {["Low", "Medium-Low", "Medium", "Medium-High", "High"][n - 1]}</option>
+        ))}
+      </select>
+    </div>
+  );
+}
+
+function FraudTriangleBox({ title, examples }) {
+  return (
+    <div style={{ background: COLORS.bg, padding: "12px", borderRadius: "6px", border: `1px solid ${COLORS.border}` }}>
+      <h5 style={{ color: COLORS.accent, margin: "0 0 6px 0", fontSize: "11px" }}>{title}</h5>
+      <p style={{ color: COLORS.faint, margin: 0, fontSize: "11px", lineHeight: 1.4 }}>{examples}</p>
+    </div>
+  );
+}
+
+function KPIBox({ label, value, color }) {
+  return (
+    <div style={{ background: color + "12", border: `1px solid ${color}33`, borderRadius: "8px", padding: "14px" }}>
+      <p style={{ color: COLORS.dim, margin: "0 0 6px 0", fontSize: "11px", fontWeight: 600 }}>{label}</p>
+      <p style={{ color: color, margin: 0, fontSize: "20px", fontWeight: 700 }}>{value}</p>
+    </div>
+  );
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// MAIN APPLICATION
+// ═══════════════════════════════════════════════════════════════════
+export default function AuditEngine() {
+  const [currentPhaseIndex, setCurrentPhaseIndex] = useState(0);
+  const [viewMode, setViewMode] = useState("phase"); // phase | results
+  const [engagement, setEngagement] = useState(engagementStore.engagement);
+
+  const currentPhase = PHASES[currentPhaseIndex];
+  const canAdvancePhase = true; // Simplified for MVP
+
+  const updateEngagement = (path, value) => {
+    const updated = { ...engagement };
+    const keys = path.split(".");
+    let current = updated;
+    for (let i = 0; i < keys.length - 1; i++) {
+      current[keys[i]] = { ...current[keys[i]] };
+      current = current[keys[i]];
+    }
+    current[keys[keys.length - 1]] = value;
+    setEngagement(updated);
+  };
+
+  const advancePhase = () => {
+    if (currentPhaseIndex < PHASES.length - 1) {
+      setCurrentPhaseIndex(currentPhaseIndex + 1);
+    }
+  };
+
+  return (
+    <div style={{ display: "flex", height: "100vh", background: COLORS.bg, color: COLORS.text, fontFamily: "'DM Sans', sans-serif" }}>
+      {/* LEFT SIDEBAR - PHASE NAVIGATION */}
+      <div style={{
+        width: "280px",
+        background: COLORS.sidebar,
+        borderRight: `1px solid ${COLORS.border}`,
+        display: "flex",
+        flexDirection: "column",
+        overflowY: "auto"
+      }}>
+        {/* Header */}
+        <div style={{ padding: "20px", borderBottom: `1px solid ${COLORS.border}` }}>
+          <h1 style={{ margin: "0 0 4px 0", color: COLORS.accent, fontSize: "20px" }}>🔍 AuditEngine</h1>
+          <p style={{ margin: 0, color: COLORS.dim, fontSize: "11px" }}>Complete Audit Lifecycle</p>
+        </div>
+
+        {/* Entity Info */}
+        {engagement.entityName && (
+          <div style={{ padding: "16px", borderBottom: `1px solid ${COLORS.border}`, background: COLORS.accent + "08" }}>
+            <p style={{ margin: "0 0 4px 0", color: COLORS.accent, fontSize: "11px", fontWeight: 700 }}>CLIENT</p>
+            <p style={{ margin: 0, color: COLORS.text, fontSize: "13px", fontWeight: 600 }}>{engagement.entityName}</p>
+            <p style={{ margin: "4px 0 0 0", color: COLORS.dim, fontSize: "11px" }}>FYE: {engagement.financialYearEnd}</p>
+          </div>
+        )}
+
+        {/* Phase Navigation */}
+        <div style={{ flex: 1, overflow: "auto", padding: "12px" }}>
+          {PHASES.map((phase, idx) => (
+            <button
+              key={phase.id}
+              onClick={() => setCurrentPhaseIndex(idx)}
+              style={{
+                width: "100%",
+                padding: "14px",
+                background: currentPhaseIndex === idx ? phase.color + "20" : "transparent",
+                border: `1px solid ${currentPhaseIndex === idx ? phase.color + "40" : COLORS.border}`,
+                borderRadius: "8px",
+                color: currentPhaseIndex === idx ? phase.color : COLORS.dim,
+                fontSize: "12px",
+                fontWeight: 600,
+                cursor: "pointer",
+                marginBottom: "8px",
+                textAlign: "left",
+                transition: "all 0.2s"
+              }}
+            >
+              <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                <span>{phase.icon}</span>
+                <span>{phase.label}</span>
+              </div>
+              <div style={{ fontSize: "10px", color: COLORS.faint, marginTop: "4px" }}>
+                {engagement.phases[phase.id]?.completionPercent || 0}% complete
+              </div>
+            </button>
+          ))}
+        </div>
+
+        {/* View Toggle */}
+        <div style={{ padding: "12px", borderTop: `1px solid ${COLORS.border}`, display: "flex", gap: "8px" }}>
+          <button
+            onClick={() => setViewMode("phase")}
+            style={{
+              flex: 1,
+              padding: "10px",
+              background: viewMode === "phase" ? COLORS.accent + "30" : "transparent",
+              border: `1px solid ${viewMode === "phase" ? COLORS.accent : COLORS.border}`,
+              color: viewMode === "phase" ? COLORS.accent : COLORS.dim,
+              borderRadius: "6px",
+              fontSize: "11px",
+              fontWeight: 600,
+              cursor: "pointer",
+              textTransform: "uppercase"
+            }}
+          >
+            Phase
+          </button>
+          <button
+            onClick={() => setViewMode("results")}
+            style={{
+              flex: 1,
+              padding: "10px",
+              background: viewMode === "results" ? COLORS.accent + "30" : "transparent",
+              border: `1px solid ${viewMode === "results" ? COLORS.accent : COLORS.border}`,
+              color: viewMode === "results" ? COLORS.accent : COLORS.dim,
+              borderRadius: "6px",
+              fontSize: "11px",
+              fontWeight: 600,
+              cursor: "pointer",
+              textTransform: "uppercase"
+            }}
+          >
+            Results
+          </button>
+        </div>
+      </div>
+
+      {/* MAIN CONTENT AREA */}
+      <div style={{ flex: 1, overflow: "auto", background: COLORS.bg }}>
+        {viewMode === "phase" ? (
+          <>
+            {currentPhaseIndex === 0 && (
+              <PlanningPhase
+                engagement={engagement}
+                updateEngagement={updateEngagement}
+                onAdvance={advancePhase}
+                canAdvance={canAdvancePhase}
+              />
+            )}
+            {currentPhaseIndex === 1 && (
+              <RiskAssessmentPhase
+                engagement={engagement}
+                updateEngagement={updateEngagement}
+                onAdvance={advancePhase}
+                canAdvance={canAdvancePhase}
+              />
+            )}
+            {currentPhaseIndex >= 2 && <div style={{ padding: "24px", color: COLORS.dim }}>Phase {currentPhaseIndex + 1} content coming soon...</div>}
+          </>
+        ) : (
+          <ResultsDashboard engagement={engagement} phases={PHASES} />
+        )}
+      </div>
+    </div>
+  );
+}

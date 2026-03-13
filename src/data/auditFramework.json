@@ -1,0 +1,556 @@
+{
+  "isaStandards": {
+    "ISA_200": {
+      "title": "Overall Objectives of the Independent Auditor",
+      "phases": ["planning", "all"],
+      "keyRequirements": [
+        "Form audit opinion on financial statements",
+        "Professional skepticism",
+        "Professional judgment",
+        "Conduct audit in accordance with ISAs"
+      ],
+      "workingPapers": ["A1-Engagement"]
+    },
+    "ISA_210": {
+      "title": "Agreeing Terms of Audit Engagement",
+      "phases": ["planning"],
+      "keyRequirements": [
+        "Acceptance letter before engagement",
+        "Scope and limitations",
+        "Responsibilities of management and auditor",
+        "Confidentiality"
+      ],
+      "workingPapers": ["A1-Engagement"]
+    },
+    "ISA_220": {
+      "title": "Quality Control for an Audit",
+      "phases": ["all"],
+      "keyRequirements": [
+        "Engagement quality review",
+        "Ethical requirements",
+        "Professional competence",
+        "Documentation review"
+      ],
+      "workingPapers": ["E1-Completion"]
+    },
+    "ISA_230": {
+      "title": "Audit Documentation",
+      "phases": ["all"],
+      "keyRequirements": [
+        "Sufficient documentation of all work",
+        "Audit file retention (6 years minimum)",
+        "Timely assembly",
+        "Confidentiality and access control"
+      ],
+      "workingPapers": ["All"]
+    },
+    "ISA_240": {
+      "title": "The Auditor's Responsibilities Relating to Fraud",
+      "phases": ["planning", "risk", "final"],
+      "keyRequirements": [
+        "Identify fraud risks (ISA 240.26)",
+        "Fraud risk brainstorming",
+        "Test controls over fraud",
+        "Substantive procedures targeting fraud",
+        "Management override of controls"
+      ],
+      "workingPapers": ["B4-FraudAssessment", "D1-D15-Tests"]
+    },
+    "ISA_250": {
+      "title": "Consideration of Laws and Regulations",
+      "phases": ["planning", "risk", "final"],
+      "keyRequirements": [
+        "Identify relevant laws and regulations",
+        "Obtain understanding of compliance",
+        "Test compliance with laws",
+        "Communicate non-compliance findings"
+      ],
+      "workingPapers": ["A2-ClientRisk", "D1-D15-Tests"]
+    },
+    "ISA_260": {
+      "title": "Communication with Governance",
+      "phases": ["reporting"],
+      "keyRequirements": [
+        "Key matters arising from audit",
+        "Auditor independence",
+        "Non-audit services",
+        "Quality control matters"
+      ],
+      "workingPapers": ["F3-GovernanceLetter"]
+    },
+    "ISA_315": {
+      "title": "Identifying and Assessing the Risks of Material Misstatement",
+      "phases": ["planning", "risk"],
+      "keyRequirements": [
+        "Risk of material misstatement (RMM)",
+        "Entity and business risks",
+        "Control design and operation",
+        "Risk brainstorming",
+        "Understanding financial reporting process"
+      ],
+      "workingPapers": ["B1-RiskMatrix", "B2-Controls", "D1-D2-ControlTesting"]
+    },
+    "ISA_320": {
+      "title": "Materiality in Planning and Performing an Audit",
+      "phases": ["planning"],
+      "keyRequirements": [
+        "Overall materiality (OM)",
+        "Performance materiality (PM)",
+        "Trivial threshold",
+        "Benchmarks (e.g., 5% PBT, 2% revenue)",
+        "Clearly trivial amount"
+      ],
+      "workingPapers": ["A3-Materiality"]
+    },
+    "ISA_330": {
+      "title": "The Auditor's Responses to Assessed Risks",
+      "phases": ["interim", "final"],
+      "keyRequirements": [
+        "Overall audit response",
+        "Control testing (design effectiveness)",
+        "Substantive procedures (accuracy, existence, completeness, cutoff)",
+        "Assertion mapping",
+        "Sample design and evaluation"
+      ],
+      "workingPapers": ["D1-D2-ControlTesting", "D3-D15-SubstantiveTests"]
+    },
+    "ISA_500": {
+      "title": "Audit Evidence",
+      "phases": ["all"],
+      "keyRequirements": [
+        "Sufficient appropriate evidence",
+        "Persuasiveness and relevance",
+        "Audit procedures (inspection, observation, inquiry, confirmation, recalculation, analytical)",
+        "Management representations",
+        "Oral vs written evidence"
+      ],
+      "workingPapers": ["All"]
+    },
+    "ISA_501": {
+      "title": "Audit Evidence – Specific Considerations",
+      "phases": ["final"],
+      "keyRequirements": [
+        "Inventory attendance and testing",
+        "Receivable confirmations",
+        "Investment confirmations",
+        "Lawyers' letters on contingencies"
+      ],
+      "workingPapers": ["D1-Inventory", "D2-Receivables"]
+    },
+    "ISA_505": {
+      "title": "External Confirmations",
+      "phases": ["final"],
+      "keyRequirements": [
+        "Bank confirmations",
+        "Receivable confirmations",
+        "Payable confirmations",
+        "Positive vs negative confirmations",
+        "Non-response evaluation"
+      ],
+      "workingPapers": ["D2-Receivables", "D5-Payables", "D6-Cash"]
+    },
+    "ISA_540": {
+      "title": "Auditing Accounting Estimates",
+      "phases": ["risk", "final"],
+      "keyRequirements": [
+        "Significant accounting estimates identification",
+        "Review of management's estimates",
+        "Audit procedures (re-performance, independent estimates)",
+        "Disclosure adequacy",
+        "Valuation specialists"
+      ],
+      "workingPapers": ["B3-Estimates", "D7-D9-Provisions"]
+    },
+    "ISA_550": {
+      "title": "Related Parties",
+      "phases": ["planning", "risk", "final"],
+      "keyRequirements": [
+        "Identify related parties",
+        "Test related party transactions",
+        "Evaluate business rationale",
+        "Assess related party disclosures (IAS 24/FRS 102 s33)",
+        "Management representations"
+      ],
+      "workingPapers": ["B5-RelatedParties", "D15-RelatedPartyTesting"]
+    },
+    "ISA_560": {
+      "title": "Subsequent Events",
+      "phases": ["completion"],
+      "keyRequirements": [
+        "Events between year-end and audit report date (ISA 560)",
+        "Post year-end procedures",
+        "Adjusting vs non-adjusting events",
+        "Disclosure sufficiency",
+        "Financial statement amendments"
+      ],
+      "workingPapers": ["E3-SubsequentEvents"]
+    },
+    "ISA_570": {
+      "title": "Going Concern",
+      "phases": ["risk", "completion"],
+      "keyRequirements": [
+        "Management's going concern assessment",
+        "Identify going concern risks",
+        "Test going concern assumption",
+        "Evaluate adequacy of disclosure",
+        "Sufficient funds for 12 months minimum",
+        "Audit report implications"
+      ],
+      "workingPapers": ["B5-GoingConcern", "E2-GoingConcernConclusion"]
+    },
+    "ISA_580": {
+      "title": "Written Representations",
+      "phases": ["completion"],
+      "keyRequirements": [
+        "Management representations letter",
+        "Completeness of financial statements",
+        "Completeness of accounting records",
+        "Fraud and non-compliance",
+        "Contingencies and subsequent events"
+      ],
+      "workingPapers": ["E4-Representations"]
+    },
+    "ISA_700": {
+      "title": "Forming an Opinion and Reporting on Financial Statements",
+      "phases": ["reporting"],
+      "keyRequirements": [
+        "Unmodified opinion vs qualified/adverse/disclaimer",
+        "Audit opinion basis",
+        "True and fair view (Companies Act s393)",
+        "Comply with ISAs (UK)",
+        "Management responsibilities",
+        "Auditor responsibilities"
+      ],
+      "workingPapers": ["F2-AuditReport"]
+    },
+    "ISA_701": {
+      "title": "Communicating Key Audit Matters in the Independent Auditor's Report",
+      "phases": ["reporting"],
+      "keyRequirements": [
+        "Identify KAMs (areas of higher assessed risk, significant management judgment)",
+        "Communicate KAMs in audit report",
+        "Basis for selecting KAMs",
+        "How matter addressed in audit"
+      ],
+      "workingPapers": ["F2-KAMs"]
+    }
+  },
+
+  "frs102Sections": {
+    "1": {
+      "title": "Small Entities",
+      "disclosure": "Financial reporting requirements for SMEs",
+      "keyAreas": ["Recognition criteria", "Measurement basis", "Accounting policies"]
+    },
+    "2": {
+      "title": "Concepts and Pervasive Principles",
+      "disclosure": "Qualitative characteristics (relevance, faithful representation, comparability, verifiability, timeliness, understandability)",
+      "keyAreas": ["Going concern", "Accrual basis", "Materiality"]
+    },
+    "3": {
+      "title": "Financial Statement Presentation",
+      "disclosure": "Fair presentation, accounting policies, comparative information, going concern disclosures",
+      "keyAreas": ["Statement of financial position", "Statement of comprehensive income", "Cash flow statement", "Changes in equity"]
+    },
+    "8": {
+      "title": "Notes to the Financial Statements",
+      "disclosure": "Accounting policy disclosure, critical judgments, key sources of estimation uncertainty",
+      "keyAreas": ["s8.3 Accounting policies", "s8.5-8.7 Critical judgments", "s8.8-8.10 Key estimates"]
+    },
+    "13": {
+      "title": "Inventories",
+      "disclosure": "Valuation, cost methods (FIFO, weighted average), NRV testing, obsolescence",
+      "keyAreas": ["Cost vs NRV", "Allocation of overhead", "Consignment stock", "Slow-moving items"]
+    },
+    "15": {
+      "title": "Revenue",
+      "disclosure": "Recognition (performance obligations), timing of recognition, disclosures",
+      "keyAreas": ["Performance obligations", "Identifying contract revenue", "Contract costs", "Warranty obligations"]
+    },
+    "16": {
+      "title": "Property, Plant & Equipment",
+      "disclosure": "Initial cost, depreciation, useful lives, residual values, impairment",
+      "keyAreas": ["Capitalization vs expense", "Depreciation policy", "Revaluation", "Impairment indicators"]
+    },
+    "18": {
+      "title": "Intangible Assets & Goodwill",
+      "disclosure": "Capitalization of development (6 criteria), amortization, impairment testing",
+      "keyAreas": ["Development cost capitalization", "Goodwill impairment", "Useful life estimates"]
+    },
+    "20": {
+      "title": "Leases",
+      "disclosure": "Finance vs operating (FRS 102 s20), ROU assets (IFRS 16), operating lease commitments",
+      "keyAreas": ["Lease classification", "Finance lease accounting", "Operating lease disclosure"]
+    },
+    "21": {
+      "title": "Provisions & Contingencies",
+      "disclosure": "Provision criteria (obligation, probable, reliable), contingent liabilities, onerous contracts",
+      "keyAreas": ["Legal claims", "Warranty provisions", "Restructuring", "Environmental"]
+    },
+    "23": {
+      "title": "Revenue (detailed)",
+      "disclosure": "Stage of completion on long-term contracts, provision for losses",
+      "keyAreas": ["Contract revenue", "Variations and claims", "Losses on contracts"]
+    },
+    "24": {
+      "title": "Government Grants",
+      "disclosure": "Recognition timing, presentation (deferred income vs asset reduction), repayment risk",
+      "keyAreas": ["Grant eligibility", "Clawback risk", "R&D tax credits"]
+    },
+    "26": {
+      "title": "Share-Based Payments",
+      "disclosure": "Fair value of share schemes, vesting conditions, expense recognition",
+      "keyAreas": ["Employee share plans", "Fair value assumptions", "Vesting schedule"]
+    },
+    "28": {
+      "title": "Employee Benefits",
+      "disclosure": "Pension schemes (defined benefit vs defined contribution), post-employment obligations",
+      "keyAreas": ["Pension liabilities", "Actuarial assumptions", "Disclosure requirements"]
+    },
+    "29": {
+      "title": "Income Tax",
+      "disclosure": "Deferred tax (temporary differences, losses), current tax provision, disclosure",
+      "keyAreas": ["Tax rate changes", "Uncertain tax positions", "Tax losses carry-forward"]
+    },
+    "32": {
+      "title": "Financial Instruments",
+      "disclosure": "Fair value, hedging, disclosure requirements, financial statement presentation",
+      "keyAreas": ["Classification of instruments", "Fair value measurement", "Disclosure"]
+    },
+    "33": {
+      "title": "Related Party Disclosures",
+      "disclosure": "Identification of related parties, transaction disclosure, key management compensation",
+      "keyAreas": ["Related party definition", "Connected transactions", "Directors' remuneration"]
+    },
+    "34": {
+      "title": "Specialized Industries",
+      "disclosure": "Industry-specific guidance (agriculture, extractive, hospitality)",
+      "keyAreas": ["Biological assets", "Mineral reserves", "Tourism"]
+    },
+    "35": {
+      "title": "Transition to FRS 102",
+      "disclosure": "First-time adoption exemptions and timing",
+      "keyAreas": ["IFRS 1 equivalence", "Exemptions available"]
+    }
+  },
+
+  "companiesAct2006": {
+    "s393": {
+      "requirement": "True and Fair View",
+      "description": "Financial statements must give true and fair view of assets, liabilities, financial position, and profit/loss",
+      "auditImplication": "Form opinion on true and fair view per ISA 700"
+    },
+    "s417": {
+      "requirement": "Strategic Report",
+      "description": "Directors must prepare strategic report (large companies) or directors' report (small/medium)",
+      "auditImplication": "Consider consistency with financial statements per ISA 720"
+    },
+    "s471-498": {
+      "requirement": "Financial Statement Requirements",
+      "description": "Format and content of financial statements (statement of financial position, P&L, cash flow, notes)",
+      "auditImplication": "Verify compliance with Companies Act s471-498 format requirements"
+    },
+    "s475": {
+      "requirement": "Appointment of Auditor",
+      "description": "Requirement for auditor appointment, eligibility, removal, resignation",
+      "auditImplication": "Confirm auditor appointment per engagement letter"
+    },
+    "s485": {
+      "requirement": "Auditor's Report",
+      "description": "Auditor's report on financial statements (similar to ISA 700)",
+      "auditImplication": "Audit report format per ISA 700 (UK) and Companies Act requirements"
+    },
+    "s488-489": {
+      "requirement": "Auditor Independence",
+      "description": "Auditor must be independent; cannot provide certain non-audit services",
+      "auditImplication": "Confirm independence per FRC Ethical Standards ES1"
+    },
+    "s496": {
+      "requirement": "Audit File Retention",
+      "description": "Audit working papers and file retained for 6 years minimum",
+      "auditImplication": "Maintain audit file per ISA 230"
+    }
+  },
+
+  "frcEthicalStandards": {
+    "ES1": {
+      "title": "Integrity, Objectivity and Independence",
+      "keyPoints": [
+        "Auditor independence (in appearance and fact)",
+        "Restrictions on non-audit services",
+        "Financial interests and loans",
+        "Family relationships",
+        "Threats to independence: self-interest, self-review, advocacy, familiarity, intimidation"
+      ]
+    },
+    "ES2": {
+      "title": "Financial, Business and Employment Relationships",
+      "keyPoints": [
+        "Financial interests restriction",
+        "Business relationships limits",
+        "Employment/directorship restrictions",
+        "Recent/previous relationship safeguards"
+      ]
+    },
+    "ES3": {
+      "title": "Long Association with Audit Engagement",
+      "keyPoints": [
+        "Key audit partner rotation (7 years max, then 2-year break)",
+        "Engagement quality reviewer rotation",
+        "Safeguards and cooling-off periods"
+      ]
+    },
+    "ES4": {
+      "title": "Fees, Remuneration and Evaluation Policies",
+      "keyPoints": [
+        "Audit fees not contingent on audit findings",
+        "Non-audit service fees limited to 70% of audit fee",
+        "Contingent fee prohibition",
+        "Performance-linked remuneration safeguards"
+      ]
+    },
+    "ES5": {
+      "title": "Non-Audit Services Provided to Audited Entities",
+      "keyPoints": [
+        "Prohibited services (tax/financial statement preparation, internal audit, management functions)",
+        "Restricted services (valuation, legal, recruitment, IT systems, bookkeeping)",
+        "Allowed services (compilation, compliance, general tax advice)"
+      ]
+    },
+    "ES6": {
+      "title": "Resources, Qualifications and Competence",
+      "keyPoints": [
+        "Sufficient qualified audit team",
+        "Continuing professional education",
+        "Technical resources and specialists"
+      ]
+    },
+    "ES7": {
+      "title": "Non-Compliance with Law and Regulation",
+      "keyPoints": [
+        "Communication of non-compliance",
+        "Going concern implications",
+        "Report to appropriate authorities (tipping-off provisions)"
+      ]
+    }
+  },
+
+  "riskBasedAuditApproach": {
+    "riskAssessmentFramework": {
+      "step1_EntityAndBusinessRisks": {
+        "description": "Identify risks that could impact the entity's ability to operate and achieve objectives",
+        "examples": [
+          "Market competition and pricing pressure",
+          "Regulatory changes and compliance",
+          "Technology disruption",
+          "Key customer/supplier concentration",
+          "Management changes",
+          "Litigation and disputes"
+        ],
+        "auditRelevance": "Determine which business risks translate to risks of material misstatement"
+      },
+      "step2_FraudRisks": {
+        "description": "Identify fraud risks per ISA 240",
+        "fraudTriangle": {
+          "incentive": "Motivation (e.g., meeting targets, financial pressure)",
+          "opportunity": "Ability to commit and conceal fraud (weak controls, override)",
+          "attitude": "Rationalization (belief that fraud is justified)"
+        },
+        "commonFraudAreas": [
+          "Revenue recognition (channel stuffing, side agreements)",
+          "Expense cutoff and accruals (recording in wrong period)",
+          "Fixed asset disposals and impairment (avoiding losses)",
+          "Provisions and contingencies (manipulating estimates)",
+          "Management override of controls"
+        ]
+      },
+      "step3_SignificantAccountingEstimates": {
+        "description": "Identify areas with significant management judgment (ISA 540)",
+        "examples": [
+          "Inventory NRV and obsolescence",
+          "Provision adequacy (legal, warranty, restructuring)",
+          "Goodwill and asset impairment",
+          "Fair value measurements (investments, derivatives)",
+          "Lease classification and valuation",
+          "Revenue recognition on performance obligations"
+        ]
+      },
+      "step4_InherentRiskAssessment": {
+        "description": "Assess susceptibility of transaction or balance to material misstatement (before controls)",
+        "scale": "1=Low, 2=Medium, 3=High, 4=Significant, 5=Critical",
+        "factors": [
+          "Transaction complexity",
+          "Management judgment required",
+          "Prior-period misstatements",
+          "External pressures and targets",
+          "Industry volatility",
+          "Unusual or non-routine items"
+        ]
+      },
+      "step5_ControlRiskAssessment": {
+        "description": "Evaluate design and operating effectiveness of controls (ISA 315/330)",
+        "controlTypes": [
+          "Preventive (stop error before it occurs)",
+          "Detective (identify error after it occurs)",
+          "Automated (system-enforced)",
+          "Manual (human judgment-based)"
+        ],
+        "testingApproach": {
+          "designEffectiveness": "Is control designed to prevent/detect misstatement?",
+          "operatingEffectiveness": "Did control operate as designed throughout the period?"
+        }
+      }
+    },
+    "auditResponseMatrixByRisk": {
+      "lowRisk": {
+        "inherentRisk": "1-2",
+        "controlRisk": "1-2",
+        "detectionRisk": "High",
+        "auditApproach": "Substantive analytics, limited detailed testing",
+        "procedures": ["Analytical review", "Sample testing (small sample)", "Inquiry and observation"]
+      },
+      "mediumRisk": {
+        "inherentRisk": "2-3",
+        "controlRisk": "2-3",
+        "detectionRisk": "Medium",
+        "auditApproach": "Balanced control and substantive testing",
+        "procedures": ["Control design and operating effectiveness testing", "Substantive sampling (medium sample)", "Targeted detail testing"]
+      },
+      "highRisk": {
+        "inherentRisk": "4-5",
+        "controlRisk": "4-5",
+        "detectionRisk": "Low",
+        "auditApproach": "Detailed substantive testing, possibly 100% testing or specialists",
+        "procedures": ["100% or near-100% testing", "Specialist involvement", "Management representation letters", "External confirmations"]
+      }
+    },
+    "materialityCalculation": {
+      "overallMateriality": {
+        "definition": "Threshold for planning, below which misstatements are not considered material",
+        "benchmarks": {
+          "profitBeforeTax": "5%",
+          "revenue": "2%",
+          "grossProfit": "5-10%",
+          "equity": "2-3%",
+          "EBITDA": "5%"
+        },
+        "selection": "Use most relevant benchmark for entity's business model"
+      },
+      "performanceMateriality": {
+        "definition": "Threshold for designing detailed test procedures (typically 75% of OM)",
+        "purpose": "Aggregate of undetected misstatements should not exceed PM"
+      },
+      "trivialThreshold": {
+        "definition": "Below which misstatements are not evaluated (typically 5% of OM)",
+        "purpose": "Avoids accumulating clearly trivial items"
+      },
+      "judgmentalFactors": [
+        "Entity's profitability and volatility",
+        "Market conditions and regulatory environment",
+        "User expectations for financial statements",
+        "Complexity of business and transactions",
+        "Prior-period materiality and known misstatements"
+      ]
+    }
+  }
+}
