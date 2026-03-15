@@ -1,0 +1,296 @@
+╔════════════════════════════════════════════════════════════════════════════╗
+║                                                                            ║
+║        COPY & PASTE EVERYTHING YOU NEED (No Reading Necessary)            ║
+║                                                                            ║
+║  Just copy each line and paste it directly into your terminal.            ║
+║  One command at a time. Don't type—PASTE.                                ║
+║                                                                            ║
+╚════════════════════════════════════════════════════════════════════════════╝
+
+
+═══════════════════════════════════════════════════════════════════════════════
+ 🚀 FIRST TIME SETUP (Copy & Paste This Once)
+═══════════════════════════════════════════════════════════════════════════════
+
+bash START_HERE.sh
+
+
+═══════════════════════════════════════════════════════════════════════════════
+ 💻 DEVELOPMENT (Use Every Day)
+═══════════════════════════════════════════════════════════════════════════════
+
+Open Terminal 1:
+npm run dev
+
+Open Terminal 2 (at same time):
+npm run test:watch
+
+Save files in src/ and watch both terminals auto-reload.
+
+
+═══════════════════════════════════════════════════════════════════════════════
+ 🧪 TESTING (Before Committing)
+═══════════════════════════════════════════════════════════════════════════════
+
+Run all tests once:
+npm run test
+
+Watch mode (auto-reruns on save):
+npm run test:watch
+
+Check coverage:
+npm run test:coverage
+
+Visual test dashboard:
+npm run test:ui
+
+
+═══════════════════════════════════════════════════════════════════════════════
+ ✨ CODE QUALITY (Before Committing)
+═══════════════════════════════════════════════════════════════════════════════
+
+Find issues:
+npm run lint
+
+Auto-fix issues:
+npm run lint -- --fix
+
+Check types:
+npm run type-check
+
+Everything at once (RECOMMENDED before git commit):
+npm run check:all
+
+
+═══════════════════════════════════════════════════════════════════════════════
+ 🏗️  BUILD FOR PRODUCTION
+═══════════════════════════════════════════════════════════════════════════════
+
+Create production version:
+npm run build
+
+Preview production locally:
+npm run preview
+
+Both together:
+npm run build && npm run preview
+
+
+═══════════════════════════════════════════════════════════════════════════════
+ 🐳 DOCKER & DEPLOYMENT
+═══════════════════════════════════════════════════════════════════════════════
+
+Build Docker image:
+make docker-build
+
+Run Docker container:
+make docker-run
+
+Stop Docker:
+make docker-stop
+
+Deploy to staging:
+make deploy-staging
+
+View Docker logs:
+make deploy-logs
+
+
+═══════════════════════════════════════════════════════════════════════════════
+ 📦 DEPENDENCIES
+═══════════════════════════════════════════════════════════════════════════════
+
+Install packages:
+npm install --legacy-peer-deps
+
+Update packages:
+npm update
+
+Clean npm cache:
+npm cache clean --force
+
+
+═══════════════════════════════════════════════════════════════════════════════
+ 🔧 GIT OPERATIONS
+═══════════════════════════════════════════════════════════════════════════════
+
+Check status:
+git status
+
+Add all changes:
+git add .
+
+Commit with message:
+git commit -m "feat: describe what you did"
+
+Push to your branch:
+git push origin claude/setup-e-audit-project-RfaM3
+
+View recent commits:
+git log --oneline -10
+
+See what changed:
+git diff
+
+
+═══════════════════════════════════════════════════════════════════════════════
+ 🗄️  DATABASE
+═══════════════════════════════════════════════════════════════════════════════
+
+Initialize PostgreSQL:
+make setup-db
+
+Migrate:
+make db-migrate
+
+Seed with sample data:
+make db-seed
+
+Reset to fresh:
+make db-reset
+
+Backup:
+make db-backup
+
+
+═══════════════════════════════════════════════════════════════════════════════
+ 📊 MAKE COMMANDS (Shortcuts)
+═══════════════════════════════════════════════════════════════════════════════
+
+Show all Make commands:
+make help
+
+Check system status:
+make status
+
+Clean up (remove dist, node_modules):
+make clean
+
+Version info:
+make version
+
+
+═══════════════════════════════════════════════════════════════════════════════
+ ❓ TROUBLESHOOTING (Copy & Paste These If Stuck)
+═══════════════════════════════════════════════════════════════════════════════
+
+Port 3000 in use:
+kill -9 $(lsof -t -i :3000)
+npm run dev
+
+Tests won't run:
+npm run lint
+npm run type-check
+npm run test
+
+Build fails:
+npm run lint -- --fix
+npm run build
+
+Dependencies broken:
+rm -rf node_modules package-lock.json
+npm install --legacy-peer-deps
+
+
+═══════════════════════════════════════════════════════════════════════════════
+ 📚 DOCUMENTATION (View These in Terminal)
+═══════════════════════════════════════════════════════════════════════════════
+
+Quick reference:
+cat QUICK_START.txt
+
+Master guide:
+cat 00_READ_ME_FIRST.txt
+
+All commands:
+cat COMMAND_REFERENCE.md
+
+Best practices:
+cat BEST_PRACTICES.md
+
+7-day plan:
+cat SPRINT_PLAN.md
+
+This file:
+cat COPY_PASTE_COMMANDS.txt
+
+
+═══════════════════════════════════════════════════════════════════════════════
+ 🎯 TYPICAL DAY WORKFLOW
+═══════════════════════════════════════════════════════════════════════════════
+
+MORNING:
+npm run dev
+
+SAME TIME (new terminal):
+npm run test:watch
+
+DURING DAY:
+Edit files, save, watch both terminals
+
+BEFORE ENDING:
+npm run check:all
+
+BEFORE PUSHING:
+git add . && git commit -m "..." && git push origin claude/setup-e-audit-project-RfaM3
+
+
+═══════════════════════════════════════════════════════════════════════════════
+ 🚀 FAST DEPLOYMENT (When Ready)
+═══════════════════════════════════════════════════════════════════════════════
+
+One command:
+npm run build && npm run preview
+
+Then Docker:
+make docker-build && make deploy-staging
+
+
+═══════════════════════════════════════════════════════════════════════════════
+ ⚡ TIME SAVERS (Quick Commands)
+═══════════════════════════════════════════════════════════════════════════════
+
+Setup + Dev + Tests (all at once):
+bash START_HERE.sh && npm run dev & npm run test:watch
+
+Quality check:
+npm run check:all
+
+Production ready:
+npm run build && npm run preview
+
+Docker ready:
+make docker-build && make deploy-staging
+
+
+═══════════════════════════════════════════════════════════════════════════════
+ 💡 KEY PRINCIPLE
+═══════════════════════════════════════════════════════════════════════════════
+
+👉 COPY. DON'T TYPE.
+
+All commands are here. Highlight, copy, paste into terminal.
+No need to remember anything.
+
+
+═══════════════════════════════════════════════════════════════════════════════
+ ✅ NOW GO BUILD!
+═══════════════════════════════════════════════════════════════════════════════
+
+Copy and paste:
+
+  bash START_HERE.sh
+
+Then:
+
+  npm run dev
+
+Then:
+
+  npm run test:watch
+
+(in another terminal)
+
+That's your entire day. Repeat daily. You're building production software.
+
+═══════════════════════════════════════════════════════════════════════════════
