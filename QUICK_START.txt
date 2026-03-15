@@ -1,0 +1,124 @@
+================================================================================
+  AUDIT AUTOMATION ENGINE - QUICK START (Copy & Paste)
+================================================================================
+
+🚀 FIRST TIME ONLY (takes 3 minutes):
+─────────────────────────────────────────────────────────────────────────────
+bash START_HERE.sh
+
+
+📖 THEN PICK ONE TO START:
+─────────────────────────────────────────────────────────────────────────────
+
+Option A: Development (auto-reload, watch tests)
+  npm run dev                    # Terminal 1: Server
+  npm run test:watch            # Terminal 2: Tests (same time)
+
+Option B: Just Build Production
+  npm run build
+
+Option C: Quality Check Everything
+  npm run check:all
+
+
+================================================================================
+  MOST USED COMMANDS (Copy & Paste Any)
+================================================================================
+
+Server:           npm run dev
+Tests:            npm run test:watch
+Build:            npm run build
+Quality Check:    npm run check:all
+Docker:           make docker-build && make docker-run
+See All:          cat COMMAND_REFERENCE.md
+
+
+================================================================================
+  TWO-TERMINAL WORKFLOW (RECOMMENDED)
+================================================================================
+
+Terminal 1 (keep running):
+  npm run dev
+  → Server at http://localhost:3000
+  → Auto-reload on file save
+  → Ctrl+C to stop
+
+Terminal 2 (same time):
+  npm run test:watch
+  → Tests auto-run on file save
+  → Press 'q' to quit
+
+
+================================================================================
+  DURING DEVELOPMENT
+================================================================================
+
+Make changes in: src/components/ or src/services/
+Save file → Server reloads automatically
+Save file → Tests re-run automatically
+Check errors in terminal output
+
+
+================================================================================
+  BEFORE COMMITTING
+================================================================================
+
+npm run check:all    # Lint + Type Check + Tests
+git status           # See what changed
+git add .            # Stage changes
+git commit -m "..."  # Commit
+git push origin claude/setup-e-audit-project-RfaM3
+
+
+================================================================================
+  FILE LOCATIONS
+================================================================================
+
+Components:   src/components/
+Services:     src/services/
+Tests:        *.test.jsx files
+Styles:       Tailwind CSS (in component files)
+Database:     scripts/sql/
+Docker:       scripts/docker/
+
+
+================================================================================
+  TROUBLESHOOTING
+================================================================================
+
+Port 3000 in use?
+  kill -9 $(lsof -t -i :3000)
+  npm run dev
+
+Tests failing?
+  npm run lint          # Check syntax
+  npm run type-check    # Check types
+  npm run test          # Run tests
+  Fix errors and save → tests auto-run
+
+Build failing?
+  npm run lint -- --fix  # Auto-fix issues
+  npm run build          # Try again
+
+
+================================================================================
+  FOR MORE INFO
+================================================================================
+
+All commands:     cat COMMAND_REFERENCE.md
+Best practices:   cat BEST_PRACTICES.md
+7-day plan:       cat SPRINT_PLAN.md
+Make commands:    make help
+
+
+================================================================================
+  REMEMBER
+================================================================================
+
+1. Copy commands from COMMAND_REFERENCE.md - don't type them
+2. Use two terminals: one for server, one for tests
+3. Save file → server & tests auto-reload
+4. Before pushing: npm run check:all
+5. That's it. You don't need to read documentation.
+
+================================================================================
