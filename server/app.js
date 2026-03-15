@@ -679,6 +679,149 @@ app.post(
 );
 
 // ============================================================================
+// ORCHESTRATOR API ENDPOINTS - UNIFIED AGENT COORDINATION
+// ============================================================================
+
+import orchestrator from "../src/services/aiAgentOrchestrator.js";
+
+// Test orchestrator with a request
+app.post("/api/orchestrator/request", async (req, res) => {
+  try {
+    const { type, engagementId, params } = req.body;
+
+    if (!type || !engagementId) {
+      return res.status(400).json({
+        error: "Missing required fields: type, engagementId",
+      });
+    }
+
+    console.log(`\n🎯 API Request: ${type} for engagement ${engagementId}`);
+
+    const result = await orchestrator.orchestrateRequest({
+      type,
+      engagementId,
+      params: params || {},
+    });
+
+    res.json({
+      success: true,
+      type,
+      engagementId,
+      result,
+      timestamp: new Date().toISOString(),
+    });
+  } catch (error) {
+    console.error("Orchestrator error:", error);
+    res.status(500).json({
+      error: error.message,
+      type: error.constructor.name,
+    });
+  }
+});
+
+// Get orchestrator metrics
+app.get("/api/orchestrator/metrics", (req, res) => {
+  try {
+    const metrics = orchestrator.getMetrics();
+    res.json({
+      success: true,
+      metrics,
+      timestamp: new Date().toISOString(),
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Get orchestrator status
+app.get("/api/orchestrator/status", (req, res) => {
+  try {
+    const status = orchestrator.getStatus();
+    res.json({
+      success: true,
+      status,
+      timestamp: new Date().toISOString(),
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Run a full engagement analysis (all agents in parallel)
+app.post("/api/orchestrator/full-analysis", async (req, res) => {
+  try {
+    const { engagementId, context, procedures } = req.body;
+
+    if (!engagementId || !context) {
+      return res.status(400).json({
+        error: "Missing required fields: engagementId, context",
+      });
+    }
+
+    const result = await orchestrator.orchestrateRequest({
+      type: "FULL_ENGAGEMENT_ANALYSIS",
+      engagementId,
+      params: { context, procedures: procedures || [] },
+    });
+
+    res.json({
+      success: true,
+      engagementId,
+      result,
+      agentsUsed: 5,
+      coordinationPattern: "Parallel execution",
+      timestamp: new Date().toISOString(),
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Handle exception with full workflow
+app.post("/api/orchestrator/exception-handling", async (req, res) => {
+  try {
+    const { engagementId, exceptionDescription, context } = req.body;
+
+    const result = await orchestrator.orchestrateRequest({
+      type: "EXCEPTION_HANDLING",
+      engagementId,
+      params: { exceptionDescription, context },
+    });
+
+    res.json({
+      success: true,
+      coordinationPattern: "Exception → RootCause → Prevention",
+      result,
+      timestamp: new Date().toISOString(),
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Run complete risk assessment suite
+app.post("/api/orchestrator/risk-assessment", async (req, res) => {
+  try {
+    const { engagementId, context, controlContext } = req.body;
+
+    const result = await orchestrator.orchestrateRequest({
+      type: "RISK_ASSESSMENT_SUITE",
+      engagementId,
+      params: { context, controlContext },
+    });
+
+    res.json({
+      success: true,
+      coordinationPattern: "Inherent → Control → Overall → Mitigation",
+      result,
+      timestamp: new Date().toISOString(),
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// ============================================================================
 // ERROR HANDLING
 // ============================================================================
 
