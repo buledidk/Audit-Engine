@@ -12,7 +12,6 @@
  * Status: ✅ PRODUCTION READY
  */
 
-import crypto from "crypto";
 
 export class ISACompliantAuditTrail {
   constructor() {

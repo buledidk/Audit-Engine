@@ -6,7 +6,6 @@
  * Creates immutable record of WHO, WHAT, WHEN, WHERE, WHY, HOW
  */
 
-import crypto from "crypto";
 
 export class AuditTrailService {
   constructor() {

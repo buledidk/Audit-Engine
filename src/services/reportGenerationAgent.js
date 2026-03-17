@@ -6,12 +6,12 @@
  * Model: Claude 3.5 Sonnet (or Opus for complex reports)
  */
 
-import Anthropic from "@anthropic-ai/sdk";
+import { Anthropic } from "@anthropic-ai/sdk";
 
 export class ReportGenerationAgent {
   constructor() {
     this.client = new Anthropic({
-      apiKey: process.env.ANTHROPIC_API_KEY,
+      apiKey: import.meta.env.VITE_CLAUDE_API_KEY,
     });
     this.model = "claude-3-5-sonnet-20241022";
     this.cache = new Map();
