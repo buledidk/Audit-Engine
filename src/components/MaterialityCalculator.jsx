@@ -6,6 +6,7 @@
 
 import { useState, useMemo } from "react";
 import MaterialityEngine from "../services/materialityEngine";
+import * as apiClient from "../services/apiClient";
 
 export function MaterialityCalculator({
   entityName = "",
