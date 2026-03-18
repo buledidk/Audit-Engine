@@ -14,6 +14,8 @@ import morgan from "morgan";
 import multer from "multer";
 import path from "path";
 import { fileURLToPath } from "url";
+import gdprMiddleware from "../src/middleware/gdprMiddleware.js";
+import rbacMiddleware from "../src/middleware/rbacMiddleware.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -21,7 +23,20 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const app = express();
 
 // Middleware
-app.use(helmet());
+app.use(helmet({
+  hsts: { maxAge: 31536000, includeSubDomains: true, preload: true },
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc: ["'self'"],
+      scriptSrc: ["'self'", "'unsafe-inline'"],
+      styleSrc: ["'self'", "'unsafe-inline'"],
+      imgSrc: ["'self'", "data:", "https:"]
+    }
+  },
+  frameguard: { action: "deny" },
+  noSniff: true,
+  xssFilter: true
+}));
 app.use(compression());
 app.use(morgan("combined"));
 app.use(cors({
@@ -30,6 +45,9 @@ app.use(cors({
 }));
 app.use(bodyParser.json({ limit: "50mb" }));
 app.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
+
+// GDPR Compliance Middleware
+app.use(gdprMiddleware);
 
 // Upload configuration
 const upload = multer({
@@ -217,6 +235,7 @@ app.get("/api/jurisdictions/:code", authenticateToken, (req, res) => {
 app.post(
   "/api/engagements",
   authenticateToken,
+  rbacMiddleware(["partner", "manager"]),
   auditLog("CREATE_ENGAGEMENT"),
   async (req, res) => {
     try {
@@ -448,6 +467,7 @@ app.get(
 app.patch(
   "/api/procedures/:id",
   authenticateToken,
+  rbacMiddleware(["manager", "partner"]),
   auditLog("UPDATE_PROCEDURE"),
   (req, res) => {
     const { id } = req.params;
@@ -582,6 +602,7 @@ app.get(
 app.post(
   "/api/engagements/:id/findings",
   authenticateToken,
+  rbacMiddleware(["manager", "partner"]),
   auditLog("CREATE_FINDING"),
   (req, res) => {
     const {
@@ -649,6 +670,7 @@ app.get(
 app.post(
   "/api/engagements/:id/risk-assessments",
   authenticateToken,
+  rbacMiddleware(["manager", "partner"]),
   auditLog("CREATE_RISK_ASSESSMENT"),
   (req, res) => {
     const {
