@@ -1,16 +1,74 @@
 /**
  * Agent Configuration
- * Centralized configuration for all agents
+ * Centralized configuration for all agents with multi-model support
  */
 
 export const agentConfig = {
+  // ═══════════════════════════════════════════════════════════════════════════
+  // AI MODELS - Multi-Model Strategy Configuration
+  // ═══════════════════════════════════════════════════════════════════════════
+  models: {
+    primary: {
+      provider: 'anthropic',
+      model: process.env.CLAUDE_MODEL || 'claude-3-5-sonnet-20241022',
+      apiKey: process.env.ANTHROPIC_API_KEY,
+      maxTokens: parseInt(process.env.CLAUDE_MAX_TOKENS) || 4096,
+      temperature: parseFloat(process.env.CLAUDE_TEMPERATURE) || 0.2,
+      timeout: 30000,
+      priority: 1
+    },
+    secondary: {
+      provider: 'openai',
+      model: process.env.OPENAI_MODEL || 'gpt-4-turbo',
+      apiKey: process.env.OPENAI_API_KEY,
+      maxTokens: parseInt(process.env.OPENAI_MAX_TOKENS) || 8000,
+      temperature: parseFloat(process.env.OPENAI_TEMPERATURE) || 0.3,
+      timeout: 30000,
+      priority: 2
+    },
+    fallback: {
+      provider: 'ollama',
+      model: process.env.OLLAMA_MODEL || 'llama3',
+      baseURL: process.env.OLLAMA_URL || 'http://localhost:11434',
+      maxTokens: parseInt(process.env.OLLAMA_MAX_TOKENS) || 2048,
+      temperature: parseFloat(process.env.OLLAMA_TEMPERATURE) || 0.5,
+      timeout: 30000,
+      priority: 3
+    }
+  },
+
+  // Agent-to-Model Mapping
+  agentModels: {
+    SupervisorAgent: 'primary',           // Use Claude for supervision
+    CodeAnalystAgent: 'primary',          // Use Claude for code analysis
+    SecurityAgent: 'secondary',           // Use OpenAI for security (better at security)
+    DocumentationAgent: 'primary',        // Use Claude for documentation
+    ComplianceAgent: 'primary',           // Use Claude for compliance
+    TestingAgent: 'secondary',            // Use OpenAI for testing
+    AIProcedureEngine: 'primary',         // Use Claude
+    ExceptionPredictionEngine: 'primary', // Use Claude
+    JurisdictionEngine: 'primary',        // Use Claude
+    MaterialityEngine: 'primary',         // Use Claude
+    ReportGenerationAgent: 'primary',     // Use Claude
+    RiskAssessmentAgent: 'primary',       // Use Claude
+    EvidenceAnalysisAgent: 'primary',     // Use Claude
+    WorkflowAssistantAgent: 'fallback',   // Use Ollama (fast, local)
+    ComplianceAgent_Audit: 'primary'      // Use Claude
+  },
+
+  // Fallback chain: try in order
+  fallbackChain: ['primary', 'secondary', 'fallback'],
+
   // Framework configuration
   framework: {
-    model: process.env.AGENT_MODEL || 'claude-opus-4-6',
+    model: process.env.AGENT_MODEL || 'claude-3-5-sonnet-20241022',
     maxTokens: parseInt(process.env.AGENT_MAX_TOKENS) || 4096,
-    temperature: parseFloat(process.env.AGENT_TEMPERATURE) || 0.7,
+    temperature: parseFloat(process.env.AGENT_TEMPERATURE) || 0.2,
     timeout: parseInt(process.env.AGENT_TIMEOUT) || 30000,
-    retryAttempts: parseInt(process.env.AGENT_RETRY_ATTEMPTS) || 3
+    retryAttempts: parseInt(process.env.AGENT_RETRY_ATTEMPTS) || 3,
+    retryDelay: parseInt(process.env.AGENT_RETRY_DELAY) || 1000,
+    enableFallback: true,
+    healthCheckInterval: 60000 // Check model health every minute
   },
 
   // Agent-specific configurations
