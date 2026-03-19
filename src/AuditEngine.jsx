@@ -18,6 +18,10 @@ import CollaborationPanel from "./components/CollaborationPanel";
 import SmartAuditForms from "./components/SmartAuditForms";
 import OfflineModePanel from "./components/OfflineModePanel";
 import useOfflineMode from "./hooks/useOfflineMode";
+// Phase E: Comprehensive Integration Hub
+import IntegrationHub from "./components/IntegrationHub";
+import UnifiedActivityDashboard from "./components/UnifiedActivityDashboard";
+import useIntegrations from "./hooks/useIntegrations";
 
 const COLORS = {
   bg: "#0A0E17",
@@ -684,7 +688,7 @@ function KPIBox({ label, value, color }) {
 // ═══════════════════════════════════════════════════════════════════
 export default function AuditEngine() {
   const [currentPhaseIndex, setCurrentPhaseIndex] = useState(0);
-  const [viewMode, setViewMode] = useState("phase"); // phase | results | procedures | agents | documentation | dashboard | collaboration | forms | offline
+  const [viewMode, setViewMode] = useState("phase"); // phase | results | procedures | agents | documentation | dashboard | collaboration | forms | offline | integrations | activity
   const [engagement, setEngagement] = useState(engagementStore.engagement);
 
   // Phase A-B: New System Hooks
@@ -692,6 +696,8 @@ export default function AuditEngine() {
   const { status: docStatus, documents, generateDocumentation } = useDocumentGeneration();
   // Phase D: Interactive Features Hooks
   const { isOnline, syncStatus, queueAction, syncNow } = useOfflineMode();
+  // Phase E: Integration Hub Hooks
+  const { connections, activityLog, isIntegrating, sendSlackNotification, createGitHubIssue, sendEmailReport, uploadToAWS } = useIntegrations();
 
   const currentPhase = PHASES[currentPhaseIndex];
   const canAdvancePhase = true; // Simplified for MVP
@@ -917,6 +923,38 @@ export default function AuditEngine() {
               {isOnline ? "🌐 Online" : "📱 Offline"}
             </button>
           </div>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "6px", marginTop: "8px" }}>
+            <button
+              onClick={() => setViewMode("integrations")}
+              style={{
+                padding: "8px",
+                background: viewMode === "integrations" ? "#1976D2" + "30" : "transparent",
+                border: `1px solid ${viewMode === "integrations" ? "#1976D2" : COLORS.border}`,
+                color: viewMode === "integrations" ? "#1976D2" : COLORS.dim,
+                borderRadius: "4px",
+                fontSize: "10px",
+                fontWeight: 600,
+                cursor: "pointer"
+              }}
+            >
+              🔗 Integrations
+            </button>
+            <button
+              onClick={() => setViewMode("activity")}
+              style={{
+                padding: "8px",
+                background: viewMode === "activity" ? "#FF6F00" + "30" : "transparent",
+                border: `1px solid ${viewMode === "activity" ? "#FF6F00" : COLORS.border}`,
+                color: viewMode === "activity" ? "#FF6F00" : COLORS.dim,
+                borderRadius: "4px",
+                fontSize: "10px",
+                fontWeight: 600,
+                cursor: "pointer"
+              }}
+            >
+              📊 Activity
+            </button>
+          </div>
         </div>
       </div>
 
@@ -1002,6 +1040,14 @@ export default function AuditEngine() {
               {isOnline ? "🌐 Online Mode" : "📱 Offline Mode"}
             </h2>
             <OfflineModePanel />
+          </div>
+        ) : viewMode === "integrations" ? (
+          <div style={{ maxWidth: "1400px" }}>
+            <IntegrationHub />
+          </div>
+        ) : viewMode === "activity" ? (
+          <div style={{ maxWidth: "1400px" }}>
+            <UnifiedActivityDashboard />
           </div>
         ) : null}
       </div>
