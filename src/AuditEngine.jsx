@@ -22,6 +22,8 @@ import useOfflineMode from "./hooks/useOfflineMode";
 import IntegrationHub from "./components/IntegrationHub";
 import UnifiedActivityDashboard from "./components/UnifiedActivityDashboard";
 import useIntegrations from "./hooks/useIntegrations";
+// Enhanced UI: Industry-aligned design with workflows and business context
+import EnhancedVisualInterface from "./components/EnhancedVisualInterface";
 
 const COLORS = {
   bg: "#0A0E17",
@@ -688,7 +690,7 @@ function KPIBox({ label, value, color }) {
 // ═══════════════════════════════════════════════════════════════════
 export default function AuditEngine() {
   const [currentPhaseIndex, setCurrentPhaseIndex] = useState(0);
-  const [viewMode, setViewMode] = useState("phase"); // phase | results | procedures | agents | documentation | dashboard | collaboration | forms | offline | integrations | activity
+  const [viewMode, setViewMode] = useState("phase"); // phase | results | procedures | agents | documentation | dashboard | collaboration | forms | offline | integrations | activity | visual
   const [engagement, setEngagement] = useState(engagementStore.engagement);
 
   // Phase A-B: New System Hooks
@@ -955,6 +957,23 @@ export default function AuditEngine() {
               📊 Activity
             </button>
           </div>
+          <button
+            onClick={() => setViewMode("visual")}
+            style={{
+              width: "100%",
+              padding: "10px",
+              background: viewMode === "visual" ? "#9C27B0" + "30" : "transparent",
+              border: `1px solid ${viewMode === "visual" ? "#9C27B0" : COLORS.border}`,
+              color: viewMode === "visual" ? "#9C27B0" : COLORS.dim,
+              borderRadius: "4px",
+              fontSize: "11px",
+              fontWeight: 600,
+              cursor: "pointer",
+              marginTop: "8px"
+            }}
+          >
+            🎯 Visual Workflows & Business Context
+          </button>
         </div>
       </div>
 
@@ -1048,6 +1067,10 @@ export default function AuditEngine() {
         ) : viewMode === "activity" ? (
           <div style={{ maxWidth: "1400px" }}>
             <UnifiedActivityDashboard />
+          </div>
+        ) : viewMode === "visual" ? (
+          <div style={{ maxWidth: "1400px" }}>
+            <EnhancedVisualInterface />
           </div>
         ) : null}
       </div>
