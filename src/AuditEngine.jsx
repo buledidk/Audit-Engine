@@ -5,6 +5,13 @@ import engagementStore from "./store/engagementStore";
 import auditFramework from "./data/auditFramework.json";
 import { InterimPhase } from "./phases/InterimPhase";
 import { FinalAuditPhase } from "./phases/FinalAuditPhase";
+// Phase A-B: New System Components (Audit Procedures, Agents, Documentation)
+import AuditProceduresPanel from "./components/AuditProceduresPanel";
+import AgentProgressPanel from "./components/AgentProgressPanel";
+import AgentRecommendationsPanel from "./components/AgentRecommendationsPanel";
+import DocumentationPanel from "./components/DocumentationPanel";
+import useAgentProgress from "./hooks/useAgentProgress";
+import useDocumentGeneration from "./hooks/useDocumentGeneration";
 
 const COLORS = {
   bg: "#0A0E17",
@@ -671,8 +678,12 @@ function KPIBox({ label, value, color }) {
 // ═══════════════════════════════════════════════════════════════════
 export default function AuditEngine() {
   const [currentPhaseIndex, setCurrentPhaseIndex] = useState(0);
-  const [viewMode, setViewMode] = useState("phase"); // phase | results
+  const [viewMode, setViewMode] = useState("phase"); // phase | results | procedures | agents | documentation
   const [engagement, setEngagement] = useState(engagementStore.engagement);
+
+  // Phase A-B: New System Hooks
+  const { activeAgents, progress, isRunning, startAgents } = useAgentProgress();
+  const { status: docStatus, documents, generateDocumentation } = useDocumentGeneration();
 
   const currentPhase = PHASES[currentPhaseIndex];
   const canAdvancePhase = true; // Simplified for MVP
@@ -754,41 +765,88 @@ export default function AuditEngine() {
         </div>
 
         {/* View Toggle */}
-        <div style={{ padding: "12px", borderTop: `1px solid ${COLORS.border}`, display: "flex", gap: "8px" }}>
-          <button
-            onClick={() => setViewMode("phase")}
-            style={{
-              flex: 1,
-              padding: "10px",
-              background: viewMode === "phase" ? COLORS.accent + "30" : "transparent",
-              border: `1px solid ${viewMode === "phase" ? COLORS.accent : COLORS.border}`,
-              color: viewMode === "phase" ? COLORS.accent : COLORS.dim,
-              borderRadius: "6px",
-              fontSize: "11px",
-              fontWeight: 600,
-              cursor: "pointer",
-              textTransform: "uppercase"
-            }}
-          >
-            Phase
-          </button>
-          <button
-            onClick={() => setViewMode("results")}
-            style={{
-              flex: 1,
-              padding: "10px",
-              background: viewMode === "results" ? COLORS.accent + "30" : "transparent",
-              border: `1px solid ${viewMode === "results" ? COLORS.accent : COLORS.border}`,
-              color: viewMode === "results" ? COLORS.accent : COLORS.dim,
-              borderRadius: "6px",
-              fontSize: "11px",
-              fontWeight: 600,
-              cursor: "pointer",
-              textTransform: "uppercase"
-            }}
-          >
-            Results
-          </button>
+        <div style={{ padding: "12px", borderTop: `1px solid ${COLORS.border}` }}>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "8px", marginBottom: "8px" }}>
+            <button
+              onClick={() => setViewMode("phase")}
+              style={{
+                padding: "10px",
+                background: viewMode === "phase" ? COLORS.accent + "30" : "transparent",
+                border: `1px solid ${viewMode === "phase" ? COLORS.accent : COLORS.border}`,
+                color: viewMode === "phase" ? COLORS.accent : COLORS.dim,
+                borderRadius: "6px",
+                fontSize: "11px",
+                fontWeight: 600,
+                cursor: "pointer",
+                textTransform: "uppercase"
+              }}
+            >
+              📋 Phase
+            </button>
+            <button
+              onClick={() => setViewMode("results")}
+              style={{
+                padding: "10px",
+                background: viewMode === "results" ? COLORS.accent + "30" : "transparent",
+                border: `1px solid ${viewMode === "results" ? COLORS.accent : COLORS.border}`,
+                color: viewMode === "results" ? COLORS.accent : COLORS.dim,
+                borderRadius: "6px",
+                fontSize: "11px",
+                fontWeight: 600,
+                cursor: "pointer",
+                textTransform: "uppercase"
+              }}
+            >
+              📊 Results
+            </button>
+          </div>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "6px" }}>
+            <button
+              onClick={() => setViewMode("procedures")}
+              style={{
+                padding: "8px",
+                background: viewMode === "procedures" ? "#4CAF50" + "30" : "transparent",
+                border: `1px solid ${viewMode === "procedures" ? "#4CAF50" : COLORS.border}`,
+                color: viewMode === "procedures" ? "#4CAF50" : COLORS.dim,
+                borderRadius: "4px",
+                fontSize: "10px",
+                fontWeight: 600,
+                cursor: "pointer"
+              }}
+            >
+              ✅ Procedures
+            </button>
+            <button
+              onClick={() => setViewMode("agents")}
+              style={{
+                padding: "8px",
+                background: viewMode === "agents" ? "#2196F3" + "30" : "transparent",
+                border: `1px solid ${viewMode === "agents" ? "#2196F3" : COLORS.border}`,
+                color: viewMode === "agents" ? "#2196F3" : COLORS.dim,
+                borderRadius: "4px",
+                fontSize: "10px",
+                fontWeight: 600,
+                cursor: "pointer"
+              }}
+            >
+              🤖 Agents
+            </button>
+            <button
+              onClick={() => setViewMode("documentation")}
+              style={{
+                padding: "8px",
+                background: viewMode === "documentation" ? "#FF9800" + "30" : "transparent",
+                border: `1px solid ${viewMode === "documentation" ? "#FF9800" : COLORS.border}`,
+                color: viewMode === "documentation" ? "#FF9800" : COLORS.dim,
+                borderRadius: "4px",
+                fontSize: "10px",
+                fontWeight: 600,
+                cursor: "pointer"
+              }}
+            >
+              📄 Docs
+            </button>
+          </div>
         </div>
       </div>
 
@@ -831,9 +889,30 @@ export default function AuditEngine() {
             {currentPhaseIndex === 4 && <CompletionPhase engagement={engagement} updateEngagement={updateEngagement} onAdvance={advancePhase} canAdvance={canAdvancePhase} />}
             {currentPhaseIndex === 5 && <ReportingPhase engagement={engagement} updateEngagement={updateEngagement} />}
           </>
-        ) : (
+        ) : viewMode === "results" ? (
           <ResultsDashboard engagement={engagement} phases={PHASES} />
-        )}
+        ) : viewMode === "procedures" ? (
+          <div style={{ padding: "24px" }}>
+            <h2 style={{ color: "#4CAF50", marginBottom: "16px" }}>📋 Audit Procedures</h2>
+            <AuditProceduresPanel />
+          </div>
+        ) : viewMode === "agents" ? (
+          <div style={{ padding: "24px", maxWidth: "1200px" }}>
+            <h2 style={{ color: "#2196F3", marginBottom: "16px" }}>🤖 Agent Orchestration & Monitoring</h2>
+            <div style={{ display: "grid", gap: "20px" }}>
+              <AgentProgressPanel agents={progress} />
+              <AgentRecommendationsPanel recommendations={[]} />
+            </div>
+          </div>
+        ) : viewMode === "documentation" ? (
+          <div style={{ padding: "24px", maxWidth: "1200px" }}>
+            <h2 style={{ color: "#FF9800", marginBottom: "16px" }}>📄 Auto-Generated Documentation</h2>
+            <DocumentationPanel
+              phase={currentPhase?.label}
+              onExport={(format) => generateDocumentation(currentPhase?.id, { format })}
+            />
+          </div>
+        ) : null}
       </div>
     </div>
   );
