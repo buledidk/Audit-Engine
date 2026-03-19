@@ -16,6 +16,8 @@ import path from "path";
 import { fileURLToPath } from "url";
 import gdprMiddleware from "../src/middleware/gdprMiddleware.js";
 import rbacMiddleware from "../src/middleware/rbacMiddleware.js";
+import metricsRouter from "../src/api/metrics.js";
+import adminRouter from "../src/api/admin.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -898,6 +900,13 @@ app.post("/api/orchestrator/risk-assessment", async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 });
+
+// ============================================================================
+// AGENT MONITORING & METRICS API
+// ============================================================================
+
+app.use("/api/metrics", metricsRouter);
+app.use("/api/admin", adminRouter);
 
 // ============================================================================
 // ERROR HANDLING

@@ -6,6 +6,32 @@
 
 import React, { useState, useEffect, useCallback } from "react";
 import { useAudit } from "../context/AuditContext";
+import AgentMonitoringDashboard from "./AgentMonitoringDashboard";
+import useAgentMetrics from "../hooks/useAgentMetrics";
+
+/**
+ * Monitoring Tab Content Component
+ */
+function MonitoringTabContent() {
+  const { agents, systemHealth, metrics, loading, error } = useAgentMetrics(true, 2000);
+
+  if (loading) {
+    return <div style={{ padding: '20px' }}>Loading monitoring data...</div>;
+  }
+
+  if (error) {
+    return <div style={{ padding: '20px', color: '#f44336' }}>Error loading monitoring: {error}</div>;
+  }
+
+  return (
+    <div className="monitoring-section">
+      <AgentMonitoringDashboard
+        monitoring={{ agents, health: systemHealth }}
+        metrics={metrics}
+      />
+    </div>
+  );
+}
 
 export function ComprehensiveAuditDashboard() {
   const audit = useAudit();
@@ -161,6 +187,12 @@ export function ComprehensiveAuditDashboard() {
           onClick={() => setActiveTab("risks")}
         >
           🔴 Risks
+        </button>
+        <button
+          className={`tab ${activeTab === "monitoring" ? "active" : ""}`}
+          onClick={() => setActiveTab("monitoring")}
+        >
+          🤖 Agent Monitoring
         </button>
       </div>
 
@@ -397,6 +429,10 @@ export function ComprehensiveAuditDashboard() {
           <div className="risks-section">
             <p>Risk assessments will be displayed here</p>
           </div>
+        )}
+
+        {activeTab === "monitoring" && (
+          <MonitoringTabContent />
         )}
       </div>
 
@@ -838,6 +874,21 @@ export function ComprehensiveAuditDashboard() {
           color: #ff6b6b;
           cursor: pointer;
           font-size: 18px;
+        }
+
+        .monitoring-section {
+          background: rgba(255, 255, 255, 0.02);
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          border-radius: 8px;
+          padding: 20px;
+          color: #fff;
+        }
+
+        .risks-section {
+          background: rgba(255, 255, 255, 0.02);
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          border-radius: 8px;
+          padding: 20px;
         }
 
         .btn-primary {

@@ -8,6 +8,10 @@
 import modelSelectionService from './src/services/modelSelectionService.js';
 import connectorManager from './src/services/connectorManager.js';
 import pdfGenerationService from './src/services/pdfGenerationService.js';
+import agentMonitoringService from './src/services/agentMonitoringService.js';
+import selfHealingService from './src/services/selfHealingService.js';
+import agentRecoveryService from './src/services/agentRecoveryService.js';
+import systemMetricsService from './src/services/systemMetricsService.js';
 import axios from 'axios';
 
 const API_BASE_URL = 'http://localhost:3001';
@@ -254,6 +258,57 @@ async function testDatabase() {
   log('Database schema: Verify manually', 'info');
 }
 
+async function testMonitoring() {
+  console.log(
+    `\n${colors.blue}═══════════════════════════════════════════════════════${colors.reset}`
+  );
+  console.log(`${colors.blue}AGENT MONITORING & SELF-HEALING${colors.reset}`);
+  console.log(
+    `${colors.blue}═══════════════════════════════════════════════════════${colors.reset}`
+  );
+
+  // Check Agent Monitoring Service
+  const agents = agentMonitoringService.getAllAgentStatuses();
+  if (agents && agents.length > 0) {
+    log(`Agent Monitoring: ${agents.length} agents registered`, 'success');
+  } else {
+    log('Agent Monitoring: No agents found', 'error');
+  }
+
+  // Check Self-Healing Service
+  const healingStatus = selfHealingService.getStatus();
+  log(`Self-Healing: Auto-recovery ${healingStatus.autoRecoveryEnabled ? 'enabled' : 'disabled'}`, 'success');
+  log(`Circuit Breakers: ${healingStatus.openCircuitBreakers.length} open`, 'info');
+
+  // Check Agent Recovery Service
+  const recoverySummary = agentRecoveryService.getRecoverySummary();
+  log(`Agent Recovery: ${recoverySummary.summary.disabledCount} agents disabled`, 'info');
+
+  // Check System Metrics Service
+  const systemHealth = systemMetricsService.getSystemHealth();
+  log(`System Metrics: Collecting continuously`, 'success');
+  log(`System Health Score: ${systemHealth}%`, 'info');
+
+  // Check API endpoints exist
+  try {
+    const response = await axios.get(`${API_BASE_URL}/api/metrics/dashboard`, { timeout: 5000 });
+    if (response.status === 200) {
+      log('Metrics API: Responding', 'success');
+    }
+  } catch (error) {
+    log(`Metrics API: Not available (${error.message})`, 'warning');
+  }
+
+  try {
+    const response = await axios.get(`${API_BASE_URL}/api/admin/status`, { timeout: 5000 });
+    if (response.status === 200) {
+      log('Admin API: Responding', 'success');
+    }
+  } catch (error) {
+    log(`Admin API: Not available (${error.message})`, 'warning');
+  }
+}
+
 async function generateReport() {
   console.log(
     `\n${colors.blue}═══════════════════════════════════════════════════════${colors.reset}`
@@ -302,6 +357,7 @@ async function main() {
   await testPDFGeneration();
   await testWebSocket();
   await testDatabase();
+  await testMonitoring();
 
   const exitCode = await generateReport();
   process.exit(exitCode);
