@@ -12,6 +12,12 @@ import AgentRecommendationsPanel from "./components/AgentRecommendationsPanel";
 import DocumentationPanel from "./components/DocumentationPanel";
 import useAgentProgress from "./hooks/useAgentProgress";
 import useDocumentGeneration from "./hooks/useDocumentGeneration";
+// Phase D: Creative & Interactive Features
+import RealTimeAuditDashboard from "./components/RealTimeAuditDashboard";
+import CollaborationPanel from "./components/CollaborationPanel";
+import SmartAuditForms from "./components/SmartAuditForms";
+import OfflineModePanel from "./components/OfflineModePanel";
+import useOfflineMode from "./hooks/useOfflineMode";
 
 const COLORS = {
   bg: "#0A0E17",
@@ -678,12 +684,14 @@ function KPIBox({ label, value, color }) {
 // ═══════════════════════════════════════════════════════════════════
 export default function AuditEngine() {
   const [currentPhaseIndex, setCurrentPhaseIndex] = useState(0);
-  const [viewMode, setViewMode] = useState("phase"); // phase | results | procedures | agents | documentation
+  const [viewMode, setViewMode] = useState("phase"); // phase | results | procedures | agents | documentation | dashboard | collaboration | forms | offline
   const [engagement, setEngagement] = useState(engagementStore.engagement);
 
   // Phase A-B: New System Hooks
   const { activeAgents, progress, isRunning, startAgents } = useAgentProgress();
   const { status: docStatus, documents, generateDocumentation } = useDocumentGeneration();
+  // Phase D: Interactive Features Hooks
+  const { isOnline, syncStatus, queueAction, syncNow } = useOfflineMode();
 
   const currentPhase = PHASES[currentPhaseIndex];
   const canAdvancePhase = true; // Simplified for MVP
@@ -847,6 +855,68 @@ export default function AuditEngine() {
               📄 Docs
             </button>
           </div>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr 1fr", gap: "6px", marginTop: "8px" }}>
+            <button
+              onClick={() => setViewMode("dashboard")}
+              style={{
+                padding: "8px",
+                background: viewMode === "dashboard" ? "#42A5F5" + "30" : "transparent",
+                border: `1px solid ${viewMode === "dashboard" ? "#42A5F5" : COLORS.border}`,
+                color: viewMode === "dashboard" ? "#42A5F5" : COLORS.dim,
+                borderRadius: "4px",
+                fontSize: "10px",
+                fontWeight: 600,
+                cursor: "pointer"
+              }}
+            >
+              📊 Dashboard
+            </button>
+            <button
+              onClick={() => setViewMode("collaboration")}
+              style={{
+                padding: "8px",
+                background: viewMode === "collaboration" ? "#66BB6A" + "30" : "transparent",
+                border: `1px solid ${viewMode === "collaboration" ? "#66BB6A" : COLORS.border}`,
+                color: viewMode === "collaboration" ? "#66BB6A" : COLORS.dim,
+                borderRadius: "4px",
+                fontSize: "10px",
+                fontWeight: 600,
+                cursor: "pointer"
+              }}
+            >
+              💬 Collab
+            </button>
+            <button
+              onClick={() => setViewMode("forms")}
+              style={{
+                padding: "8px",
+                background: viewMode === "forms" ? "#CE93D8" + "30" : "transparent",
+                border: `1px solid ${viewMode === "forms" ? "#CE93D8" : COLORS.border}`,
+                color: viewMode === "forms" ? "#CE93D8" : COLORS.dim,
+                borderRadius: "4px",
+                fontSize: "10px",
+                fontWeight: 600,
+                cursor: "pointer"
+              }}
+            >
+              📝 Forms
+            </button>
+            <button
+              onClick={() => setViewMode("offline")}
+              style={{
+                padding: "8px",
+                background: viewMode === "offline" ? (isOnline ? "#81C784" : "#EF5350") + "30" : "transparent",
+                border: `1px solid ${viewMode === "offline" ? (isOnline ? "#81C784" : "#EF5350") : COLORS.border}`,
+                color: viewMode === "offline" ? (isOnline ? "#81C784" : "#EF5350") : COLORS.dim,
+                borderRadius: "4px",
+                fontSize: "10px",
+                fontWeight: 600,
+                cursor: "pointer"
+              }}
+            >
+              {isOnline ? "🌐 Online" : "📱 Offline"}
+            </button>
+          </div>
         </div>
       </div>
 
@@ -911,6 +981,27 @@ export default function AuditEngine() {
               phase={currentPhase?.label}
               onExport={(format) => generateDocumentation(currentPhase?.id, { format })}
             />
+          </div>
+        ) : viewMode === "dashboard" ? (
+          <div style={{ padding: "24px" }}>
+            <RealTimeAuditDashboard />
+          </div>
+        ) : viewMode === "collaboration" ? (
+          <div style={{ padding: "24px", maxWidth: "1200px" }}>
+            <h2 style={{ color: "#66BB6A", marginBottom: "16px" }}>💬 Collaboration & Team Coordination</h2>
+            <CollaborationPanel />
+          </div>
+        ) : viewMode === "forms" ? (
+          <div style={{ padding: "24px", maxWidth: "1200px" }}>
+            <h2 style={{ color: "#CE93D8", marginBottom: "16px" }}>📝 Smart Audit Forms</h2>
+            <SmartAuditForms />
+          </div>
+        ) : viewMode === "offline" ? (
+          <div style={{ padding: "24px", maxWidth: "1200px" }}>
+            <h2 style={{ color: isOnline ? "#81C784" : "#EF5350", marginBottom: "16px" }}>
+              {isOnline ? "🌐 Online Mode" : "📱 Offline Mode"}
+            </h2>
+            <OfflineModePanel />
           </div>
         ) : null}
       </div>
