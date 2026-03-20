@@ -151,55 +151,57 @@ export async function signOffWorkingPaper(wpId, type, userId) {
 }
 
 // ═══════════════════════════════════════════════════════════════════
-// AUDIT TRAIL OPERATIONS
+// AUDIT LOG OPERATIONS
 // ═══════════════════════════════════════════════════════════════════
 
-export async function logAuditTrail(engagementId, action, details = {}) {
+export async function logAuditEntry(engagementId, action, details = {}) {
   if (!supabase) {
-    console.log('Audit trail (local only):', { engagementId, action, ...details });
+    console.log('Audit log (local only):', { engagementId, action, ...details });
     return;
   }
 
   const { error } = await supabase
-    .from('audit_trail')
+    .from('audit_log')
     .insert({
-      engagement_id: engagementId,
       action,
+      entity_type: 'engagement',
+      entity_id: engagementId,
       ...details,
-      changed_at: new Date().toISOString()
+      created_at: new Date().toISOString()
     });
 
   if (error) {
-    console.error('❌ Audit trail log failed:', error);
+    console.error('❌ Audit log entry failed:', error);
   }
 }
 
-export async function getAuditTrail(engagementId) {
+export async function getAuditLog(engagementId) {
   if (!supabase) throw new Error('Supabase not configured');
 
   const { data, error } = await supabase
-    .from('audit_trail')
+    .from('audit_log')
     .select('*')
-    .eq('engagement_id', engagementId)
-    .order('changed_at', { ascending: false });
+    .eq('entity_type', 'engagement')
+    .eq('entity_id', engagementId)
+    .order('created_at', { ascending: false });
 
   if (error) throw error;
   return data;
 }
 
 // ═══════════════════════════════════════════════════════════════════
-// ISSUES & MISSTATEMENTS OPERATIONS
+// FINDINGS OPERATIONS
 // ═══════════════════════════════════════════════════════════════════
 
-export async function createIssue(engagementId, issueData) {
+export async function createFinding(engagementId, findingData) {
   if (!supabase) throw new Error('Supabase not configured');
 
   const { data, error } = await supabase
-    .from('issues')
+    .from('findings')
     .insert({
       engagement_id: engagementId,
-      ...issueData,
-      raised_date: new Date().toISOString()
+      ...findingData,
+      created_at: new Date().toISOString()
     })
     .select()
     .single();
@@ -208,35 +210,36 @@ export async function createIssue(engagementId, issueData) {
   return data;
 }
 
-export async function getIssues(engagementId) {
+export async function getFindings(engagementId) {
   if (!supabase) throw new Error('Supabase not configured');
 
   const { data, error } = await supabase
-    .from('issues')
+    .from('findings')
     .select('*')
     .eq('engagement_id', engagementId)
-    .order('raised_date', { ascending: false });
+    .order('created_at', { ascending: false });
 
   if (error) throw error;
   return data;
 }
 
-export async function updateIssueStatus(issueId, status, resolution_notes = null) {
+export async function updateFindingStatus(findingId, status, recommendation = null) {
   if (!supabase) throw new Error('Supabase not configured');
 
   const updates = {
     status,
-    resolved_date: status === 'resolved' ? new Date().toISOString() : null
+    resolution_date: status === 'resolved' ? new Date().toISOString() : null,
+    updated_at: new Date().toISOString()
   };
 
-  if (resolution_notes) {
-    updates.resolution_notes = resolution_notes;
+  if (recommendation) {
+    updates.recommendation = recommendation;
   }
 
   const { data, error } = await supabase
-    .from('issues')
+    .from('findings')
     .update(updates)
-    .eq('id', issueId)
+    .eq('id', findingId)
     .select()
     .single();
 

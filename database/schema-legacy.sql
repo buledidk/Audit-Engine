@@ -252,6 +252,30 @@ CREATE TABLE reports (
   INDEX idx_is_final (is_final)
 );
 
+-- Working Papers
+CREATE TABLE working_papers (
+  id SERIAL PRIMARY KEY,
+  engagement_id INTEGER NOT NULL REFERENCES engagements(id) ON DELETE CASCADE,
+  ref_code VARCHAR(50) NOT NULL,
+  label VARCHAR(255) NOT NULL,
+  phase VARCHAR(50), -- planning, risk_assessment, interim, final, completion, reporting
+  isa_ref VARCHAR(50), -- ISA standard reference (e.g., ISA 315, ISA 500)
+  description TEXT,
+  cell_data JSONB, -- Flexible working paper content
+  notes TEXT,
+  status VARCHAR(50) DEFAULT 'draft', -- draft, in_progress, prepared, reviewed, complete
+  prepared_by INTEGER REFERENCES users(id),
+  prepared_date TIMESTAMP,
+  reviewed_by INTEGER REFERENCES users(id),
+  reviewed_date TIMESTAMP,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  INDEX idx_engagement (engagement_id),
+  INDEX idx_phase (phase),
+  INDEX idx_status (status),
+  INDEX idx_ref_code (ref_code)
+);
+
 -- ============================================================================
 -- AUDIT TRAIL & LOGGING
 -- ============================================================================
