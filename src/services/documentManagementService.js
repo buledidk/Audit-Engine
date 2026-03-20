@@ -6,8 +6,6 @@
  * Features: Upload, Parse, Tokenize, Store, Track, Audit
  */
 
-import crypto from "crypto";
-import path from "path";
 
 export class DocumentManagementService {
   constructor() {

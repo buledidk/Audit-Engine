@@ -33,3 +33,6 @@ Thumbs.db
 .cache/
 .temp/
 temp/
+
+# Claude Code local settings
+.claude/settings.local.json

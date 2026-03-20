@@ -37,7 +37,22 @@ export const ACTIONS = {
 
   // Notifications
   ADD_NOTIFICATION: "ADD_NOTIFICATION",
-  REMOVE_NOTIFICATION: "REMOVE_NOTIFICATION"
+  REMOVE_NOTIFICATION: "REMOVE_NOTIFICATION",
+
+  // Agent State (NEW)
+  UPDATE_AGENT_PROGRESS: "UPDATE_AGENT_PROGRESS",
+  AGENT_STARTED: "AGENT_STARTED",
+  AGENT_COMPLETED: "AGENT_COMPLETED",
+  WORKFLOW_STARTED: "WORKFLOW_STARTED",
+  WORKFLOW_COMPLETED: "WORKFLOW_COMPLETED",
+
+  // Documentation State (NEW)
+  DOCUMENTATION_GENERATED: "DOCUMENTATION_GENERATED",
+  FSLI_NARRATIVE_GENERATED: "FSLI_NARRATIVE_GENERATED",
+
+  // Audit Procedures State (NEW)
+  PROCEDURE_TESTED: "PROCEDURE_TESTED",
+  EVIDENCE_ATTACHED: "EVIDENCE_ATTACHED"
 };
 
 // Initial state
@@ -65,7 +80,35 @@ const initialState = {
   syncStatus: "idle", // idle, syncing, synced, error
 
   // Notifications
-  notifications: [] // { id, type, message, duration }
+  notifications: [], // { id, type, message, duration }
+
+  // Agent State (NEW)
+  agents: {
+    registry: {},
+    activeAgents: [],
+    progress: {},
+    workflow: null,
+    history: []
+  },
+
+  // Documentation State (NEW)
+  documentation: {
+    phases: {},
+    exportHistory: [],
+    generatedDocs: []
+  },
+
+  // Audit Procedures State (NEW)
+  auditProcedures: {
+    procedures: {},
+    testingResults: {},
+    evidence: {},
+    completionStats: {
+      totalProcedures: 0,
+      completedProcedures: 0,
+      completionPercentage: 0
+    }
+  }
 };
 
 // Reducer
@@ -149,6 +192,108 @@ function auditReducer(state, action) {
         notifications: state.notifications.filter(
           n => n.id !== action.payload
         )
+      };
+
+    // Agent Actions (NEW)
+    case ACTIONS.UPDATE_AGENT_PROGRESS:
+      return {
+        ...state,
+        agents: {
+          ...state.agents,
+          progress: {
+            ...state.agents.progress,
+            [action.payload.agentName]: action.payload
+          }
+        }
+      };
+
+    case ACTIONS.AGENT_STARTED:
+      return {
+        ...state,
+        agents: {
+          ...state.agents,
+          activeAgents: [...state.agents.activeAgents, action.payload.agentName]
+        }
+      };
+
+    case ACTIONS.AGENT_COMPLETED:
+      return {
+        ...state,
+        agents: {
+          ...state.agents,
+          activeAgents: state.agents.activeAgents.filter(
+            a => a !== action.payload.agentName
+          ),
+          history: [...state.agents.history, action.payload]
+        }
+      };
+
+    case ACTIONS.WORKFLOW_STARTED:
+      return {
+        ...state,
+        agents: {
+          ...state.agents,
+          workflow: { status: 'running', startTime: new Date() }
+        }
+      };
+
+    case ACTIONS.WORKFLOW_COMPLETED:
+      return {
+        ...state,
+        agents: {
+          ...state.agents,
+          workflow: { ...state.agents.workflow, status: 'completed', endTime: new Date() }
+        }
+      };
+
+    // Documentation Actions (NEW)
+    case ACTIONS.DOCUMENTATION_GENERATED:
+      return {
+        ...state,
+        documentation: {
+          ...state.documentation,
+          phases: {
+            ...state.documentation.phases,
+            [action.payload.phaseId]: action.payload
+          }
+        }
+      };
+
+    case ACTIONS.FSLI_NARRATIVE_GENERATED:
+      return {
+        ...state,
+        documentation: {
+          ...state.documentation,
+          generatedDocs: [...state.documentation.generatedDocs, action.payload]
+        }
+      };
+
+    // Audit Procedures Actions (NEW)
+    case ACTIONS.PROCEDURE_TESTED:
+      return {
+        ...state,
+        auditProcedures: {
+          ...state.auditProcedures,
+          testingResults: {
+            ...state.auditProcedures.testingResults,
+            [action.payload.procedureId]: action.payload.results
+          }
+        }
+      };
+
+    case ACTIONS.EVIDENCE_ATTACHED:
+      return {
+        ...state,
+        auditProcedures: {
+          ...state.auditProcedures,
+          evidence: {
+            ...state.auditProcedures.evidence,
+            [action.payload.procedureId]: [
+              ...(state.auditProcedures.evidence[action.payload.procedureId] || []),
+              action.payload.evidence
+            ]
+          }
+        }
       };
 
     default:
@@ -312,6 +457,48 @@ export function AuditProvider({ children }) {
 
     clearError: useCallback(() => {
       dispatch({ type: ACTIONS.CLEAR_ERROR });
+    }, []),
+
+    // Agent actions (NEW)
+    updateAgentProgress: useCallback((agentName, progress, task) => {
+      dispatch({
+        type: ACTIONS.UPDATE_AGENT_PROGRESS,
+        payload: { agentName, progress, currentTask: task, tokensUsed: 0 }
+      });
+    }, []),
+
+    startAgentWorkflow: useCallback((agents) => {
+      dispatch({
+        type: ACTIONS.WORKFLOW_STARTED,
+        payload: { agents, startTime: new Date() }
+      });
+    }, []),
+
+    completeAgentWorkflow: useCallback(() => {
+      dispatch({ type: ACTIONS.WORKFLOW_COMPLETED });
+    }, []),
+
+    // Documentation actions (NEW)
+    generateDocumentation: useCallback((phaseId, documentation) => {
+      dispatch({
+        type: ACTIONS.DOCUMENTATION_GENERATED,
+        payload: { phaseId, ...documentation }
+      });
+    }, []),
+
+    // Audit Procedures actions (NEW)
+    recordProcedureTesting: useCallback((procedureId, results) => {
+      dispatch({
+        type: ACTIONS.PROCEDURE_TESTED,
+        payload: { procedureId, results }
+      });
+    }, []),
+
+    attachEvidenceToProcedure: useCallback((procedureId, evidence) => {
+      dispatch({
+        type: ACTIONS.EVIDENCE_ATTACHED,
+        payload: { procedureId, evidence }
+      });
     }, [])
   };
 

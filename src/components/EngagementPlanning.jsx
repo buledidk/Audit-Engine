@@ -7,6 +7,8 @@
 
 import { useState, useMemo, useEffect } from "react";
 import JurisdictionEngine from "../services/jurisdictionEngine";
+import * as apiClient from "../services/apiClient";
+import { useApiCall } from "../hooks/useApi";
 
 export function EngagementPlanning({
   engagementId = "",
@@ -82,12 +84,22 @@ export function EngagementPlanning({
   async function saveEngagement() {
     setLoading(true);
     try {
-      // TODO: Call API to save
+      const result = await apiClient.engagements.create({
+        entity_id: engagement.entityName,
+        engagement_type: "full_audit",
+        framework_code: engagement.framework,
+        financial_year_end: engagement.yearEnd,
+        estimated_budget_hours: 160
+      });
       onSave({
         ...engagement,
         materiality,
-        procedures
+        procedures,
+        id: result.engagement.id
       });
+    } catch (error) {
+      console.error("Error saving engagement:", error);
+      alert("Failed to save engagement");
     } finally {
       setLoading(false);
     }

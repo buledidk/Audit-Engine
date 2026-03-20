@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "disableAllHooks": false,
+  "permissions": {
+    "defaultMode": "default",
+    "allow": [
+      "Bash(npm:*)",
+      "Bash(node:*)",
+      "Bash(git:*)",
+      "Read",
+      "Write",
+      "Edit",
+      "Glob",
+      "Grep"
+    ]
+  },
+  "env": {
+    "NODE_ENV": "development"
+  },
+  "model": "claude-opus-4-6",
+  "alwaysThinkingEnabled": true,
+  "attribution": {
+    "commit": "https://claude.ai/code/session_01CHQJRAWuBamwrCQSnCvGsE"
+  },
+  "respectGitignore": true,
+  "cleanupPeriodDays": 30,
+  "spinnerTipsEnabled": true,
+  "syntax HighlightingDisabled": false
+}

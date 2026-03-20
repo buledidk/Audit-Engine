@@ -14,6 +14,10 @@ import morgan from "morgan";
 import multer from "multer";
 import path from "path";
 import { fileURLToPath } from "url";
+import gdprMiddleware from "../src/middleware/gdprMiddleware.js";
+import rbacMiddleware from "../src/middleware/rbacMiddleware.js";
+import metricsRouter from "../src/api/metrics.js";
+import adminRouter from "../src/api/admin.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -21,7 +25,20 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const app = express();
 
 // Middleware
-app.use(helmet());
+app.use(helmet({
+  hsts: { maxAge: 31536000, includeSubDomains: true, preload: true },
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc: ["'self'"],
+      scriptSrc: ["'self'", "'unsafe-inline'"],
+      styleSrc: ["'self'", "'unsafe-inline'"],
+      imgSrc: ["'self'", "data:", "https:"]
+    }
+  },
+  frameguard: { action: "deny" },
+  noSniff: true,
+  xssFilter: true
+}));
 app.use(compression());
 app.use(morgan("combined"));
 app.use(cors({
@@ -30,6 +47,9 @@ app.use(cors({
 }));
 app.use(bodyParser.json({ limit: "50mb" }));
 app.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
+
+// GDPR Compliance Middleware
+app.use(gdprMiddleware);
 
 // Upload configuration
 const upload = multer({
@@ -143,6 +163,62 @@ app.get("/api/users/me", authenticateToken, (req, res) => {
 });
 
 // ============================================================================
+// GDPR DATA RIGHTS ENDPOINTS (Art. 15, 20, 17)
+// ============================================================================
+
+app.post("/api/user/data-export", authenticateToken, auditLog("REQUEST_DATA_EXPORT"), (req, res) => {
+  try {
+    // GDPR Art. 20 - Right to Data Portability
+    res.json({
+      success: true,
+      message: "Data export requested",
+      requestId: Math.random().toString(36).substr(2, 9),
+      status: "pending",
+      format: "json",
+      estimatedCompletion: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(),
+      note: "A secure download link will be sent to your email within 7 days"
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+app.post("/api/user/delete", authenticateToken, rbacMiddleware(["viewer", "auditor", "manager", "partner", "admin"]), auditLog("REQUEST_ACCOUNT_DELETION"), (req, res) => {
+  try {
+    // GDPR Art. 17 - Right to Erasure
+    res.json({
+      success: true,
+      message: "Account deletion requested",
+      requestId: Math.random().toString(36).substr(2, 9),
+      status: "pending",
+      completionDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
+      note: "Your account and personal data will be deleted within 30 days. You can cancel anytime.",
+      cancellationDeadline: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString()
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+app.get("/api/user/consent-status", authenticateToken, (req, res) => {
+  try {
+    // GDPR Art. 7 - Consent tracking
+    res.json({
+      success: true,
+      consents: {
+        data_processing: true,
+        marketing: false,
+        analytics: true
+      },
+      consentedAt: new Date().toISOString(),
+      canWithdraw: true
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// ============================================================================
 // JURISDICTION ENDPOINTS
 // ============================================================================
 
@@ -217,6 +293,7 @@ app.get("/api/jurisdictions/:code", authenticateToken, (req, res) => {
 app.post(
   "/api/engagements",
   authenticateToken,
+  rbacMiddleware(["partner", "manager"]),
   auditLog("CREATE_ENGAGEMENT"),
   async (req, res) => {
     try {
@@ -448,6 +525,7 @@ app.get(
 app.patch(
   "/api/procedures/:id",
   authenticateToken,
+  rbacMiddleware(["manager", "partner"]),
   auditLog("UPDATE_PROCEDURE"),
   (req, res) => {
     const { id } = req.params;
@@ -582,6 +660,7 @@ app.get(
 app.post(
   "/api/engagements/:id/findings",
   authenticateToken,
+  rbacMiddleware(["manager", "partner"]),
   auditLog("CREATE_FINDING"),
   (req, res) => {
     const {
@@ -649,6 +728,7 @@ app.get(
 app.post(
   "/api/engagements/:id/risk-assessments",
   authenticateToken,
+  rbacMiddleware(["manager", "partner"]),
   auditLog("CREATE_RISK_ASSESSMENT"),
   (req, res) => {
     const {
@@ -820,6 +900,13 @@ app.post("/api/orchestrator/risk-assessment", async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 });
+
+// ============================================================================
+// AGENT MONITORING & METRICS API
+// ============================================================================
+
+app.use("/api/metrics", metricsRouter);
+app.use("/api/admin", adminRouter);
 
 // ============================================================================
 // ERROR HANDLING

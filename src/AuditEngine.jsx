@@ -5,6 +5,29 @@ import engagementStore from "./store/engagementStore";
 import auditFramework from "./data/auditFramework.json";
 import { InterimPhase } from "./phases/InterimPhase";
 import { FinalAuditPhase } from "./phases/FinalAuditPhase";
+// Phase A-B: New System Components (Audit Procedures, Agents, Documentation)
+import AuditProceduresPanel from "./components/AuditProceduresPanel";
+import AgentProgressPanel from "./components/AgentProgressPanel";
+import AgentRecommendationsPanel from "./components/AgentRecommendationsPanel";
+import DocumentationPanel from "./components/DocumentationPanel";
+import useAgentProgress from "./hooks/useAgentProgress";
+import useDocumentGeneration from "./hooks/useDocumentGeneration";
+// Phase D: Creative & Interactive Features
+import RealTimeAuditDashboard from "./components/RealTimeAuditDashboard";
+import CollaborationPanel from "./components/CollaborationPanel";
+import SmartAuditForms from "./components/SmartAuditForms";
+import OfflineModePanel from "./components/OfflineModePanel";
+import useOfflineMode from "./hooks/useOfflineMode";
+// Phase E: Comprehensive Integration Hub
+import IntegrationHub from "./components/IntegrationHub";
+import UnifiedActivityDashboard from "./components/UnifiedActivityDashboard";
+import useIntegrations from "./hooks/useIntegrations";
+// Enhanced UI: Industry-aligned design with workflows and business context
+import EnhancedVisualInterface from "./components/EnhancedVisualInterface";
+// Modern Design System: Latest UI/UX trends and patterns
+import ModernDesignShowcase from "./components/ModernDesignShowcase";
+// AI-Powered Document Extraction: Tokenization, extraction, auto-population, and framework reporting
+import DocumentUploadAndExtractionPanel from "./components/DocumentUploadAndExtractionPanel";
 
 const COLORS = {
   bg: "#0A0E17",
@@ -671,8 +694,16 @@ function KPIBox({ label, value, color }) {
 // ═══════════════════════════════════════════════════════════════════
 export default function AuditEngine() {
   const [currentPhaseIndex, setCurrentPhaseIndex] = useState(0);
-  const [viewMode, setViewMode] = useState("phase"); // phase | results
+  const [viewMode, setViewMode] = useState("phase"); // phase | results | procedures | agents | documentation | extraction | dashboard | collaboration | forms | offline | integrations | activity | visual | design
   const [engagement, setEngagement] = useState(engagementStore.engagement);
+
+  // Phase A-B: New System Hooks
+  const { activeAgents, progress, isRunning, startAgents } = useAgentProgress();
+  const { status: docStatus, documents, generateDocumentation } = useDocumentGeneration();
+  // Phase D: Interactive Features Hooks
+  const { isOnline, syncStatus, queueAction, syncNow } = useOfflineMode();
+  // Phase E: Integration Hub Hooks
+  const { connections, activityLog, isIntegrating, sendSlackNotification, createGitHubIssue, sendEmailReport, uploadToAWS } = useIntegrations();
 
   const currentPhase = PHASES[currentPhaseIndex];
   const canAdvancePhase = true; // Simplified for MVP
@@ -754,40 +785,230 @@ export default function AuditEngine() {
         </div>
 
         {/* View Toggle */}
-        <div style={{ padding: "12px", borderTop: `1px solid ${COLORS.border}`, display: "flex", gap: "8px" }}>
+        <div style={{ padding: "12px", borderTop: `1px solid ${COLORS.border}` }}>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "8px", marginBottom: "8px" }}>
+            <button
+              onClick={() => setViewMode("phase")}
+              style={{
+                padding: "10px",
+                background: viewMode === "phase" ? COLORS.accent + "30" : "transparent",
+                border: `1px solid ${viewMode === "phase" ? COLORS.accent : COLORS.border}`,
+                color: viewMode === "phase" ? COLORS.accent : COLORS.dim,
+                borderRadius: "6px",
+                fontSize: "11px",
+                fontWeight: 600,
+                cursor: "pointer",
+                textTransform: "uppercase"
+              }}
+            >
+              📋 Phase
+            </button>
+            <button
+              onClick={() => setViewMode("results")}
+              style={{
+                padding: "10px",
+                background: viewMode === "results" ? COLORS.accent + "30" : "transparent",
+                border: `1px solid ${viewMode === "results" ? COLORS.accent : COLORS.border}`,
+                color: viewMode === "results" ? COLORS.accent : COLORS.dim,
+                borderRadius: "6px",
+                fontSize: "11px",
+                fontWeight: 600,
+                cursor: "pointer",
+                textTransform: "uppercase"
+              }}
+            >
+              📊 Results
+            </button>
+          </div>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "6px" }}>
+            <button
+              onClick={() => setViewMode("procedures")}
+              style={{
+                padding: "8px",
+                background: viewMode === "procedures" ? "#4CAF50" + "30" : "transparent",
+                border: `1px solid ${viewMode === "procedures" ? "#4CAF50" : COLORS.border}`,
+                color: viewMode === "procedures" ? "#4CAF50" : COLORS.dim,
+                borderRadius: "4px",
+                fontSize: "10px",
+                fontWeight: 600,
+                cursor: "pointer"
+              }}
+            >
+              ✅ Procedures
+            </button>
+            <button
+              onClick={() => setViewMode("agents")}
+              style={{
+                padding: "8px",
+                background: viewMode === "agents" ? "#2196F3" + "30" : "transparent",
+                border: `1px solid ${viewMode === "agents" ? "#2196F3" : COLORS.border}`,
+                color: viewMode === "agents" ? "#2196F3" : COLORS.dim,
+                borderRadius: "4px",
+                fontSize: "10px",
+                fontWeight: 600,
+                cursor: "pointer"
+              }}
+            >
+              🤖 Agents
+            </button>
+            <button
+              onClick={() => setViewMode("documentation")}
+              style={{
+                padding: "8px",
+                background: viewMode === "documentation" ? "#FF9800" + "30" : "transparent",
+                border: `1px solid ${viewMode === "documentation" ? "#FF9800" : COLORS.border}`,
+                color: viewMode === "documentation" ? "#FF9800" : COLORS.dim,
+                borderRadius: "4px",
+                fontSize: "10px",
+                fontWeight: 600,
+                cursor: "pointer"
+              }}
+            >
+              📄 Docs
+            </button>
+            <button
+              onClick={() => setViewMode("extraction")}
+              style={{
+                padding: "8px",
+                background: viewMode === "extraction" ? "#9C27B0" + "30" : "transparent",
+                border: `1px solid ${viewMode === "extraction" ? "#9C27B0" : COLORS.border}`,
+                color: viewMode === "extraction" ? "#9C27B0" : COLORS.dim,
+                borderRadius: "4px",
+                fontSize: "10px",
+                fontWeight: 600,
+                cursor: "pointer"
+              }}
+            >
+              🤖 Extract
+            </button>
+          </div>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr 1fr", gap: "6px", marginTop: "8px" }}>
+            <button
+              onClick={() => setViewMode("dashboard")}
+              style={{
+                padding: "8px",
+                background: viewMode === "dashboard" ? "#42A5F5" + "30" : "transparent",
+                border: `1px solid ${viewMode === "dashboard" ? "#42A5F5" : COLORS.border}`,
+                color: viewMode === "dashboard" ? "#42A5F5" : COLORS.dim,
+                borderRadius: "4px",
+                fontSize: "10px",
+                fontWeight: 600,
+                cursor: "pointer"
+              }}
+            >
+              📊 Dashboard
+            </button>
+            <button
+              onClick={() => setViewMode("collaboration")}
+              style={{
+                padding: "8px",
+                background: viewMode === "collaboration" ? "#66BB6A" + "30" : "transparent",
+                border: `1px solid ${viewMode === "collaboration" ? "#66BB6A" : COLORS.border}`,
+                color: viewMode === "collaboration" ? "#66BB6A" : COLORS.dim,
+                borderRadius: "4px",
+                fontSize: "10px",
+                fontWeight: 600,
+                cursor: "pointer"
+              }}
+            >
+              💬 Collab
+            </button>
+            <button
+              onClick={() => setViewMode("forms")}
+              style={{
+                padding: "8px",
+                background: viewMode === "forms" ? "#CE93D8" + "30" : "transparent",
+                border: `1px solid ${viewMode === "forms" ? "#CE93D8" : COLORS.border}`,
+                color: viewMode === "forms" ? "#CE93D8" : COLORS.dim,
+                borderRadius: "4px",
+                fontSize: "10px",
+                fontWeight: 600,
+                cursor: "pointer"
+              }}
+            >
+              📝 Forms
+            </button>
+            <button
+              onClick={() => setViewMode("offline")}
+              style={{
+                padding: "8px",
+                background: viewMode === "offline" ? (isOnline ? "#81C784" : "#EF5350") + "30" : "transparent",
+                border: `1px solid ${viewMode === "offline" ? (isOnline ? "#81C784" : "#EF5350") : COLORS.border}`,
+                color: viewMode === "offline" ? (isOnline ? "#81C784" : "#EF5350") : COLORS.dim,
+                borderRadius: "4px",
+                fontSize: "10px",
+                fontWeight: 600,
+                cursor: "pointer"
+              }}
+            >
+              {isOnline ? "🌐 Online" : "📱 Offline"}
+            </button>
+          </div>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "6px", marginTop: "8px" }}>
+            <button
+              onClick={() => setViewMode("integrations")}
+              style={{
+                padding: "8px",
+                background: viewMode === "integrations" ? "#1976D2" + "30" : "transparent",
+                border: `1px solid ${viewMode === "integrations" ? "#1976D2" : COLORS.border}`,
+                color: viewMode === "integrations" ? "#1976D2" : COLORS.dim,
+                borderRadius: "4px",
+                fontSize: "10px",
+                fontWeight: 600,
+                cursor: "pointer"
+              }}
+            >
+              🔗 Integrations
+            </button>
+            <button
+              onClick={() => setViewMode("activity")}
+              style={{
+                padding: "8px",
+                background: viewMode === "activity" ? "#FF6F00" + "30" : "transparent",
+                border: `1px solid ${viewMode === "activity" ? "#FF6F00" : COLORS.border}`,
+                color: viewMode === "activity" ? "#FF6F00" : COLORS.dim,
+                borderRadius: "4px",
+                fontSize: "10px",
+                fontWeight: 600,
+                cursor: "pointer"
+              }}
+            >
+              📊 Activity
+            </button>
+          </div>
           <button
-            onClick={() => setViewMode("phase")}
+            onClick={() => setViewMode("visual")}
             style={{
-              flex: 1,
+              width: "100%",
               padding: "10px",
-              background: viewMode === "phase" ? COLORS.accent + "30" : "transparent",
-              border: `1px solid ${viewMode === "phase" ? COLORS.accent : COLORS.border}`,
-              color: viewMode === "phase" ? COLORS.accent : COLORS.dim,
-              borderRadius: "6px",
+              background: viewMode === "visual" ? "#9C27B0" + "30" : "transparent",
+              border: `1px solid ${viewMode === "visual" ? "#9C27B0" : COLORS.border}`,
+              color: viewMode === "visual" ? "#9C27B0" : COLORS.dim,
+              borderRadius: "4px",
               fontSize: "11px",
               fontWeight: 600,
               cursor: "pointer",
-              textTransform: "uppercase"
+              marginTop: "8px"
             }}
           >
-            Phase
+            🎯 Visual Workflows & Business Context
           </button>
           <button
-            onClick={() => setViewMode("results")}
+            onClick={() => setViewMode("design")}
             style={{
-              flex: 1,
+              width: "100%",
               padding: "10px",
-              background: viewMode === "results" ? COLORS.accent + "30" : "transparent",
-              border: `1px solid ${viewMode === "results" ? COLORS.accent : COLORS.border}`,
-              color: viewMode === "results" ? COLORS.accent : COLORS.dim,
-              borderRadius: "6px",
+              background: viewMode === "design" ? "#FF6B9D" + "30" : "transparent",
+              border: `1px solid ${viewMode === "design" ? "#FF6B9D" : COLORS.border}`,
+              color: viewMode === "design" ? "#FF6B9D" : COLORS.dim,
+              borderRadius: "4px",
               fontSize: "11px",
               fontWeight: 600,
               cursor: "pointer",
-              textTransform: "uppercase"
+              marginTop: "8px"
             }}
           >
-            Results
+            🎨 Modern Design System
           </button>
         </div>
       </div>
@@ -831,9 +1052,69 @@ export default function AuditEngine() {
             {currentPhaseIndex === 4 && <CompletionPhase engagement={engagement} updateEngagement={updateEngagement} onAdvance={advancePhase} canAdvance={canAdvancePhase} />}
             {currentPhaseIndex === 5 && <ReportingPhase engagement={engagement} updateEngagement={updateEngagement} />}
           </>
-        ) : (
+        ) : viewMode === "results" ? (
           <ResultsDashboard engagement={engagement} phases={PHASES} />
-        )}
+        ) : viewMode === "procedures" ? (
+          <div style={{ padding: "24px" }}>
+            <h2 style={{ color: "#4CAF50", marginBottom: "16px" }}>📋 Audit Procedures</h2>
+            <AuditProceduresPanel />
+          </div>
+        ) : viewMode === "agents" ? (
+          <div style={{ padding: "24px", maxWidth: "1200px" }}>
+            <h2 style={{ color: "#2196F3", marginBottom: "16px" }}>🤖 Agent Orchestration & Monitoring</h2>
+            <div style={{ display: "grid", gap: "20px" }}>
+              <AgentProgressPanel agents={progress} />
+              <AgentRecommendationsPanel recommendations={[]} />
+            </div>
+          </div>
+        ) : viewMode === "documentation" ? (
+          <div style={{ padding: "24px", maxWidth: "1200px" }}>
+            <h2 style={{ color: "#FF9800", marginBottom: "16px" }}>📄 Auto-Generated Documentation</h2>
+            <DocumentationPanel
+              phase={currentPhase?.label}
+              onExport={(format) => generateDocumentation(currentPhase?.id, { format })}
+            />
+          </div>
+        ) : viewMode === "dashboard" ? (
+          <div style={{ padding: "24px" }}>
+            <RealTimeAuditDashboard />
+          </div>
+        ) : viewMode === "collaboration" ? (
+          <div style={{ padding: "24px", maxWidth: "1200px" }}>
+            <h2 style={{ color: "#66BB6A", marginBottom: "16px" }}>💬 Collaboration & Team Coordination</h2>
+            <CollaborationPanel />
+          </div>
+        ) : viewMode === "forms" ? (
+          <div style={{ padding: "24px", maxWidth: "1200px" }}>
+            <h2 style={{ color: "#CE93D8", marginBottom: "16px" }}>📝 Smart Audit Forms</h2>
+            <SmartAuditForms />
+          </div>
+        ) : viewMode === "offline" ? (
+          <div style={{ padding: "24px", maxWidth: "1200px" }}>
+            <h2 style={{ color: isOnline ? "#81C784" : "#EF5350", marginBottom: "16px" }}>
+              {isOnline ? "🌐 Online Mode" : "📱 Offline Mode"}
+            </h2>
+            <OfflineModePanel />
+          </div>
+        ) : viewMode === "integrations" ? (
+          <div style={{ maxWidth: "1400px" }}>
+            <IntegrationHub />
+          </div>
+        ) : viewMode === "activity" ? (
+          <div style={{ maxWidth: "1400px" }}>
+            <UnifiedActivityDashboard />
+          </div>
+        ) : viewMode === "visual" ? (
+          <div style={{ maxWidth: "1400px" }}>
+            <EnhancedVisualInterface />
+          </div>
+        ) : viewMode === "extraction" ? (
+          <div style={{ maxWidth: "1400px" }}>
+            <DocumentUploadAndExtractionPanel engagement={engagement} />
+          </div>
+        ) : viewMode === "design" ? (
+          <ModernDesignShowcase />
+        ) : null}
       </div>
     </div>
   );

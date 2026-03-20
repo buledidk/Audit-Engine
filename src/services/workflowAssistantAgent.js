@@ -6,12 +6,12 @@
  * Model: Claude 3.5 Haiku (fast, real-time)
  */
 
-import Anthropic from "@anthropic-ai/sdk";
+import { Anthropic } from "@anthropic-ai/sdk";
 
 export class WorkflowAssistantAgent {
   constructor() {
     this.client = new Anthropic({
-      apiKey: process.env.ANTHROPIC_API_KEY,
+      apiKey: process.env.ANTHROPIC_API_KEY || process.env.VITE_CLAUDE_API_KEY,
     });
     this.model = "claude-3-5-haiku-20241022"; // Fast model for real-time
     this.cache = new Map();

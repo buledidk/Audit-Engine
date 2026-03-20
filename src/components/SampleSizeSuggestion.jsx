@@ -405,7 +405,7 @@ export function SampleSizeSuggestion({
             lineHeight: 1.6
           }}>
             <strong style={{ color: "#66BB6A" }}>Sample Size Guidance:</strong> The above recommendations are based on ISA 530 statistical sampling principles
-            and industry best practices. Consider stratifying by value (testing 100% of items >performance materiality),
+            and industry best practices. Consider stratifying by value (testing 100% of items &gt; performance materiality),
             selecting unusual/related-party items, and using prior-period knowledge of problem areas.
           </p>
         </div>

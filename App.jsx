@@ -1,5 +1,4 @@
 import { Suspense, lazy } from "react";
-import { Analytics } from '@vercel/analytics/react';
 
 // New comprehensive AuditEngine component
 const AuditEngine = lazy(() => import("./src/AuditEngine"));
@@ -27,11 +26,8 @@ function LoadingScreen() {
 
 export default function App() {
   return (
-    <>
-      <Suspense fallback={<LoadingScreen />}>
-        <AuditEngine />
-      </Suspense>
-      <Analytics />
-    </>
+    <Suspense fallback={<LoadingScreen />}>
+      <AuditEngine />
+    </Suspense>
   );
 }
