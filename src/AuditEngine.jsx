@@ -24,6 +24,8 @@ import UnifiedActivityDashboard from "./components/UnifiedActivityDashboard";
 import useIntegrations from "./hooks/useIntegrations";
 // Enhanced UI: Industry-aligned design with workflows and business context
 import EnhancedVisualInterface from "./components/EnhancedVisualInterface";
+// Modern Design System: Latest UI/UX trends and patterns
+import ModernDesignShowcase from "./components/ModernDesignShowcase";
 
 const COLORS = {
   bg: "#0A0E17",
@@ -690,7 +692,7 @@ function KPIBox({ label, value, color }) {
 // ═══════════════════════════════════════════════════════════════════
 export default function AuditEngine() {
   const [currentPhaseIndex, setCurrentPhaseIndex] = useState(0);
-  const [viewMode, setViewMode] = useState("phase"); // phase | results | procedures | agents | documentation | dashboard | collaboration | forms | offline | integrations | activity | visual
+  const [viewMode, setViewMode] = useState("phase"); // phase | results | procedures | agents | documentation | dashboard | collaboration | forms | offline | integrations | activity | visual | design
   const [engagement, setEngagement] = useState(engagementStore.engagement);
 
   // Phase A-B: New System Hooks
@@ -974,6 +976,23 @@ export default function AuditEngine() {
           >
             🎯 Visual Workflows & Business Context
           </button>
+          <button
+            onClick={() => setViewMode("design")}
+            style={{
+              width: "100%",
+              padding: "10px",
+              background: viewMode === "design" ? "#FF6B9D" + "30" : "transparent",
+              border: `1px solid ${viewMode === "design" ? "#FF6B9D" : COLORS.border}`,
+              color: viewMode === "design" ? "#FF6B9D" : COLORS.dim,
+              borderRadius: "4px",
+              fontSize: "11px",
+              fontWeight: 600,
+              cursor: "pointer",
+              marginTop: "8px"
+            }}
+          >
+            🎨 Modern Design System
+          </button>
         </div>
       </div>
 
@@ -1072,6 +1091,8 @@ export default function AuditEngine() {
           <div style={{ maxWidth: "1400px" }}>
             <EnhancedVisualInterface />
           </div>
+        ) : viewMode === "design" ? (
+          <ModernDesignShowcase />
         ) : null}
       </div>
     </div>
