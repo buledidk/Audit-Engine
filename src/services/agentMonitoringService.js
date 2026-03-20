@@ -354,7 +354,7 @@ class AgentMonitoringService extends EventEmitter {
     this.lastHealthCheck = new Date().toISOString();
 
     const agents = Array.from(this.agents.values());
-    let issuesFound = [];
+    const issuesFound = [];
 
     for (const agent of agents) {
       // Check for stuck agents

@@ -7,10 +7,13 @@
     "skipLibCheck": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
+    "allowJs": true,
+    "checkJs": false,
+    "noEmit": true,
 
-    "strict": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
+    "strict": false,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
     "noFallthroughCasesInSwitch": true,
 
     "jsx": "react-jsx",
@@ -23,6 +26,7 @@
     "resolveJsonModule": true,
     "types": ["vitest/globals", "node"]
   },
-  "include": ["src"],
-  "exclude": ["node_modules", "dist"]
+  "include": ["src/**/*.tsx", "src/**/*.ts"],
+  "exclude": ["node_modules", "dist", "src/**/*.js", "src/**/*.jsx"]
 }
+

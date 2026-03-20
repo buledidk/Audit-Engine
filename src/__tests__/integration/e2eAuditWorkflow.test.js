@@ -8,7 +8,7 @@ import { describe, it, expect, beforeAll } from "vitest";
 
 describe("End-to-End Audit Workflow", () => {
   let engagementId;
-  let userId = 1;
+  const userId = 1;
   const apiBase = "http://localhost:5001";
 
   // ============================================================================

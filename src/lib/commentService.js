@@ -556,7 +556,7 @@ export const getCommentTemplates = async (engagementId, filters = {}) => {
  */
 export const getCommentSuggestions = async (engagementId, workingPaperId, context) => {
   try {
-    let suggestions = [];
+    const suggestions = [];
 
     // Check for exceptions
     if (context.exceptions && context.exceptions.length > 0) {

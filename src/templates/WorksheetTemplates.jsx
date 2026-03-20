@@ -1290,7 +1290,7 @@ function Field({ label, value, onChange, type = 'text', options, placeholder, re
         </select>
       ) : (
         <input type={type} value={value || ''} onChange={(e) => onChange(e.target.value)}
-          placeholder={placeholder} readonly={readonly} maxLength={maxLength}
+          placeholder={placeholder} readOnly={readonly} maxLength={maxLength}
           style={{ ...styles.input, cursor: readonly ? 'not-allowed' : 'auto' }} />
       )}
     </div>

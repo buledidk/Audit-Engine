@@ -107,7 +107,7 @@ class SlackConnector {
 
     const severity =
       finding.severity === "high"
-        ? 🔴"
+        ? "🔴"
         : finding.severity === "medium"
           ? "🟡"
           : "🟢";
