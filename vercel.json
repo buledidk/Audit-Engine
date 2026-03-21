@@ -1,115 +1,80 @@
 {
-  "version": 2,
-  "buildCommand": "npm run build",
-  "outputDirectory": "dist",
-  "framework": "vite",
-  "nodeVersion": "20.x",
-  "installCommand": "npm ci",
+    "version": 2,
+    "buildCommand": "npm run build",
+    "outputDirectory": "dist",
+    "framework": "vite",
+    "installCommand": "npm ci",
 
-  "env": {
-    "VITE_SUPABASE_URL": "@supabase_url",
-    "VITE_SUPABASE_ANON_KEY": "@supabase_anon_key",
-    "VITE_CLAUDE_API_KEY": "@claude_api_key",
-    "VITE_AWS_REGION": "@aws_region",
-    "VITE_AWS_ACCESS_KEY_ID": "@aws_access_key_id",
-    "VITE_AWS_SECRET_ACCESS_KEY": "@aws_secret_access_key",
-    "VITE_AWS_S3_BUCKET": "@aws_s3_bucket",
-    "POSTGRES_URL": "@postgres_url",
-    "POSTGRES_PRISMA_URL": "@postgres_prisma_url",
-    "POSTGRES_URL_NON_POOLING": "@postgres_url_non_pooling",
-    "JWT_SECRET": "@jwt_secret",
-    "JWT_EXPIRY": "@jwt_expiry",
-    "NODE_ENV": "production",
-    "VITE_ENV": "production"
-  },
+    "regions": ["cdg", "lhr", "sfo"],
 
-  "envPrefix": ["VITE_", "POSTGRES_", "JWT_", "NODE_"],
-
-  "regions": ["cdg", "lhr", "sfo"],
-
-  "functions": {
-    "api/**": {
-      "runtime": "nodejs20.x",
-      "memory": 1024,
-      "maxDuration": 30
-    }
-  },
-
-  "redirects": [
-    {
-      "source": "/api/v1/:path*",
-      "destination": "/api/:path*"
-    }
-  ],
-
-  "rewrites": [
-    {
-      "source": "/(.*)",
-      "destination": "/index.html"
-    }
-  ],
-
-  "headers": [
-    {
-      "source": "/api/:path*",
-      "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "no-cache, no-store, must-revalidate"
-        },
-        {
-          "key": "Content-Type",
-          "value": "application/json"
-        }
-      ]
+    "functions": {
+          "api/**": {
+                  "memory": 1024,
+                  "maxDuration": 30
+          }
     },
-    {
-      "source": "/static/:path*",
-      "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "public, max-age=31536000, immutable"
-        }
-      ]
-    }
-  ],
 
-  "crons": [
-    {
-      "path": "/api/cron/sync",
-      "schedule": "0 */6 * * *"
+    "redirects": [
+          {
+                  "source": "/api/v1/:path*",
+                  "destination": "/api/:path*"
+          }
+    ],
+
+    "rewrites": [
+          {
+                  "source": "/(.*)",
+                  "destination": "/index.html"
+          }
+    ],
+
+    "headers": [
+          {
+                  "source": "/api/:path*",
+                  "headers": [
+                            {
+                                        "key": "Cache-Control",
+                                        "value": "no-cache, no-store, must-revalidate"
+                            },
+                            {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                            }
+                  ]
+          },
+          {
+                  "source": "/static/:path*",
+                  "headers": [
+                            {
+                                        "key": "Cache-Control",
+                                        "value": "public, max-age=31536000, immutable"
+                            }
+                  ]
+          }
+    ],
+
+    "crons": [
+          {
+                  "path": "/api/cron/sync",
+                  "schedule": "0 */6 * * *"
+          },
+          {
+                  "path": "/api/cron/backup",
+                  "schedule": "0 2 * * *"
+          },
+          {
+                  "path": "/api/cron/cleanup",
+                  "schedule": "0 3 * * 0"
+          }
+    ],
+
+    "github": {
+          "enabled": true,
+          "silent": false,
+          "autoAlias": true,
+          "autoJobCancelation": true
     },
-    {
-      "path": "/api/cron/backup",
-      "schedule": "0 2 * * *"
-    },
-    {
-      "path": "/api/cron/cleanup",
-      "schedule": "0 3 * * 0"
-    }
-  ],
 
-  "github": {
-    "enabled": true,
-    "silent": false,
-    "autoAlias": true,
-    "autoJobCancelation": true
-  },
-
-  "git": {
-    "repo": "buledidk/Audit-Engine",
-    "redeployOnPush": true
-  },
-
-  "cleanUrls": true,
-  "trailingSlash": false,
-
-  "ignoreCommand": "npm ls @vercel/nft 2>/dev/null",
-
-  "public": true,
-
-  "buildCache": {
-    "nodejs": true,
-    "npm": true
-  }
+    "cleanUrls": true,
+    "trailingSlash": false
 }
