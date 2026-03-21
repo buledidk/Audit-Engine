@@ -49,7 +49,7 @@ jobs:
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
-        if: always() && secrets.SLACK_WEBHOOK != ''
+        if: always()
         with:
           name: build-artifacts
           path: dist/
@@ -145,26 +145,6 @@ jobs:
               body: `🚀 Vercel Preview: ${{ steps.deploy.outputs.deployment_url }}`
             })
 
-      - name: Notify Slack
-        if: always() && secrets.SLACK_WEBHOOK != ''
-        uses: slackapi/slack-github-action@v1
-        with:
-          webhook-url: ${{ secrets.SLACK_WEBHOOK }}
-          payload: |
-            {
-              "text": "AuditEngine Deployment ${{ job.status }}",
-              "blocks": [
-                {
-                  "type": "section",
-                  "text": {
-                    "type": "mrkdwn",
-                    "text": "*AuditEngine Deployment*\nStatus: `${{ job.status }}`\nBranch: `${{ github.ref }}`\nCommit: `${{ github.sha }}`"
-                  }
-                }
-              ]
-            }
-
-  verify-production:
     name: Verify Production Deployment
     runs-on: ubuntu-latest
     needs: deploy-vercel
