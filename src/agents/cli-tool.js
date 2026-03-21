@@ -197,6 +197,58 @@ TRANSPARENCY & COMPLIANCE:
       console.log(`🔒 GDPR Compliant: Yes`);
       console.log(`📝 Session ID: ${cli.sessionId}`);
     }
+  },
+
+  '--monitor': {
+    description: 'Live agent monitoring dashboard',
+    run: async () => {
+      console.log(`
+╔════════════════════════════════════════════════════════════╗
+║           AuditEngine Agent Monitor — LIVE                 ║
+╚════════════════════════════════════════════════════════════╝
+`);
+
+      const agents = cli.framework.getAllAgents();
+      const metrics = cli.framework.getMetrics();
+
+      const refresh = () => {
+        const now = new Date().toLocaleTimeString();
+        const m = cli.framework.getMetrics();
+        const agentList = cli.framework.getAllAgents();
+
+        process.stdout.write('\x1B[2J\x1B[H');
+        console.log('╔════════════════════════════════════════════════════════════╗');
+        console.log('║       AuditEngine Agent Monitor — LIVE                     ║');
+        console.log(`║  ${now.padEnd(55)}║`);
+        console.log('╠════════════════════════════════════════════════════════════╣');
+        console.log(`║  Agents: ${String(agentList.length).padEnd(5)} │ Requests: ${String(m.totalRequests).padEnd(8)} │ Session: ${cli.sessionId.slice(0,8)}  ║`);
+        console.log(`║  Success: ${m.successRate.padEnd(5)} │ Avg Time: ${(m.averageResponseTime || 0).toFixed(0).padEnd(4)}ms │ GDPR: ✅       ║`);
+        console.log('╠════════════════════════════════════════════════════════════╣');
+
+        for (const agent of agentList) {
+          const status = agent.status === 'idle' ? '🟢' : agent.status === 'busy' ? '🟡' : '🔴';
+          const name = (agent.name || agent.id || 'Unknown').padEnd(25);
+          const requests = String(agent.requests || 0).padEnd(4);
+          console.log(`║  ${status} ${name} │ reqs: ${requests}                  ║`);
+        }
+
+        console.log('╠════════════════════════════════════════════════════════════╣');
+        console.log('║  Press Ctrl+C to exit                                      ║');
+        console.log('╚════════════════════════════════════════════════════════════╝');
+      };
+
+      refresh();
+      const interval = setInterval(refresh, 3000);
+
+      process.on('SIGINT', () => {
+        clearInterval(interval);
+        console.log('\n✅ Monitor stopped.');
+        process.exit(0);
+      });
+
+      // Keep process alive
+      await new Promise(() => {});
+    }
   }
 };
 
