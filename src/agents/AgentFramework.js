@@ -6,7 +6,7 @@
  */
 
 import Anthropic from '@anthropic-ai/sdk';
-import { v4 as uuidv4 } from 'crypto';
+import { randomUUID } from 'crypto';
 import { EventEmitter } from 'events';
 import { modelSelectionService } from '../services/modelSelectionService.js';
 
@@ -46,7 +46,7 @@ export class AgentFramework extends EventEmitter {
    * Register a specialized agent
    */
   registerAgent(name, agentConfig) {
-    const agentId = uuidv4().slice(0, 8);
+    const agentId = randomUUID().slice(0, 8);
     const agent = {
       id: agentId,
       name,
@@ -75,7 +75,7 @@ export class AgentFramework extends EventEmitter {
       throw new Error(`Agent '${agentName}' not found`);
     }
 
-    const taskId = uuidv4().slice(0, 8);
+    const taskId = randomUUID().slice(0, 8);
     const startTime = Date.now();
 
     try {
