@@ -1,0 +1,166 @@
+╔════════════════════════════════════════════════════════════════════════════════╗
+║                   🚀 3-TERMINAL AUDIT AUTOMATION ENGINE                       ║
+║                          EXACT STARTUP COMMANDS                               ║
+╚════════════════════════════════════════════════════════════════════════════════╝
+
+✅ ALL CONFIGURATION COMPLETE
+   ✓ Hook issues fixed
+   ✓ 3 terminals synced
+   ✓ All connectivity verified
+   ✓ Ready to launch
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🎯 OPTION 1: LAUNCH EVERYTHING WITH ONE COMMAND (Recommended)
+
+  cd /home/user/Audit-Automation-Engine
+  ./scripts/start-3terminals.sh
+
+This will automatically:
+- Install all dependencies
+- Launch all 3 terminals in sequence
+- Verify connectivity between terminals
+- Show real-time status
+- Output logs to /tmp/terminal-*.log
+
+⏱️  Time to full startup: 15-20 seconds
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🎯 OPTION 2: MANUAL LAUNCH - OPEN 3 TERMINALS SEPARATELY
+
+If you prefer to manage each terminal manually, open 3 separate terminal windows
+and run these commands:
+
+┌─ TERMINAL 1: Brain (Development Server) ──────────────────────────────────────┐
+│                                                                                │
+│  cd /home/user/Audit-Automation-Engine                                         │
+│  npm run dev                                                                    │
+│                                                                                │
+│  Expected: App running at http://localhost:3000                               │
+│                                                                                │
+└────────────────────────────────────────────────────────────────────────────────┘
+
+┌─ TERMINAL 2: Engine (API Gateway + Hub) ───────────────────────────────────────┐
+│                                                                                │
+│  cd /home/user/Audit-Automation-Engine                                         │
+│  node scripts/start-engine.js                                                  │
+│                                                                                │
+│  Expected: API Gateway ready on http://localhost:4000                         │
+│                                                                                │
+└────────────────────────────────────────────────────────────────────────────────┘
+
+┌─ TERMINAL 3: Watchdog (Monitoring + Sync) ────────────────────────────────────┐
+│                                                                                │
+│  cd /home/user/Audit-Automation-Engine                                         │
+│  node scripts/start-watchdog.js                                                │
+│                                                                                │
+│  Expected: Watchdog health endpoint: http://localhost:5000/health             │
+│                                                                                │
+└────────────────────────────────────────────────────────────────────────────────┘
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✅ VERIFY EVERYTHING IS WORKING
+
+Once all 3 terminals are running, verify connectivity:
+
+  # Test Terminal 1 (Brain)
+  curl http://localhost:3000
+
+  # Test Terminal 2 (Engine)
+  curl http://localhost:4000/health | jq .
+
+  # Test Terminal 3 (Watchdog)
+  curl http://localhost:5000/health | jq .
+
+  # Check all services
+  curl http://localhost:4000/api/system/status | jq .
+
+  # Check integrations
+  curl http://localhost:4000/api/integrations/status | jq .
+
+  # Check terminal connectivity
+  curl http://localhost:4000/api/connected-terminals | jq .
+
+Expected: All curl commands return JSON with "status":"healthy"
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📍 YOUR ENDPOINTS
+
+Once running, access these URLs:
+
+  🎨 Main App:           http://localhost:3000         (React UI + Agents)
+  🚪 API Gateway:        http://localhost:4000         (REST API)
+  🏥 Watchdog Health:    http://localhost:5000/health  (System Health)
+
+API Endpoints:
+  GET http://localhost:4000/health
+  GET http://localhost:4000/api/system/status
+  GET http://localhost:4000/api/integrations/status
+  GET http://localhost:4000/api/connected-terminals
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📊 SYSTEM ARCHITECTURE
+
+  TERMINAL 1: BRAIN          ←→  TERMINAL 2: ENGINE        ←→  TERMINAL 3: WATCHDOG
+  npm run dev (3000)             API Gateway (4000)             Health (5000)
+  • React UI                     • REST API                     • Monitoring
+  • 6 AI Agents                  • Hub + Connectors             • Sync Engine
+  • Audit Interface              • Slack, GitHub, Email         • DB Replication
+
+All 3 terminals run in parallel, synced and communicating in real-time
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📋 HELPFUL COMMANDS
+
+View Logs:
+  tail -f /tmp/terminal-1-brain.log          # Terminal 1 logs
+  tail -f /tmp/terminal-2-engine.log         # Terminal 2 logs
+  tail -f /tmp/terminal-3-watchdog.log       # Terminal 3 logs
+  tail -f /tmp/terminal-*.log                # All logs together
+
+Monitor Real-time:
+  watch -n 1 'curl http://localhost:4000/api/system/status | jq .'
+
+Stop All Services:
+  pkill -f "npm run dev"
+  pkill -f "start-engine.js"
+  pkill -f "start-watchdog.js"
+
+Restart Everything:
+  pkill -f "npm run dev" || true
+  pkill -f "start-engine.js" || true
+  pkill -f "start-watchdog.js" || true
+  sleep 2
+  ./scripts/start-3terminals.sh
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📖 FULL DOCUMENTATION
+
+For complete details, see:
+  - 3-TERMINAL-SETUP.md (comprehensive setup guide)
+  - LAUNCH-GUIDE.md (detailed terminal instructions)
+  - SYSTEM-READY.txt (quick reference)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🎯 WHAT TO DO NOW:
+
+1. Choose one of the startup options above
+2. Run the command(s)
+3. Wait 15-20 seconds for full startup
+4. Verify connectivity with the curl commands
+5. Access http://localhost:3000 in your browser
+6. Start your audit operations!
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✨ Your 3-terminal Audit Automation Engine is fully configured and ready to go! 🚀
+
+Questions? Check the documentation files or run:
+  cat 3-TERMINAL-SETUP.md

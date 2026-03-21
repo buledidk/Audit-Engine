@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useRef } from "react";
+import { Suspense, lazy } from "react";
 
 // ═══════════════════════════════════════════════════════════════════════════
 // AUDITENGINE v9.1 — LIVE AUDIT SOFTWARE
@@ -1310,6 +1310,8 @@ export default function AuditEngine() {
   const currentWP = WP_SECTIONS.find(w=>w.id===activeWP);
   const sw = sidebarOpen ? 268 : 52;
 
+// Loading fallback
+function LoadingScreen() {
   return (
     <div style={{minHeight:"100vh",background:C.bg,fontFamily:"'DM Sans',sans-serif",color:C.text,display:"flex",position:"relative"}}>
       <style>{`

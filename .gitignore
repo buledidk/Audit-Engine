@@ -1,3 +1,41 @@
 node_modules/
 dist/
 .progress.json
+# Dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Production
+dist/
+build/
+
+# Environment variables (NEVER commit these)
+.env
+.env.local
+.env.*.local
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# OS
+Thumbs.db
+
+# Build cache
+.turbo/
+.eslintcache
+
+# Temporary files
+.cache/
+.temp/
+temp/
+
+# Claude Code local settings
+.claude/settings.local.json
