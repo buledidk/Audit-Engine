@@ -93,7 +93,7 @@ router.post('/workflow/:phase', workflowPhaseEnhancementMiddleware(engine, ':pha
       }
     });
   } catch (error) {
-    console.error(`Workflow enhancement error for phase ${req.params.phase}:`, error);
+    console.error('Workflow enhancement error for phase %s:', req.params.phase, error);
     res.status(500).json({ error: error.message });
   }
 });
