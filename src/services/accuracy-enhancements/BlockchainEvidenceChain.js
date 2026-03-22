@@ -66,9 +66,14 @@ export class BlockchainEvidenceChain {
 
   _generateHash(data) {
     // Simplified hash (in production, use crypto library)
+    // Ensure we only iterate over a safe, bounded string length
+    const str = String(data);
+    const MAX_LENGTH = 10000;
+    const length = Math.min(str.length, MAX_LENGTH);
+
     let hash = 0;
-    for (let i = 0; i < data.length; i++) {
-      hash = ((hash << 5) - hash) + data.charCodeAt(i);
+    for (let i = 0; i < length; i++) {
+      hash = ((hash << 5) - hash) + str.charCodeAt(i);
       hash = hash & hash;
     }
     return Math.abs(hash).toString(16);
