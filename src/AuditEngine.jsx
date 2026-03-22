@@ -3,6 +3,7 @@ import * as XLSX from "xlsx";
 import { Document, Packer, Paragraph, Table, TableRow, TableCell } from "docx";
 import engagementStore from "./store/engagementStore";
 import auditFramework from "./data/auditFramework.json";
+// Note: Phase components now located in phases/
 import { InterimPhase } from "./phases/InterimPhase";
 import { FinalAuditPhase } from "./phases/FinalAuditPhase";
 // Phase A-B: New System Components (Audit Procedures, Agents, Documentation)
