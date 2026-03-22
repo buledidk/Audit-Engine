@@ -1,5 +1,6 @@
 {
-  "name": "audit-automation-engine",
+  "name": "auditengine",
+  "description": "AuditEngine - Professional Audit Automation Platform",
   "private": true,
   "version": "7.0.0",
   "type": "module",
