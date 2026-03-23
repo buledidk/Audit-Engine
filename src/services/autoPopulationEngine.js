@@ -76,6 +76,19 @@ export class AutoPopulationEngine {
       this.populatedProcedures.push(...populated.procedures);
       this.autoTestResults.push(...populated.testResults);
 
+      // CRITICAL: Emit section:populated event to trigger WorksheetAutopopulationService
+      this.emit('section:populated', {
+        sectionType: 'auto-extraction',
+        engagementId: auditContext?.engagementId,
+        documentId: extractedData.documentId,
+        procedures: populated.procedures,
+        findings: populated.findings,
+        testResults: populated.testResults,
+        content: extractedData,
+        completionRate: populated.enrichmentSummary.estimatedCompletionRate,
+        timestamp: new Date().toISOString()
+      });
+
       this.emit('population:completed', {
         documentId: extractedData.documentId,
         proceduresGenerated: populated.enrichmentSummary.proceduresGenerated,
@@ -84,6 +97,7 @@ export class AutoPopulationEngine {
       });
 
       console.log(`✅ Auto-population complete: ${populated.procedures.length} procedures, ${populated.testResults.length} results`);
+      console.log(`📄 Section:populated event emitted for engagement: ${auditContext?.engagementId}`);
 
       return populated;
     } catch (error) {
