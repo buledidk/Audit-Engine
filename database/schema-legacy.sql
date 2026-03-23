@@ -7,12 +7,25 @@
 --
 
 -- ============================================================================
+-- FUNCTIONS
+-- ============================================================================
+
+CREATE OR REPLACE FUNCTION update_updated_at_column()
+RETURNS TRIGGER AS $$
+BEGIN
+  NEW.updated_at = CURRENT_TIMESTAMP;
+  RETURN NEW;
+END;
+$$ language 'plpgsql';
+
+-- ============================================================================
 -- CORE TABLES
 -- ============================================================================
 
 -- Users & Authentication
 CREATE TABLE users (
   id SERIAL PRIMARY KEY,
+  auth_id UUID UNIQUE,
   email VARCHAR(255) UNIQUE NOT NULL,
   password_hash VARCHAR(255) NOT NULL,
   first_name VARCHAR(100),
@@ -24,9 +37,7 @@ CREATE TABLE users (
   last_login TIMESTAMP,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  created_by INTEGER REFERENCES users(id),
-  INDEX idx_email (email),
-  INDEX idx_status (status)
+  created_by INTEGER REFERENCES users(id)
 );
 
 -- Organizations (Audit Firms)
@@ -52,8 +63,7 @@ CREATE TABLE user_organizations (
   organization_id INTEGER NOT NULL REFERENCES organizations(id) ON DELETE CASCADE,
   role VARCHAR(50) NOT NULL, -- admin, manager, auditor, viewer
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  UNIQUE(user_id, organization_id),
-  INDEX idx_user_org (user_id, organization_id)
+  UNIQUE(user_id, organization_id)
 );
 
 -- Clients (Entities being audited)
@@ -74,10 +84,7 @@ CREATE TABLE entities (
   status VARCHAR(20) DEFAULT 'active',
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  created_by INTEGER REFERENCES users(id),
-  INDEX idx_jurisdiction (jurisdiction_code),
-  INDEX idx_organization (organization_id),
-  INDEX idx_status (status)
+  created_by INTEGER REFERENCES users(id)
 );
 
 -- Entity Contacts
@@ -115,11 +122,7 @@ CREATE TABLE engagements (
   overall_risk_level VARCHAR(20), -- low, medium, high
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  created_by INTEGER REFERENCES users(id),
-  INDEX idx_organization (organization_id),
-  INDEX idx_entity (entity_id),
-  INDEX idx_status (status),
-  INDEX idx_framework (framework_code)
+  created_by INTEGER REFERENCES users(id)
 );
 
 -- Procedures (Audit Work Steps)
@@ -143,10 +146,7 @@ CREATE TABLE procedures (
   required_evidence TEXT,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  completed_at TIMESTAMP,
-  INDEX idx_engagement (engagement_id),
-  INDEX idx_status (status),
-  INDEX idx_assigned (assigned_to)
+  completed_at TIMESTAMP
 );
 
 -- Evidence Management
@@ -172,11 +172,7 @@ CREATE TABLE evidence (
   audit_trail TEXT, -- JSON log of all changes
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  created_by INTEGER REFERENCES users(id),
-  INDEX idx_engagement (engagement_id),
-  INDEX idx_procedure (procedure_id),
-  INDEX idx_type (evidence_type),
-  INDEX idx_status (review_status)
+  created_by INTEGER REFERENCES users(id)
 );
 
 -- Findings (Exceptions/Issues)
@@ -198,10 +194,7 @@ CREATE TABLE findings (
   evidence_ids TEXT, -- comma-separated
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  created_by INTEGER REFERENCES users(id),
-  INDEX idx_engagement (engagement_id),
-  INDEX idx_status (status),
-  INDEX idx_severity (severity)
+  created_by INTEGER REFERENCES users(id)
 );
 
 -- Risk Assessment
@@ -223,9 +216,7 @@ CREATE TABLE risk_assessments (
   status VARCHAR(50) DEFAULT 'draft', -- draft, final
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  created_by INTEGER REFERENCES users(id),
-  INDEX idx_engagement (engagement_id),
-  INDEX idx_fsli (fsli)
+  created_by INTEGER REFERENCES users(id)
 );
 
 -- Reports
@@ -246,10 +237,7 @@ CREATE TABLE reports (
   file_format VARCHAR(20), -- PDF, DOCX, HTML
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  created_by INTEGER REFERENCES users(id),
-  INDEX idx_engagement (engagement_id),
-  INDEX idx_type (report_type),
-  INDEX idx_is_final (is_final)
+  created_by INTEGER REFERENCES users(id)
 );
 
 -- Working Papers
@@ -269,11 +257,7 @@ CREATE TABLE working_papers (
   reviewed_by INTEGER REFERENCES users(id),
   reviewed_date TIMESTAMP,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  INDEX idx_engagement (engagement_id),
-  INDEX idx_phase (phase),
-  INDEX idx_status (status),
-  INDEX idx_ref_code (ref_code)
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 -- ============================================================================
@@ -295,12 +279,7 @@ CREATE TABLE audit_log (
   user_agent TEXT,
   status VARCHAR(50), -- success, failure
   error_message TEXT,
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  INDEX idx_org (organization_id),
-  INDEX idx_user (user_id),
-  INDEX idx_action (action),
-  INDEX idx_entity (entity_type, entity_id),
-  INDEX idx_timestamp (created_at)
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 -- ============================================================================
@@ -319,10 +298,7 @@ CREATE TABLE comments (
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   created_by INTEGER NOT NULL REFERENCES users(id),
-  resolved_by INTEGER REFERENCES users(id),
-  INDEX idx_engagement (engagement_id),
-  INDEX idx_entity (entity_type, entity_id),
-  INDEX idx_resolved (is_resolved)
+  resolved_by INTEGER REFERENCES users(id)
 );
 
 -- ============================================================================
@@ -397,11 +373,70 @@ CREATE TABLE org_settings (
 -- INDEXES & CONSTRAINTS
 -- ============================================================================
 
--- Create indexes for frequently queried combinations
-CREATE INDEX idx_engagement_user ON engagements(partner_id, manager_id);
-CREATE INDEX idx_procedures_engagement_user ON procedures(engagement_id, assigned_to);
-CREATE INDEX idx_evidence_procedure ON evidence(procedure_id, review_status);
-CREATE INDEX idx_findings_engagement ON findings(engagement_id, status);
+-- users
+CREATE INDEX IF NOT EXISTS idx_users_email ON users(email);
+CREATE INDEX IF NOT EXISTS idx_users_status ON users(status);
+
+-- user_organizations
+CREATE INDEX IF NOT EXISTS idx_user_org ON user_organizations(user_id, organization_id);
+
+-- entities
+CREATE INDEX IF NOT EXISTS idx_entities_jurisdiction ON entities(jurisdiction_code);
+CREATE INDEX IF NOT EXISTS idx_entities_organization ON entities(organization_id);
+CREATE INDEX IF NOT EXISTS idx_entities_status ON entities(status);
+
+-- engagements
+CREATE INDEX IF NOT EXISTS idx_engagements_organization ON engagements(organization_id);
+CREATE INDEX IF NOT EXISTS idx_engagements_entity ON engagements(entity_id);
+CREATE INDEX IF NOT EXISTS idx_engagements_status ON engagements(status);
+CREATE INDEX IF NOT EXISTS idx_engagements_framework ON engagements(framework_code);
+CREATE INDEX IF NOT EXISTS idx_engagements_user ON engagements(partner_id, manager_id);
+
+-- procedures
+CREATE INDEX IF NOT EXISTS idx_procedures_engagement ON procedures(engagement_id);
+CREATE INDEX IF NOT EXISTS idx_procedures_status ON procedures(status);
+CREATE INDEX IF NOT EXISTS idx_procedures_assigned ON procedures(assigned_to);
+CREATE INDEX IF NOT EXISTS idx_procedures_engagement_user ON procedures(engagement_id, assigned_to);
+
+-- evidence
+CREATE INDEX IF NOT EXISTS idx_evidence_engagement ON evidence(engagement_id);
+CREATE INDEX IF NOT EXISTS idx_evidence_procedure ON evidence(procedure_id);
+CREATE INDEX IF NOT EXISTS idx_evidence_type ON evidence(evidence_type);
+CREATE INDEX IF NOT EXISTS idx_evidence_status ON evidence(review_status);
+CREATE INDEX IF NOT EXISTS idx_evidence_procedure_status ON evidence(procedure_id, review_status);
+
+-- findings
+CREATE INDEX IF NOT EXISTS idx_findings_engagement ON findings(engagement_id);
+CREATE INDEX IF NOT EXISTS idx_findings_status ON findings(status);
+CREATE INDEX IF NOT EXISTS idx_findings_severity ON findings(severity);
+CREATE INDEX IF NOT EXISTS idx_findings_engagement_status ON findings(engagement_id, status);
+
+-- risk_assessments
+CREATE INDEX IF NOT EXISTS idx_risk_assessments_engagement ON risk_assessments(engagement_id);
+CREATE INDEX IF NOT EXISTS idx_risk_assessments_fsli ON risk_assessments(fsli);
+
+-- reports
+CREATE INDEX IF NOT EXISTS idx_reports_engagement ON reports(engagement_id);
+CREATE INDEX IF NOT EXISTS idx_reports_type ON reports(report_type);
+CREATE INDEX IF NOT EXISTS idx_reports_is_final ON reports(is_final);
+
+-- working_papers
+CREATE INDEX IF NOT EXISTS idx_working_papers_engagement ON working_papers(engagement_id);
+CREATE INDEX IF NOT EXISTS idx_working_papers_phase ON working_papers(phase);
+CREATE INDEX IF NOT EXISTS idx_working_papers_status ON working_papers(status);
+CREATE INDEX IF NOT EXISTS idx_working_papers_ref_code ON working_papers(ref_code);
+
+-- audit_log
+CREATE INDEX IF NOT EXISTS idx_audit_log_org ON audit_log(organization_id);
+CREATE INDEX IF NOT EXISTS idx_audit_log_user ON audit_log(user_id);
+CREATE INDEX IF NOT EXISTS idx_audit_log_action ON audit_log(action);
+CREATE INDEX IF NOT EXISTS idx_audit_log_entity ON audit_log(entity_type, entity_id);
+CREATE INDEX IF NOT EXISTS idx_audit_log_timestamp ON audit_log(created_at);
+
+-- comments
+CREATE INDEX IF NOT EXISTS idx_comments_engagement ON comments(engagement_id);
+CREATE INDEX IF NOT EXISTS idx_comments_entity ON comments(entity_type, entity_id);
+CREATE INDEX IF NOT EXISTS idx_comments_resolved ON comments(is_resolved);
 
 -- ============================================================================
 -- VIEWS (Helpful for queries)
@@ -656,13 +691,7 @@ CREATE TABLE connector_health_metrics (
 -- GRANT SELECT ON ALL TABLES IN SCHEMA public TO audit_readonly;
 
 -- ============================================================================
--- END SCHEMA
--- ============================================================================
-
-COMMIT;
-
--- ============================================================================
--- ROW LEVEL SECURITY POLICIES
+-- ROW LEVEL SECURITY
 -- ============================================================================
 
 -- Enable RLS on all tables
@@ -677,35 +706,78 @@ ALTER TABLE evidence ENABLE ROW LEVEL SECURITY;
 ALTER TABLE findings ENABLE ROW LEVEL SECURITY;
 ALTER TABLE risk_assessments ENABLE ROW LEVEL SECURITY;
 ALTER TABLE reports ENABLE ROW LEVEL SECURITY;
+ALTER TABLE working_papers ENABLE ROW LEVEL SECURITY;
 ALTER TABLE audit_log ENABLE ROW LEVEL SECURITY;
 ALTER TABLE comments ENABLE ROW LEVEL SECURITY;
+ALTER TABLE jurisdiction_config ENABLE ROW LEVEL SECURITY;
+ALTER TABLE framework_config ENABLE ROW LEVEL SECURITY;
+ALTER TABLE procedure_templates ENABLE ROW LEVEL SECURITY;
+ALTER TABLE org_settings ENABLE ROW LEVEL SECURITY;
 
--- Organization-level access for users
-CREATE POLICY "Users can access their organizations"
-  ON user_organizations FOR SELECT
-  USING (user_id = current_user_id());
+-- ============================================================================
+-- UPDATED_AT TRIGGERS
+-- ============================================================================
 
--- Entities accessible within organization
-CREATE POLICY "Entities accessible within organization"
-  ON entities FOR SELECT
-  USING (organization_id IN (
-    SELECT organization_id FROM user_organizations
-    WHERE user_id = current_user_id()
-  ));
+CREATE TRIGGER set_updated_at_users
+  BEFORE UPDATE ON users
+  FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 
--- Engagements accessible within organization
-CREATE POLICY "Engagements accessible within organization"
-  ON engagements FOR SELECT
-  USING (organization_id IN (
-    SELECT organization_id FROM user_organizations
-    WHERE user_id = current_user_id()
-  ));
+CREATE TRIGGER set_updated_at_organizations
+  BEFORE UPDATE ON organizations
+  FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 
--- Audit log accessible within organization
-CREATE POLICY "Audit log accessible within organization"
-  ON audit_log FOR SELECT
-  USING (organization_id IN (
-    SELECT organization_id FROM user_organizations
-    WHERE user_id = current_user_id()
-  ));
+CREATE TRIGGER set_updated_at_entities
+  BEFORE UPDATE ON entities
+  FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 
+CREATE TRIGGER set_updated_at_engagements
+  BEFORE UPDATE ON engagements
+  FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
+
+CREATE TRIGGER set_updated_at_procedures
+  BEFORE UPDATE ON procedures
+  FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
+
+CREATE TRIGGER set_updated_at_evidence
+  BEFORE UPDATE ON evidence
+  FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
+
+CREATE TRIGGER set_updated_at_findings
+  BEFORE UPDATE ON findings
+  FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
+
+CREATE TRIGGER set_updated_at_risk_assessments
+  BEFORE UPDATE ON risk_assessments
+  FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
+
+CREATE TRIGGER set_updated_at_reports
+  BEFORE UPDATE ON reports
+  FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
+
+CREATE TRIGGER set_updated_at_working_papers
+  BEFORE UPDATE ON working_papers
+  FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
+
+CREATE TRIGGER set_updated_at_comments
+  BEFORE UPDATE ON comments
+  FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
+
+CREATE TRIGGER set_updated_at_jurisdiction_config
+  BEFORE UPDATE ON jurisdiction_config
+  FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
+
+CREATE TRIGGER set_updated_at_framework_config
+  BEFORE UPDATE ON framework_config
+  FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
+
+CREATE TRIGGER set_updated_at_procedure_templates
+  BEFORE UPDATE ON procedure_templates
+  FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
+
+CREATE TRIGGER set_updated_at_org_settings
+  BEFORE UPDATE ON org_settings
+  FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
+
+-- ============================================================================
+-- END SCHEMA
+-- ============================================================================

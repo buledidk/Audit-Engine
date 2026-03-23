@@ -83,10 +83,10 @@ fi
 
 echo ""
 
-# 5. Run Jest tests (if present)
+# 5. Run Vitest tests (if present)
 echo -e "${BLUE}🧪 Running tests...${RESET}"
-if [ -f "package.json" ] && grep -q '"jest"' package.json; then
-  if ! npm test -- --passWithNoTests --bail 2>/dev/null; then
+if [ -f "package.json" ] && grep -q '"vitest"' package.json; then
+  if ! npx vitest run --bail 1 2>/dev/null; then
     echo -e "${RED}❌ Tests failed. Fix issues before committing.${RESET}"
     exit 1
   fi

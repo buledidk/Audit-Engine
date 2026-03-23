@@ -18,6 +18,10 @@ build/
 .env.*.local
 .env.production
 .env.staging
+.env.vercel
+
+# Runtime output
+audits/
 
 # IDE
 .vscode/
@@ -47,3 +51,4 @@ coverage/
 
 # Claude Code local settings
 .claude/settings.local.json
+.vercel
