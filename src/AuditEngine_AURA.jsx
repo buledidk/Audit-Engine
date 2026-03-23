@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, lazy, Suspense } from "react";
 import { I, FW, SZ, ET, WPS, TESTS, C, CL, HELP_TEXT, REGULATORY_DETAIL_MAP } from "./data";
 import { supabase, isSupabaseConfigured } from './supabaseClient';
 import { uploadFile, getDownloadUrl, deleteDocument } from './DocumentService';
@@ -20,7 +20,7 @@ import AuditSidebar from "./components/AuditSidebar";
 import { EvidenceTracker } from "./components/wp/EvidenceTracker";
 import Dashboard from "./components/AuditDashboard";
 import WPBody from "./components/wp/WPBody";
-import ReviewDashboard from "./components/ReviewDashboard";
+const ReviewDashboard = lazy(() => import("./components/ReviewDashboard"));
 
 // ═══════════════════════════════════════════════════════════════
 // AUDITENGINE v10 AURA — FULL AUDIT SOFTWARE
@@ -136,7 +136,7 @@ function AuditLayout(){
         <div style={{padding:"24px 32px",maxWidth:1100}}>
           {activeWP==="dashboard"?<Dashboard/>
           :activeWP==="engagement-planning"?<EngagementPlanning cfg={cfg} onConfigChange={setCfg} onComplete={(c)=>{setCfg({...c,configured:true});setActiveWP("dashboard");}} colors={CC}/>
-          :activeWP==="review-dashboard"?<ReviewDashboard/>
+          :activeWP==="review-dashboard"?<Suspense fallback={<div style={{padding:40,color:"#B0B8C8",textAlign:"center"}}>Loading...</div>}><ReviewDashboard/></Suspense>
           :curWP&&curWP.type!=="separator"?<div style={{animation:"fadeUp 0.4s ease-out"}}>
             <WPHead wp={curWP} buildWPCsv={buildWPCsv} callAI={callAI} handleSmartExtract={handleSmartExtract}/>
             <WPBody wp={curWP} buildExportCtx={buildExportCtx} getMappedTotals={getMappedTotals}/>

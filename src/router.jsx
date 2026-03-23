@@ -2,20 +2,24 @@ import { createBrowserRouter, Navigate } from "react-router-dom";
 import { lazy, Suspense } from "react";
 import AppLayout from "./layouts/AppLayout";
 import AuthLayout from "./layouts/AuthLayout";
-import DashboardPage from "./pages/DashboardPage";
-import EngagementPage from "./pages/EngagementPage";
-import SettingsPage from "./pages/SettingsPage";
-import MaterialityPage from "./pages/MaterialityPage";
-import FullAuditFilePage from "./pages/FullAuditFilePage";
-import OverviewTab from "./components/Dashboard/OverviewTab";
-import ProcedureList from "./components/ProcedureTracker/ProcedureList";
-import ProcedureDetail from "./components/ProcedureTracker/ProcedureDetail";
-import EvidenceList from "./components/EvidenceManager/EvidenceList";
-import FindingList from "./components/FindingLogger/FindingList";
-import FindingDetail from "./components/FindingLogger/FindingDetail";
 import ErrorBoundary from "./components/ErrorBoundary";
 
-// Lazy-loaded feature panels (code-split for performance)
+// Lazy-loaded pages (code-split for performance)
+const DashboardPage = lazy(() => import("./pages/DashboardPage"));
+const EngagementPage = lazy(() => import("./pages/EngagementPage"));
+const SettingsPage = lazy(() => import("./pages/SettingsPage"));
+const MaterialityPage = lazy(() => import("./pages/MaterialityPage"));
+const FullAuditFilePage = lazy(() => import("./pages/FullAuditFilePage"));
+
+// Lazy-loaded engagement sub-views
+const OverviewTab = lazy(() => import("./components/Dashboard/OverviewTab"));
+const ProcedureList = lazy(() => import("./components/ProcedureTracker/ProcedureList"));
+const ProcedureDetail = lazy(() => import("./components/ProcedureTracker/ProcedureDetail"));
+const EvidenceList = lazy(() => import("./components/EvidenceManager/EvidenceList"));
+const FindingList = lazy(() => import("./components/FindingLogger/FindingList"));
+const FindingDetail = lazy(() => import("./components/FindingLogger/FindingDetail"));
+
+// Lazy-loaded feature panels
 const RealTimeAuditDashboard = lazy(() => import("./components/RealTimeAuditDashboard"));
 const CollaborationPanel = lazy(() => import("./components/CollaborationPanel"));
 const IntegrationHub = lazy(() => import("./components/IntegrationHub"));
@@ -62,26 +66,26 @@ const router = createBrowserRouter([
     element: <AppLayout />,
     errorElement: <RouteErrorFallback />,
     children: [
-      { index: true, element: <DashboardPage /> },
+      { index: true, element: <LazyWrap><DashboardPage /></LazyWrap> },
       {
         path: "engagements/:engId",
-        element: <EngagementPage />,
+        element: <LazyWrap><EngagementPage /></LazyWrap>,
         errorElement: <RouteErrorFallback />,
         children: [
-          { index: true, element: <ErrorBoundary level="section"><OverviewTab /></ErrorBoundary> },
-          { path: "procedures", element: <ErrorBoundary level="section"><ProcedureList /></ErrorBoundary> },
-          { path: "procedures/:wpId", element: <ErrorBoundary level="section"><ProcedureDetail /></ErrorBoundary> },
-          { path: "evidence", element: <ErrorBoundary level="section"><EvidenceList /></ErrorBoundary> },
-          { path: "findings", element: <ErrorBoundary level="section"><FindingList /></ErrorBoundary> },
-          { path: "findings/:findingId", element: <ErrorBoundary level="section"><FindingDetail /></ErrorBoundary> },
-          { path: "materiality", element: <ErrorBoundary level="section"><MaterialityPage /></ErrorBoundary> },
+          { index: true, element: <LazyWrap><OverviewTab /></LazyWrap> },
+          { path: "procedures", element: <LazyWrap><ProcedureList /></LazyWrap> },
+          { path: "procedures/:wpId", element: <LazyWrap><ProcedureDetail /></LazyWrap> },
+          { path: "evidence", element: <LazyWrap><EvidenceList /></LazyWrap> },
+          { path: "findings", element: <LazyWrap><FindingList /></LazyWrap> },
+          { path: "findings/:findingId", element: <LazyWrap><FindingDetail /></LazyWrap> },
+          { path: "materiality", element: <LazyWrap><MaterialityPage /></LazyWrap> },
           { path: "risk", element: <LazyWrap><RiskDashboard /></LazyWrap> },
           { path: "review", element: <LazyWrap><ReviewDashboard /></LazyWrap> },
           { path: "realtime", element: <LazyWrap><RealTimeAuditDashboard /></LazyWrap> },
           { path: "collaborate", element: <LazyWrap><CollaborationPanel /></LazyWrap> },
           { path: "integrations", element: <LazyWrap><IntegrationHub /></LazyWrap> },
-          { path: "settings", element: <ErrorBoundary level="section"><SettingsPage /></ErrorBoundary> },
-          { path: "full", element: <ErrorBoundary level="section"><FullAuditFilePage /></ErrorBoundary> },
+          { path: "settings", element: <LazyWrap><SettingsPage /></LazyWrap> },
+          { path: "full", element: <LazyWrap><FullAuditFilePage /></LazyWrap> },
         ]
       },
     ]
