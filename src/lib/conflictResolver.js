@@ -109,12 +109,15 @@ export class ThreeWayMerge {
    * @private
    */
   static _mergeArray(fieldName, base, current, incoming) {
-    // Calculate what each side added/removed
-    const addedByServer = current.filter(x => !base.includes(x));
-    const removedByServer = base.filter(x => !current.includes(x));
+    // Helper for deep array contains check
+    const deepIncludes = (arr, item) => arr.some(x => this._deepEqual(x, item));
 
-    const addedByClient = incoming.filter(x => !base.includes(x));
-    const removedByClient = base.filter(x => !incoming.includes(x));
+    // Calculate what each side added/removed
+    const addedByServer = current.filter(x => !deepIncludes(base, x));
+    const removedByServer = base.filter(x => !deepIncludes(current, x));
+
+    const addedByClient = incoming.filter(x => !deepIncludes(base, x));
+    const removedByClient = base.filter(x => !deepIncludes(incoming, x));
 
     // If both removed the same item, it's intentional - respect it
     const commonRemovals = removedByServer.filter(x =>
