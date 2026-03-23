@@ -1569,6 +1569,43 @@ export const RISK_TRILOGY = {
       fsliImpact: ["Provisions for regulatory fines", "Contingent liabilities", "Administrative expenses", "Compliance costs"],
       assertions: ["Completeness", "Valuation", "Occurrence", "Presentation"],
       disclosureRequirements: ["FRS 102 s21.14 — Provisions for regulatory fines or remediation", "FRS 102 s21.15 — Contingent liabilities", "FRS 102 s32.10 — Post balance sheet regulatory events"]
+    },
+    {
+      riskId: "R07",
+      riskDescription: "FCA Consumer Duty compliance (PS22/9, Principle 12) — risk that the firm fails to deliver good outcomes for retail customers across the four Consumer Duty outcomes, resulting in regulatory enforcement, redress costs, and reputational damage",
+      level: "ELEVATED",
+      inherentRiskFactors: [
+        "Consumer Duty imposes a higher standard than previous TCF requirements with prescriptive outcome expectations",
+        "Four distinct outcome areas each require dedicated monitoring and testing",
+        "Fair value assessments require detailed analysis of all cost components and benefits across customer cohorts",
+        "Board-level accountability for Consumer Duty compliance introduces governance risk",
+        "Closed products brought into scope from 31 July 2024 may lack adequate MI and monitoring infrastructure"
+      ],
+      controlObjectives: [
+        "Ensure products and services are designed and distributed to meet the needs of the identified target market",
+        "Ensure fair value is delivered to retail customers with documented value assessments for all products",
+        "Ensure customer communications support effective and informed decision-making",
+        "Ensure customer support is accessible throughout the product lifecycle without unreasonable barriers"
+      ],
+      controlProcedures: [
+        "Product governance framework with target market assessments and ongoing product reviews",
+        "Annual fair value assessments for all products and services reviewed by pricing committee",
+        "Consumer understanding testing programme with results reported to customer outcomes committee",
+        "Consumer support MI including response times, channel availability, and comparative analysis of purchase vs post-sale support",
+        "Quarterly Consumer Duty outcomes dashboard reviewed by executive committee",
+        "Annual board Consumer Duty compliance report prepared and approved"
+      ],
+      substantiveTests: [
+        { test: "Obtain and review the firm's product governance framework; for a sample of products launched or materially changed during the year, verify that target market assessments were completed, distribution strategies aligned, and ongoing product reviews performed", wpRef: "D20.01", assertion: "Completeness", isa: "ISA 250.14" },
+        { test: "For a sample of products, obtain the fair value assessment and evaluate methodology: verify all cost components are included, assess whether benefits are reasonable relative to price, and test whether differential outcomes across customer cohorts have been considered", wpRef: "D20.02", assertion: "Valuation", isa: "ISA 540.18" },
+        { test: "Select a sample of key customer-facing communications (product disclosures, annual statements, fee notifications, terms changes) and evaluate for clarity, prominence of key information, and appropriateness for the identified target market including vulnerable customers", wpRef: "D20.03", assertion: "Presentation", isa: "ISA 250.14" },
+        { test: "Evaluate consumer support channels: compare average response times for purchase enquiries vs complaints, switching, and cancellation requests; test for evidence of unreasonable barriers to exit or switching including friction in digital journeys", wpRef: "D20.04", assertion: "Completeness", isa: "ISA 250.14" },
+        { test: "Obtain and review the Consumer Duty MI dashboard: assess whether MI covers all four outcome areas with appropriate lead and lag indicators, verify data sources and accuracy for a sample of reported metrics, and evaluate whether adverse trends triggered appropriate escalation and remediation", wpRef: "D20.05", assertion: "Accuracy", isa: "ISA 330.6" },
+        { test: "Obtain the annual board Consumer Duty compliance report: evaluate whether it covers all four outcome areas, assess whether identified shortcomings have documented action plans with clear ownership and deadlines, and verify that board challenge is evidenced in meeting minutes", wpRef: "D20.06", assertion: "Completeness", isa: "ISA 250.22" }
+      ],
+      fsliImpact: ["Provisions for customer redress or remediation", "Contingent liabilities for regulatory action", "Administrative expenses (compliance costs)", "Revenue (repricing or refund obligations where poor value identified)"],
+      assertions: ["Completeness", "Valuation", "Accuracy", "Presentation"],
+      disclosureRequirements: ["FRS 102 s21.14 — Provisions for customer remediation or regulatory fines", "FRS 102 s21.15 — Contingent liabilities for FCA enforcement action", "FRS 102 s32.10 — Post balance sheet regulatory events including Consumer Duty enforcement"]
     }
   ],
 

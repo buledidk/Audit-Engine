@@ -2051,6 +2051,150 @@ export const FCA_DETAIL = {
     ]
   },
 
+  consumerDuty: {
+    title: "FCA Consumer Duty (PS22/9 — Principle 12)",
+    description: "The Consumer Duty sets higher and clearer standards of consumer protection across financial services. It requires firms to act to deliver good outcomes for retail customers. The Duty comprises the Consumer Principle (Principle 12), cross-cutting rules, and four outcomes.",
+    reference: "PS22/9",
+    principle: {
+      number: 12,
+      name: "Consumer Duty",
+      text: "A firm must act to deliver good outcomes for retail customers."
+    },
+    effectiveDates: {
+      newAndExistingProducts: "31 July 2023",
+      closedProducts: "31 July 2024",
+      description: "The Duty applied from 31 July 2023 for new and existing products and services open to sale or renewal. From 31 July 2024 it extends to closed products and services no longer available for sale or renewal."
+    },
+    crossCuttingRules: [
+      {
+        rule: "Act in good faith",
+        description: "Firms must act in good faith toward retail customers. This is an overarching behavioural standard requiring firms to act consistently with reasonable expectations of retail customers.",
+        auditConsiderations: [
+          "Review policies and procedures for evidence of good faith principles embedded in decision-making",
+          "Assess whether product governance processes consider customer interests at each stage of the product lifecycle",
+          "Evaluate incentive structures for evidence they do not conflict with acting in good faith"
+        ]
+      },
+      {
+        rule: "Avoid causing foreseeable harm",
+        description: "Firms must avoid causing foreseeable harm to retail customers. Firms should not act in ways — or fail to act — where doing so could reasonably be foreseen to cause harm.",
+        auditConsiderations: [
+          "Review risk assessments for identification of potential customer harms",
+          "Assess whether the firm has adequate processes to identify, monitor, and mitigate foreseeable harms",
+          "Evaluate complaints data and root cause analysis for patterns indicating foreseeable harm"
+        ]
+      },
+      {
+        rule: "Enable and support customers to pursue their financial objectives",
+        description: "Firms must enable and support retail customers to pursue their financial objectives. This includes ensuring that customers can act in their own interests.",
+        auditConsiderations: [
+          "Assess whether customer journeys support informed decision-making at key interaction points",
+          "Evaluate whether vulnerable customer policies are adequate and implemented effectively",
+          "Review processes for enabling customers to switch or exit products without unreasonable barriers"
+        ]
+      }
+    ],
+    outcomes: [
+      {
+        outcome: "Products and Services",
+        reference: "PRIN 2A.2 / FG22/5 Chapter 4",
+        description: "Products and services are designed to meet the needs, characteristics and objectives of a specified target market of customers.",
+        requirements: [
+          "Manufacturers must identify a target market at a sufficiently granular level",
+          "Product approval processes must assess whether the product meets the identified needs of the target market",
+          "Distribution strategy must be appropriate for the target market",
+          "Products must be reviewed throughout their lifecycle to ensure they continue to meet target market needs"
+        ],
+        auditConsiderations: [
+          "Review product governance framework and target market assessments",
+          "Test whether products approved during the year had documented target market analysis",
+          "Assess distribution arrangements for alignment with identified target markets",
+          "Evaluate product review cycle and evidence of ongoing monitoring"
+        ]
+      },
+      {
+        outcome: "Price and Value",
+        reference: "PRIN 2A.3 / FG22/5 Chapter 5",
+        description: "The price of products and services represents fair value for retail customers. There must be a reasonable relationship between the price paid and the benefit received.",
+        requirements: [
+          "Fair value assessments must be conducted for each product and service",
+          "Assessments must consider all elements of price including non-financial costs such as time and effort",
+          "Firms must consider the value provided to different groups of customers including vulnerable customers",
+          "Manufacturing and distribution charges in the value chain must be assessed for cumulative impact on value"
+        ],
+        auditConsiderations: [
+          "Review fair value assessment methodology and documentation",
+          "Assess whether all cost components are included in value assessments",
+          "Evaluate differential pricing and whether value is delivered across all customer cohorts",
+          "Test whether remediation has been triggered where poor value is identified"
+        ]
+      },
+      {
+        outcome: "Consumer Understanding",
+        reference: "PRIN 2A.4 / FG22/5 Chapter 6",
+        description: "Communications equip consumers to make effective, timely and properly informed decisions about financial products and services.",
+        requirements: [
+          "Communications must be clear, fair and not misleading, with key information prominent",
+          "Firms must tailor communications to the characteristics of the target market including any identified vulnerabilities",
+          "Timing of communications must support effective decision-making",
+          "Firms must test and monitor whether communications are achieving consumer understanding"
+        ],
+        auditConsiderations: [
+          "Review sample of customer-facing communications for clarity and prominence of key information",
+          "Assess consumer testing evidence and whether results drive improvements",
+          "Evaluate whether communications are tailored for identified vulnerable customer groups",
+          "Test whether communications are timed to support key decision points in the customer journey"
+        ]
+      },
+      {
+        outcome: "Consumer Support",
+        reference: "PRIN 2A.5 / FG22/5 Chapter 7",
+        description: "Firms provide a level of support that meets consumers' needs throughout the lifecycle of the product or service.",
+        requirements: [
+          "Support must enable customers to realise the benefits of the product and act in their own interests",
+          "Support processes must not create unreasonable barriers for customers including those wishing to switch or exit",
+          "The same level of support must be available to customers seeking to complain, switch, cancel or claim as to those purchasing",
+          "Firms must take account of the needs of customers with characteristics of vulnerability"
+        ],
+        auditConsiderations: [
+          "Evaluate customer support channel availability and accessibility across the product lifecycle",
+          "Test average response times and compare purchase journey support to post-sale and exit support",
+          "Review complaints data for evidence of unreasonable barriers to switching, cancelling or claiming",
+          "Assess vulnerable customer support processes and staff training adequacy"
+        ]
+      }
+    ],
+    monitoringRequirements: {
+      outcomesTesting: {
+        description: "Firms must monitor and regularly review outcomes being received by customers across all four outcome areas.",
+        requirements: [
+          "Regular outcomes testing using appropriate data and MI",
+          "Testing must cover all products and services and all four outcomes",
+          "Identification and remediation of any poor outcomes",
+          "Root cause analysis where poor outcomes are identified"
+        ]
+      },
+      miDashboards: {
+        description: "Firms should maintain management information dashboards that provide senior leadership with visibility of customer outcomes.",
+        requirements: [
+          "MI must cover each of the four Consumer Duty outcomes",
+          "MI should include lead and lag indicators of potential harm",
+          "Appropriate data sources including complaints, product performance, value assessments, and communications testing results",
+          "Regular reporting cadence with escalation triggers for adverse trends"
+        ]
+      },
+      boardReporting: {
+        description: "The board (or equivalent governing body) must review and approve an annual assessment of the firm's compliance with the Consumer Duty.",
+        requirements: [
+          "Annual board report on Consumer Duty compliance",
+          "Assessment must cover delivery of good outcomes across all four outcome areas",
+          "Board must satisfy itself that actions are being taken to address any identified shortcomings",
+          "Board members must have adequate understanding of Consumer Duty requirements"
+        ]
+      }
+    }
+  },
+
   cobs: {
     title: "COBS - Conduct of Business Sourcebook",
     conductOfBusiness: [

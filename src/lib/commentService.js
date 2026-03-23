@@ -4,7 +4,7 @@
  * Supabase integration for all comment operations
  */
 
-import { supabase } from './supabaseClient';
+import { supabase, isSupabaseConfigured } from '../supabaseClient';
 import {
   COMMENT_TYPES,
   COMMENT_TEMPLATES,

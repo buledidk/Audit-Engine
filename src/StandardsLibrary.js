@@ -736,6 +736,54 @@ export const ISA_UK_STANDARDS = [
     lastVerified: "2026-03-12"
   },
   {
+    number: "ISA (UK) 800",
+    title: "Special Considerations — Audits of Financial Statements Prepared in Accordance with Special Purpose Frameworks",
+    objective: "To address special considerations in the application of ISAs (UK) to an audit of financial statements prepared in accordance with a special purpose framework, including the acceptance of the engagement, planning and performing the audit, and forming an opinion and reporting.",
+    keyRequirements: [
+      "Determine the acceptability of the financial reporting framework applied in the preparation of the financial statements",
+      "Obtain an understanding of the purpose for which the financial statements are prepared and the intended users",
+      "Consider whether the application of ISAs (UK) requires special consideration in the circumstances of the engagement",
+      "Evaluate the adequacy of disclosures in the special purpose financial statements including a description of the applicable framework",
+      "Include an Emphasis of Matter paragraph in the auditor's report alerting users that the financial statements are prepared under a special purpose framework"
+    ],
+    keyParagraphs: ["800.8", "800.10", "800.13", "800.14", "800.A1"],
+    auditPhase: "Reporting",
+    source: "FRC",
+    lastVerified: "2026-03-12"
+  },
+  {
+    number: "ISA (UK) 805",
+    title: "Special Considerations — Audits of Single Financial Statements and Specific Elements, Accounts or Items of a Financial Statement",
+    objective: "To address special considerations in the application of ISAs (UK) to an audit of a single financial statement or of a specific element, account or item of a financial statement.",
+    keyRequirements: [
+      "Consider whether the audit of a single financial statement or specific element is practicable given the ISA (UK) requirements",
+      "Determine the acceptability of the financial reporting framework applied in the preparation of the single statement or specific element",
+      "Adapt and apply all ISAs (UK) relevant to the audit considering the element, account or item being audited",
+      "Form an opinion on whether the single financial statement or specific element is prepared in all material respects in accordance with the applicable framework",
+      "Consider the effect on the auditor's report of any modification to the opinion on the complete set of financial statements if auditing both"
+    ],
+    keyParagraphs: ["805.7", "805.9", "805.13", "805.16", "805.A1"],
+    auditPhase: "Reporting",
+    source: "FRC",
+    lastVerified: "2026-03-12"
+  },
+  {
+    number: "ISA (UK) 810",
+    title: "Engagements to Report on Summary Financial Statements",
+    objective: "To address the auditor's responsibilities when engaged to report on summary financial statements derived from financial statements audited by that auditor.",
+    keyRequirements: [
+      "Accept the engagement only when the auditor has been engaged to audit the financial statements from which the summary financial statements are derived",
+      "Evaluate whether the summary financial statements adequately disclose their summarised nature and identify the audited financial statements",
+      "Compare the summary financial statements with the related audited financial statements to determine whether they are consistent in all material respects",
+      "Evaluate whether the criteria applied by management are acceptable for the preparation of the summary financial statements",
+      "Express an opinion stating whether the summary financial statements are consistent in all material respects with the audited financial statements"
+    ],
+    keyParagraphs: ["810.6", "810.9", "810.11", "810.14", "810.A1"],
+    auditPhase: "Reporting",
+    source: "FRC",
+    lastVerified: "2026-03-12"
+  },
+  {
     number: "ISQM (UK) 1",
     title: "Quality Management for Firms that Perform Audits or Reviews of Financial Statements, or Other Assurance or Related Services Engagements",
     objective: "To establish firm-level requirements for a system of quality management designed to provide reasonable assurance that the firm and its personnel fulfil their responsibilities in accordance with professional standards and applicable legal requirements.",
