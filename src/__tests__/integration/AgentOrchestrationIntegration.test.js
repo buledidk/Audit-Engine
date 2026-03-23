@@ -6,7 +6,7 @@ import { describe, test, expect } from 'vitest';
 
 describe('Agent Orchestration System Integration', () => {
     test('agentOrchestrationService exports correctly', async () => {
-          const module = await import('../../services/agentOrchestrationService');
+          const module = await import('../../agents/agentOrchestrationService');
       const service = module.default;
           expect(service).toBeDefined();
           expect(service.coordinateAgents).toBeDefined();
@@ -15,7 +15,7 @@ describe('Agent Orchestration System Integration', () => {
     });
 
            test('service initializes all 6 agents', async () => {
-                 const module = await import('../../services/agentOrchestrationService');
+                 const module = await import('../../agents/agentOrchestrationService');
                  const service = module.default;
                  const SupervisorAgent = service.agents.get('SupervisorAgent');
                  expect(SupervisorAgent).toBeDefined();
@@ -41,7 +41,7 @@ describe('Agent Orchestration System Integration', () => {
            });
 
            test('agent can be retrieved by name', async () => {
-                 const module = await import('../../services/agentOrchestrationService');
+                 const module = await import('../../agents/agentOrchestrationService');
                  const service = module.default;
                  const status = service.getAgentStatus('SupervisorAgent');
                  expect(status).toBeDefined();

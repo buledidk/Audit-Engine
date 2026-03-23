@@ -38,6 +38,11 @@ export default function AppLayout() {
       { to: `/engagements/${engId}/evidence`, icon: "📎", label: "Evidence" },
       { to: `/engagements/${engId}/findings`, icon: "⚠️", label: "Findings" },
       { to: `/engagements/${engId}/materiality`, icon: "📐", label: "Materiality" },
+      { to: `/engagements/${engId}/risk`, icon: "🎯", label: "Risk" },
+      { to: `/engagements/${engId}/review`, icon: "✅", label: "Review" },
+      { to: `/engagements/${engId}/realtime`, icon: "📡", label: "Live KPIs" },
+      { to: `/engagements/${engId}/collaborate`, icon: "👥", label: "Collaborate" },
+      { to: `/engagements/${engId}/integrations`, icon: "🔗", label: "Integrations" },
       { to: `/engagements/${engId}/settings`, icon: "⚙️", label: "Settings" },
     ] : []),
   ];

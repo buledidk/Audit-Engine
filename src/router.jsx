@@ -1,4 +1,5 @@
 import { createBrowserRouter, Navigate } from "react-router-dom";
+import { lazy, Suspense } from "react";
 import AppLayout from "./layouts/AppLayout";
 import AuthLayout from "./layouts/AuthLayout";
 import DashboardPage from "./pages/DashboardPage";
@@ -13,6 +14,21 @@ import EvidenceList from "./components/EvidenceManager/EvidenceList";
 import FindingList from "./components/FindingLogger/FindingList";
 import FindingDetail from "./components/FindingLogger/FindingDetail";
 import ErrorBoundary from "./components/ErrorBoundary";
+
+// Lazy-loaded feature panels (code-split for performance)
+const RealTimeAuditDashboard = lazy(() => import("./components/RealTimeAuditDashboard"));
+const CollaborationPanel = lazy(() => import("./components/CollaborationPanel"));
+const IntegrationHub = lazy(() => import("./components/IntegrationHub"));
+const ReviewDashboard = lazy(() => import("./components/ReviewDashboard"));
+const RiskDashboard = lazy(() => import("./components/RiskDashboard"));
+
+function LazyWrap({ children }) {
+  return (
+    <Suspense fallback={<div style={{ padding: 40, color: "#B0B8C8", textAlign: "center" }}>Loading...</div>}>
+      <ErrorBoundary level="section">{children}</ErrorBoundary>
+    </Suspense>
+  );
+}
 
 function RouteErrorFallback() {
   return (
@@ -59,6 +75,11 @@ const router = createBrowserRouter([
           { path: "findings", element: <ErrorBoundary level="section"><FindingList /></ErrorBoundary> },
           { path: "findings/:findingId", element: <ErrorBoundary level="section"><FindingDetail /></ErrorBoundary> },
           { path: "materiality", element: <ErrorBoundary level="section"><MaterialityPage /></ErrorBoundary> },
+          { path: "risk", element: <LazyWrap><RiskDashboard /></LazyWrap> },
+          { path: "review", element: <LazyWrap><ReviewDashboard /></LazyWrap> },
+          { path: "realtime", element: <LazyWrap><RealTimeAuditDashboard /></LazyWrap> },
+          { path: "collaborate", element: <LazyWrap><CollaborationPanel /></LazyWrap> },
+          { path: "integrations", element: <LazyWrap><IntegrationHub /></LazyWrap> },
           { path: "settings", element: <ErrorBoundary level="section"><SettingsPage /></ErrorBoundary> },
           { path: "full", element: <ErrorBoundary level="section"><FullAuditFilePage /></ErrorBoundary> },
         ]

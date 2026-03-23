@@ -66,7 +66,7 @@ describe('AgentFramework', () => {
       expect(prompt).toContain('Base prompt');
       expect(prompt).toContain('test-id');
       expect(prompt).toContain('test-capability');
-      expect(prompt).toContain('GDPR');
+      expect(prompt).toContain('gdprRequired');
     });
 
     it('should include compliance requirements in prompt', () => {
@@ -285,10 +285,10 @@ describe('AgentFramework', () => {
   });
 
   describe('Event Emitter', () => {
-    it('should emit agent registered event', (done) => {
+    it('should emit agent registered event', () => {
+      const events = [];
       framework.on('agent:registered', (data) => {
-        expect(data.name).toBe('test-agent');
-        done();
+        events.push(data);
       });
 
       framework.registerAgent('test-agent', {
@@ -296,6 +296,9 @@ describe('AgentFramework', () => {
         description: 'Test',
         systemPrompt: 'Prompt'
       });
+
+      expect(events).toHaveLength(1);
+      expect(events[0].name).toBe('test-agent');
     });
   });
 });

@@ -207,7 +207,11 @@ describe("AIProcedureEngine", () => {
     });
 
     it("includes all context in prompt", () => {
-      const prompt = engine._buildRankingPrompt(context, procedures);
+      const contextWithPriorYear = {
+        ...context,
+        priorYearExceptions: context.priorExceptions
+      };
+      const prompt = engine._buildRankingPrompt(contextWithPriorYear, procedures);
 
       expect(prompt).toContain("High");
       expect(prompt).toContain("Revenue cutoff");
@@ -381,9 +385,9 @@ More text after JSON...
         riskLevel: "High"
       };
 
-      expect(() => {
-        engine.suggestProcedures(context, []);
-      }).toThrow("Procedures array is required");
+      await expect(
+        engine.suggestProcedures(context, [])
+      ).rejects.toThrow("Procedures array is required");
     });
 
     it("handles null procedures array", async () => {
@@ -392,9 +396,9 @@ More text after JSON...
         riskLevel: "High"
       };
 
-      expect(() => {
-        engine.suggestProcedures(context, null);
-      }).toThrow();
+      await expect(
+        engine.suggestProcedures(context, null)
+      ).rejects.toThrow();
     });
   });
 

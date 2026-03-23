@@ -242,13 +242,13 @@ describe("Security & Compliance Audit", () => {
   describe("Compliance Documentation", () => {
     it("should have frontend API integration guide", () => {
       const fs = require("fs");
-      const docExists = fs.existsSync("./FRONTEND_API_INTEGRATION.md");
+      const docExists = fs.existsSync("./docs/legacy/FRONTEND_API_INTEGRATION.md");
       expect(docExists).toBe(true);
     });
 
     it("should document all API endpoints", () => {
       const fs = require("fs");
-      const docContent = fs.readFileSync("./FRONTEND_API_INTEGRATION.md", "utf-8");
+      const docContent = fs.readFileSync("./docs/legacy/FRONTEND_API_INTEGRATION.md", "utf-8");
 
       expect(docContent).toContain("Authentication");
       expect(docContent).toContain("Engagements");
