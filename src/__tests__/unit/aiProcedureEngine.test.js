@@ -173,7 +173,7 @@ describe("AIProcedureEngine", () => {
     const context = {
       fsli: "Revenue",
       riskLevel: "High",
-      priorExceptions: ["Revenue cutoff", "Unbilled services"],
+      priorYearExceptions: ["Revenue cutoff", "Unbilled services"],
       industry: "SaaS",
       complexity: "High",
       materiality: 100000
@@ -303,7 +303,7 @@ More text after JSON...
       const context = {
         fsli: "Revenue",
         riskLevel: "High",
-        priorExceptions: ["Revenue cutoff"],
+        priorYearExceptions: ["Revenue cutoff"],
         industry: "Manufacturing",
         complexity: "High",
         materiality: 500000
@@ -324,7 +324,7 @@ More text after JSON...
       const context = {
         fsli: "Cash",
         riskLevel: "Low",
-        priorExceptions: [],
+        priorYearExceptions: [],
         industry: "Retail",
         complexity: "Low",
         materiality: 100000
@@ -344,7 +344,7 @@ More text after JSON...
       const context = {
         fsli: "Inventory",
         riskLevel: "High",
-        priorExceptions: ["Valuation", "Completeness"],
+        priorYearExceptions: ["Valuation", "Completeness"],
         industry: "Manufacturing",
         complexity: "Very High",
         materiality: 250000
