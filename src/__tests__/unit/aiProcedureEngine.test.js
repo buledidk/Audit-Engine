@@ -209,7 +209,7 @@ describe("AIProcedureEngine", () => {
     it("includes all context in prompt", () => {
       const contextWithPriorYear = {
         ...context,
-        priorYearExceptions: context.priorExceptions
+        priorYearExceptions: context.priorYearExceptions
       };
       const prompt = engine._buildRankingPrompt(contextWithPriorYear, procedures);
 
