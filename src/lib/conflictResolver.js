@@ -29,7 +29,11 @@ export class ThreeWayMerge {
       const current = currentVersion?.[key];
       const incoming = incomingVersion?.[key];
 
-      const result = this._mergeField(key, base, current, incoming);
+      // If key doesn't exist in incoming object, treat incoming as unchanged (use base value)
+      const incomingHasKey = incomingVersion ? Object.prototype.hasOwnProperty.call(incomingVersion, key) : false;
+      const effectiveIncoming = incomingHasKey ? incoming : base;
+
+      const result = this._mergeField(key, base, current, effectiveIncoming);
 
       if (result.conflict) {
         conflicts.push({
@@ -114,7 +118,7 @@ export class ThreeWayMerge {
 
     // If both removed the same item, it's intentional - respect it
     const commonRemovals = removedByServer.filter(x =>
-      removedByClient.some(y => this._deepEqual(x, y))
+      deepIncludes(removedByClient, x)
     );
 
     // If one removes while other modifies same array position, conflict
@@ -141,7 +145,10 @@ export class ThreeWayMerge {
     let merged = [...base];
 
     // Apply removals that both sides agree on
-    merged = merged.filter(x => !commonRemovals.some(y => this._deepEqual(x, y)));
+    merged = merged.filter(x => !deepIncludes(commonRemovals, x));
+    
+    // Apply server-only removals
+    merged = merged.filter(x => !deepIncludes(removedByServer, x) || deepIncludes(addedByClient, x));
 
     // Add new items (deduplicated)
     const toAdd = [...addedByServer, ...addedByClient];
