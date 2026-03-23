@@ -18,6 +18,8 @@ import gdprMiddleware from "../src/middleware/gdprMiddleware.js";
 import rbacMiddleware from "../src/middleware/rbacMiddleware.js";
 import metricsRouter from "../src/api/metrics.js";
 import adminRouter from "../src/api/admin.js";
+import dispatchRouter from "./routes/dispatch.js";
+import agentAssessmentRouter from "./routes/agentAssessment.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -907,6 +909,8 @@ app.post("/api/orchestrator/risk-assessment", async (req, res) => {
 
 app.use("/api/metrics", metricsRouter);
 app.use("/api/admin", adminRouter);
+app.use("/api/dispatch", dispatchRouter);
+app.use("/api/agents", agentAssessmentRouter);
 
 // ============================================================================
 // ERROR HANDLING
