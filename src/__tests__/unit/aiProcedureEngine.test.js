@@ -207,11 +207,7 @@ describe("AIProcedureEngine", () => {
     });
 
     it("includes all context in prompt", () => {
-      const contextWithPriorYear = {
-        ...context,
-        priorYearExceptions: context.priorYearExceptions
-      };
-      const prompt = engine._buildRankingPrompt(contextWithPriorYear, procedures);
+      const prompt = engine._buildRankingPrompt(context, procedures);
 
       expect(prompt).toContain("High");
       expect(prompt).toContain("Revenue cutoff");
