@@ -39,5 +39,11 @@ Thumbs.db
 .temp/
 temp/
 
+# Large reference PDFs (keep locally, don't push to git)
+docs/references/audit-quality-reports/*.pdf
+
+# Coverage
+coverage/
+
 # Claude Code local settings
 .claude/settings.local.json
