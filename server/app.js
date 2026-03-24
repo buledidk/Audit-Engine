@@ -20,6 +20,7 @@ import metricsRouter from "../src/api/metrics.js";
 import adminRouter from "../src/api/admin.js";
 import dispatchRouter from "./routes/dispatch.js";
 import agentAssessmentRouter from "./routes/agentAssessment.js";
+import slackRouter from "./routes/slack.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -911,6 +912,7 @@ app.use("/api/metrics", metricsRouter);
 app.use("/api/admin", adminRouter);
 app.use("/api/dispatch", dispatchRouter);
 app.use("/api/agents", agentAssessmentRouter);
+app.use("/api/slack", slackRouter);
 
 // ============================================================================
 // ERROR HANDLING
