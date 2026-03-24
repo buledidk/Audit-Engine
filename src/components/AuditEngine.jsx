@@ -20,6 +20,7 @@ import RiskDashboard from './RiskDashboard';
 import AuditProgressTracker from './AuditProgressTracker';
 import CommentPanel from './CommentPanel';
 import AgentMonitoringDashboard from './AgentMonitoringDashboard';
+import MobileDashboard from './MobileDashboard';
 
 const COLORS = {
   bg: "#0A0E17",
@@ -50,6 +51,7 @@ export default function AuditEngine() {
   const [showComprehensive, setShowComprehensive] = useState(true);
   const [showRiskDashboard, setShowRiskDashboard] = useState(false);
   const [showAgentMonitoring, setShowAgentMonitoring] = useState(false);
+    const [showMobileDashboard, setShowMobileDashboard] = useState(false);
   const [engagementData, setEngagementData] = useState({
     id: null,
     name: '',
@@ -175,9 +177,27 @@ export default function AuditEngine() {
           >
             🤖 Agents
           </button>
+                    <button
+            onClick={() => setShowMobileDashboard(!showMobileDashboard)}
+            style={{
+              padding: '8px 16px',
+              backgroundColor: showMobileDashboard ? COLORS.accent : COLORS.card,
+              color: COLORS.text,
+              border: 'none',
+              borderRadius: '6px',
+              cursor: 'pointer',
+              fontSize: '14px'
+            }}
+          >
+            📱 Mobile
+          </button>
         </div>
       </div>
 
+            {showMobileDashboard ? (
+        <MobileDashboard />
+      ) : (
+      <>
       {/* Phase Navigation */}
       <div style={{
         display: 'flex',
@@ -333,6 +353,8 @@ export default function AuditEngine() {
         />
       </div>
 
+              </>
+      )}
       {/* Footer */}
       <div style={{
         marginTop: '40px',
