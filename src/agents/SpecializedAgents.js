@@ -280,4 +280,4 @@ export class AgentRegistry {
   }
 }
 
-export default SpecializedAgents;
+export default AgentRegistry;
