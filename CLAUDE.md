@@ -6,7 +6,7 @@ AuditEngine is a comprehensive UK statutory audit automation platform built on R
 ## Tech Stack
 - **Frontend:** React 19, Vite 8, React Router 7
 - **Backend:** Express 5, Supabase PostgreSQL
-- **AI:** Anthropic Claude 3.5 Sonnet (primary), OpenAI GPT-4 (fallback), Ollama (local)
+- **AI:** Anthropic Claude Sonnet 4.6 (primary), Claude Opus 4.6 (agents), Haiku 4.5 (fast), OpenAI GPT-4 (fallback), Ollama (local)
 - **Export:** docx, exceljs, xlsx, pdfkit, pdfmake
 - **Testing:** Vitest 4, Testing Library
 - **Deploy:** Vercel (auditengine.agency), Docker, GitHub Codespaces
