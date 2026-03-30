@@ -9,12 +9,12 @@
  * - Preventive procedure mapping
  */
 
-import { Anthropic } from "@anthropic-ai/sdk";
+import Anthropic from "@anthropic-ai/sdk";
 
 export class ExceptionPredictionEngine {
   constructor(apiKey = process.env.ANTHROPIC_API_KEY || process.env.VITE_CLAUDE_API_KEY) {
     this.client = new Anthropic({ apiKey });
-    this.model = "claude-3-5-sonnet-20241022";
+    this.model = "claude-sonnet-4-6";
     this.cache = new Map();
     this.cacheTimeout = 3600000; // 1 hour
   }

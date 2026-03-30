@@ -128,7 +128,7 @@ Extract all audit-relevant data with high accuracy. Focus on:
 
     try {
       const response = await this.client.messages.create({
-        model: 'claude-3-5-sonnet-20241022',
+        model: 'claude-sonnet-4-6',
         max_tokens: 4000,
         system: systemPrompt,
         messages: [

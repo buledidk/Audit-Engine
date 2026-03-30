@@ -10,7 +10,7 @@ export const agentConfig = {
   models: {
     primary: {
       provider: 'anthropic',
-      model: process.env.CLAUDE_MODEL || 'claude-3-5-sonnet-20241022',
+      model: process.env.CLAUDE_MODEL || 'claude-sonnet-4-6',
       apiKey: process.env.ANTHROPIC_API_KEY,
       maxTokens: parseInt(process.env.CLAUDE_MAX_TOKENS) || 4096,
       temperature: parseFloat(process.env.CLAUDE_TEMPERATURE) || 0.2,
@@ -68,7 +68,7 @@ export const agentConfig = {
 
   // Framework configuration
   framework: {
-    model: process.env.AGENT_MODEL || 'claude-3-5-sonnet-20241022',
+    model: process.env.AGENT_MODEL || 'claude-sonnet-4-6',
     maxTokens: parseInt(process.env.AGENT_MAX_TOKENS) || 4096,
     temperature: parseFloat(process.env.AGENT_TEMPERATURE) || 0.2,
     timeout: parseInt(process.env.AGENT_TIMEOUT) || 30000,
