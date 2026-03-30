@@ -7,7 +7,7 @@
  * Models: Claude 3.5 Sonnet (primary), GPT-4 (secondary), Llama 3 (fallback)
  */
 
-import { Anthropic } from "@anthropic-ai/sdk";
+import Anthropic from "@anthropic-ai/sdk";
 
 class ModelSelectionService {
   constructor() {
@@ -15,7 +15,7 @@ class ModelSelectionService {
     this.models = {
       primary: {
         provider: "anthropic",
-        model: "claude-3-5-sonnet-20241022",
+        model: "claude-sonnet-4-6",
         maxTokens: 4096,
         temperature: 0.2,
         timeout: 30000,
