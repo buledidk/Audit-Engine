@@ -208,3 +208,97 @@ export function cascadeOnMaterialityChange(newMateriality, populationSize, exist
     narrative: `With revised overall materiality of ${overall.toLocaleString()}, recommended sample size is ${suggestedSampleSize} items. ${misstatementReview.implication}`,
   };
 }
+
+// ─── MaterialityEngine class wrapper ─────────────────────────────────────
+/**
+ * Class wrapper around the functional API for consumers that
+  * instantiate with `new MaterialityEngine()`.
+   */
+export class MaterialityEngine {
+    calculateBaseMateriality(context) {
+          const financialData = {
+                  revenue: context.revenue || 0,
+                  totalAssets: context.assets || 0,
+                  profitBeforeTax: context.preTextProfit || 0,
+                  equity: context.equity || 0,
+          };
+          const result = calculateMateriality(financialData, 'medium');
+          return {
+                  overall_materiality: result.overall,
+                  performance_materiality: result.performanceMateriality,
+                  trivial_threshold: result.trivialThreshold,
+                  basis: result.benchmark,
+                  calculation_method: `${result.benchmarkPercentage}% of ${result.benchmark}`,
+                  justification: result.reasoning,
+                  benchmark_results: Object.entries(BENCHMARKS).map(([key, b]) => ({
+                            benchmark: b.label,
+                            value: financialData[key === 'pbt' ? 'profitBeforeTax' : key === 'assets' ? 'totalAssets' : key] || 0,
+                            basis: `${(b.rate || b.rateMin || 0) * 100}% of ${b.label}`,
+                  })),
+          };
+    }
+
+    performSensitivityAnalysis(overallMateriality) {
+          const variations = [
+            { label: '-20%', change: -20 },
+            { label: '-10%', change: -10 },
+            { label: 'Base', change: 0 },
+            { label: '+10%', change: 10 },
+            { label: '+20%', change: 20 },
+                ];
+          return {
+                  sensitivity_scenarios: variations.map(v => ({
+                            scenario: v.label,
+                            change: v.change,
+                            materiality: Math.round(overallMateriality * (1 + v.change / 100)),
+                            impact: v.change === 0
+                                        ? 'Current materiality level'
+                                        : `${Math.abs(v.change)}% ${v.change > 0 ? 'increase' : 'decrease'} in materiality threshold`,
+                  })),
+                  recommended_range: {
+                            low: Math.round(overallMateriality * 0.9),
+                            high: Math.round(overallMateriality * 1.1),
+                  },
+          };
+    }
+
+    planScenarios(context) {
+          const base = this.calculateBaseMateriality(context);
+          return {
+                  optimistic: {
+                            description: 'Optimistic — Revenue growth 10%',
+                            materiality: Math.round(base.overall_materiality * 1.1),
+                            likelihood: 'Possible',
+                            assumptions: ['Revenue grows 10%', 'Margins stable', 'No significant risks identified'],
+                  },
+                  base: {
+                            description: 'Base case — Current financials',
+                            materiality: base.overall_materiality,
+                            likelihood: 'Most likely',
+                            assumptions: ['Current year financials unchanged', 'Risk profile maintained'],
+                  },
+                  pessimistic: {
+                            description: 'Pessimistic — Revenue decline 15%',
+                            materiality: Math.round(base.overall_materiality * 0.85),
+                            likelihood: 'Possible',
+                            assumptions: ['Revenue declines 15%', 'Increased risk profile', 'Additional procedures needed'],
+                  },
+          };
+    }
+
+    calculateSampleSize(context) {
+          const base = this.calculateBaseMateriality(context);
+          const pop = context.populationSize || 1000;
+          const tolerable = base.performance_materiality / pop;
+          const sampleSize = Math.min(Math.ceil((1 / tolerable) * 2.6), pop);
+          return {
+                  recommended_sample_size: sampleSize,
+                  sample_percentage: ((sampleSize / pop) * 100).toFixed(1),
+                  confidence_level: '95%',
+                  methodology: 'Monetary Unit Sampling (MUS)',
+                  materiality_basis: `Based on performance materiality of ${base.performance_materiality.toLocaleString()}`,
+          };
+    }
+}
+
+export default MaterialityEngine;
