@@ -41,9 +41,10 @@ const DEMO_TEAM = [
 ];
 
 const SUBSCRIPTION_TIERS = [
-  { tier: "Starter", price: "£49/mo", users: 3, engagements: 10, ai: false, current: false },
-  { tier: "Professional", price: "£149/mo", users: 10, engagements: 50, ai: true, current: true },
-  { tier: "Enterprise", price: "£499/mo", users: "Unlimited", engagements: "Unlimited", ai: true, current: false },
+  { tier: "Solo", price: "£99/mo", annual: "£990/yr", users: 1, engagements: 20, ai: false, portal: false, current: false },
+  { tier: "Small Firm", price: "£499/mo", annual: "£4,990/yr", users: 10, engagements: 100, ai: true, portal: true, current: true },
+  { tier: "Mid-Tier", price: "£1,999/mo", annual: "£19,990/yr", users: 50, engagements: 500, ai: true, portal: true, current: false },
+  { tier: "Enterprise", price: "Custom", annual: "£49,990/yr", users: "Unlimited", engagements: "Unlimited", ai: true, portal: true, current: false },
 ];
 
 export default function SettingsFirmSetup() {
@@ -267,7 +268,7 @@ export default function SettingsFirmSetup() {
 
         {/* Subscription Tab */}
         <TabsContent value="subscription">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {SUBSCRIPTION_TIERS.map((plan) => (
               <Card key={plan.tier} className={plan.current ? "border-brand ring-1 ring-brand" : ""}>
                 <CardHeader>
@@ -276,6 +277,7 @@ export default function SettingsFirmSetup() {
                     {plan.current && <Badge>Current</Badge>}
                   </div>
                   <div className="text-2xl font-bold text-white mt-2">{plan.price}</div>
+                  <div className="text-[10px] text-ae-dim">{plan.annual}</div>
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-3">
@@ -293,8 +295,28 @@ export default function SettingsFirmSetup() {
                       ) : (
                         <XCircle className="h-4 w-4 text-ae-dim" />
                       )}
-                      <span className={plan.ai ? "text-slate-300" : "text-ae-dim"}>AI Agents</span>
+                      <span className={plan.ai ? "text-slate-300" : "text-ae-dim"}>AI Agents (8 engines)</span>
                     </div>
+                    <div className="flex items-center gap-2 text-sm">
+                      {plan.portal ? (
+                        <CheckCircle2 className="h-4 w-4 text-ae-green" />
+                      ) : (
+                        <XCircle className="h-4 w-4 text-ae-dim" />
+                      )}
+                      <span className={plan.portal ? "text-slate-300" : "text-ae-dim"}>Client Portal</span>
+                    </div>
+                    {plan.tier === "Enterprise" && (
+                      <>
+                        <div className="flex items-center gap-2 text-sm">
+                          <CheckCircle2 className="h-4 w-4 text-ae-green" />
+                          <span className="text-slate-300">SSO & white-label</span>
+                        </div>
+                        <div className="flex items-center gap-2 text-sm">
+                          <CheckCircle2 className="h-4 w-4 text-ae-green" />
+                          <span className="text-slate-300">On-premise option</span>
+                        </div>
+                      </>
+                    )}
                   </div>
                 </CardContent>
                 <CardFooter>
@@ -303,7 +325,7 @@ export default function SettingsFirmSetup() {
                     className="w-full"
                     disabled={plan.current}
                   >
-                    {plan.current ? "Current Plan" : "Upgrade"}
+                    {plan.current ? "Current Plan" : plan.tier === "Enterprise" ? "Contact Sales" : "Upgrade"}
                   </Button>
                 </CardFooter>
               </Card>

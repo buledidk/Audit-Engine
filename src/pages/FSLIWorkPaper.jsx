@@ -10,8 +10,9 @@ import { Progress } from "@/components/ui/progress";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import {
   ChevronLeft, Upload, FileText, Link2, Check, AlertTriangle,
-  Shield, Eye, Pen, ClipboardCheck
+  Shield, Eye, Pen, ClipboardCheck, AlertCircle
 } from "lucide-react";
+import { AISuggestionsPanel } from "@/components/ui/ai-transparency";
 
 const FSLI_REGISTRY = {
   REV: { name: "Revenue", section: "FRS 102 §23", isa: "ISA 240, ISA 500, ISA 520" },
@@ -167,6 +168,60 @@ CONCLUSION:
 [To be completed upon finalisation of procedures]
 Based on the audit procedures performed and evidence obtained, the ${fsli.name.toLowerCase()} balance is / is not fairly stated in all material respects.`}
               />
+            </CardContent>
+          </Card>
+
+          {/* AI Suggestions */}
+          <AISuggestionsPanel
+            className="mt-4"
+            suggestions={[
+              {
+                title: `Recommended: Extended sample for ${fsli.name}`,
+                description: `Based on the assessed risk level and prior year exceptions, consider increasing the sample size from 20 to 30 items. The prior year had 2 exceptions in this area.`,
+                confidence: "high",
+                source: "FSLIRegistry",
+                isaRef: "ISA 530.7",
+              },
+              {
+                title: "FRC Finding: Ensure sufficient challenge of management estimates",
+                description: "FRC AQR 2024/25 highlighted insufficient auditor challenge of management's key estimates. Document your independent assessment and any contrary evidence considered.",
+                confidence: "medium",
+                source: "FRCAqrFindings",
+                isaRef: "ISA 540.13",
+              },
+              {
+                title: `Consider related party impact on ${fsli.name}`,
+                description: "Cross-reference with RPT work paper to ensure related party transactions affecting this balance are appropriately tested.",
+                confidence: "low",
+                source: "RiskEngine",
+                isaRef: "ISA 550.16",
+              },
+            ]}
+          />
+
+          {/* FRC Alert Panel */}
+          <Card className="mt-4 border-ae-orange/30">
+            <CardHeader>
+              <CardTitle className="text-base flex items-center gap-2 text-ae-orange">
+                <AlertCircle className="h-4 w-4" /> FRC Relevant Findings
+              </CardTitle>
+              <CardDescription>From FRC AQR reports — findings relevant to {fsli.name}</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-2">
+                {[
+                  { year: "2024/25", finding: "Insufficient evidence of auditor challenge on key accounting estimates", theme: "Estimates & Valuations" },
+                  { year: "2023/24", finding: "Inadequate evaluation of management's going concern assessment", theme: "Going Concern" },
+                ].map((f, i) => (
+                  <div key={i} className="flex items-start gap-3 p-3 rounded-lg border border-ae-orange/20 bg-ae-orange/5">
+                    <Badge variant="warning" className="text-[9px] flex-shrink-0">{f.year}</Badge>
+                    <div>
+                      <div className="text-xs text-white">{f.finding}</div>
+                      <div className="text-[10px] text-ae-dim mt-0.5">Theme: {f.theme}</div>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </CardContent>
           </Card>
 
