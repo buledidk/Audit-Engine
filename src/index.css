@@ -1,4 +1,20 @@
+@import "tailwindcss";
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=DM+Sans:wght@400;500;600;700&display=swap');
+
+@theme {
+  --color-slate-850: #1a1f35;
+  --color-brand: #F5A623;
+  --color-brand-light: #FFD54F;
+  --color-ae-bg: #0B1120;
+  --color-ae-card: rgba(255, 255, 255, 0.06);
+  --color-ae-border: rgba(255, 255, 255, 0.12);
+  --color-ae-green: #66BB6A;
+  --color-ae-red: #EF5350;
+  --color-ae-orange: #FFA726;
+  --color-ae-blue: #42A5F5;
+  --color-ae-purple: #CE93D8;
+  --color-ae-dim: #B0B8C8;
+}
 
 * {
   margin: 0;

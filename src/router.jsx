@@ -4,7 +4,18 @@ import AppLayout from "./layouts/AppLayout";
 import AuthLayout from "./layouts/AuthLayout";
 import ErrorBoundary from "./components/ErrorBoundary";
 
-// Lazy-loaded pages (code-split for performance)
+// ─── Lazy-loaded pages (code-split for performance) ─────────────────────────
+
+// New platform pages
+const MainDashboard = lazy(() => import("./pages/MainDashboard"));
+const EngagementWizard = lazy(() => import("./pages/EngagementWizard"));
+const EngagementDashboard = lazy(() => import("./pages/EngagementDashboard"));
+const FSLIWorkPaper = lazy(() => import("./pages/FSLIWorkPaper"));
+const AnalyticsDashboard = lazy(() => import("./pages/AnalyticsDashboard"));
+const PartnerDashboard = lazy(() => import("./pages/PartnerDashboard"));
+const SettingsFirmSetup = lazy(() => import("./pages/SettingsFirmSetup"));
+
+// Existing pages
 const DashboardPage = lazy(() => import("./pages/DashboardPage"));
 const EngagementPage = lazy(() => import("./pages/EngagementPage"));
 const SettingsPage = lazy(() => import("./pages/SettingsPage"));
@@ -28,7 +39,7 @@ const RiskDashboard = lazy(() => import("./components/RiskDashboard"));
 
 function LazyWrap({ children }) {
   return (
-    <Suspense fallback={<div style={{ padding: 40, color: "#B0B8C8", textAlign: "center" }}>Loading...</div>}>
+    <Suspense fallback={<div className="flex items-center justify-center min-h-[200px] text-slate-500 text-sm">Loading...</div>}>
       <ErrorBoundary level="section">{children}</ErrorBoundary>
     </Suspense>
   );
@@ -66,7 +77,16 @@ const router = createBrowserRouter([
     element: <AppLayout />,
     errorElement: <RouteErrorFallback />,
     children: [
-      { index: true, element: <LazyWrap><DashboardPage /></LazyWrap> },
+      // ─── New platform pages ─────────────────────────────────────────
+      { index: true, element: <LazyWrap><MainDashboard /></LazyWrap> },
+      { path: "engagement/new", element: <LazyWrap><EngagementWizard /></LazyWrap> },
+      { path: "engagement/:id", element: <LazyWrap><EngagementDashboard /></LazyWrap> },
+      { path: "engagement/:id/fsli/:code", element: <LazyWrap><FSLIWorkPaper /></LazyWrap> },
+      { path: "analytics", element: <LazyWrap><AnalyticsDashboard /></LazyWrap> },
+      { path: "partner", element: <LazyWrap><PartnerDashboard /></LazyWrap> },
+      { path: "settings", element: <LazyWrap><SettingsFirmSetup /></LazyWrap> },
+
+      // ─── Legacy engagement routes (existing functionality) ──────────
       {
         path: "engagements/:engId",
         element: <LazyWrap><EngagementPage /></LazyWrap>,
@@ -88,6 +108,8 @@ const router = createBrowserRouter([
           { path: "full", element: <LazyWrap><FullAuditFilePage /></LazyWrap> },
         ]
       },
+      // Legacy dashboard route
+      { path: "legacy", element: <LazyWrap><DashboardPage /></LazyWrap> },
     ]
   },
   {
