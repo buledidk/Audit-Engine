@@ -14,6 +14,7 @@ const FSLIWorkPaper = lazy(() => import("./pages/FSLIWorkPaper"));
 const AnalyticsDashboard = lazy(() => import("./pages/AnalyticsDashboard"));
 const PartnerDashboard = lazy(() => import("./pages/PartnerDashboard"));
 const SettingsFirmSetup = lazy(() => import("./pages/SettingsFirmSetup"));
+const ClientPortal = lazy(() => import("./pages/ClientPortal"));
 
 // Existing pages
 const DashboardPage = lazy(() => import("./pages/DashboardPage"));
@@ -84,6 +85,7 @@ const router = createBrowserRouter([
       { path: "engagement/:id/fsli/:code", element: <LazyWrap><FSLIWorkPaper /></LazyWrap> },
       { path: "analytics", element: <LazyWrap><AnalyticsDashboard /></LazyWrap> },
       { path: "partner", element: <LazyWrap><PartnerDashboard /></LazyWrap> },
+      { path: "portal", element: <LazyWrap><ClientPortal /></LazyWrap> },
       { path: "settings", element: <LazyWrap><SettingsFirmSetup /></LazyWrap> },
 
       // ─── Legacy engagement routes (existing functionality) ──────────
