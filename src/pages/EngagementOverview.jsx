@@ -11,7 +11,7 @@ import {
 } from "recharts";
 import {
   CheckCircle2, Clock, AlertTriangle, FileText, ArrowRight,
-  Zap, ShieldCheck, BarChart3, Users, Calendar
+  Zap, ShieldCheck, BarChart3, Users, Calendar, Brain
 } from "lucide-react";
 
 import { useEngagement } from "@/context/EngagementContext";
@@ -264,6 +264,43 @@ export default function EngagementOverview() {
           { title: "FRC focus: Challenge management estimates", description: "FRC AQR 2024/25 highlighted insufficient auditor challenge of estimates. Ensure independent assessment documented for all Level 3 valuations.", confidence: "medium", source: "FRCAqrFindings", isaRef: "ISA 540.13" },
         ]}
       />
+
+      {/* AI Agents Status */}
+      <Card className="mb-6 border-ae-purple/20">
+        <CardHeader>
+          <CardTitle className="text-sm flex items-center gap-2">
+            <Brain className="h-4 w-4 text-ae-purple" /> AI Agents — Active on this Engagement
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+            {[
+              { name: "Planning Agent", status: "complete", recommendation: "Audit strategy generated", isa: "ISA 300" },
+              { name: "Risk Agent", status: "active", recommendation: "3 significant risks identified", isa: "ISA 315" },
+              { name: "Fraud Agent", status: "active", recommendation: "Revenue recognition flagged", isa: "ISA 240" },
+              { name: "Testing Agent", status: "pending", recommendation: "Sample sizes calculated", isa: "ISA 530" },
+              { name: "Estimation Agent", status: "pending", recommendation: "WIP valuation needs review", isa: "ISA 540" },
+              { name: "Going Concern", status: "pending", recommendation: "Altman Z-Score: 2.85 (Safe)", isa: "ISA 570" },
+              { name: "Journal Testing", status: "active", recommendation: "Benford's Law — no anomalies", isa: "ISA 240.32" },
+              { name: "Review Agent", status: "waiting", recommendation: "Awaiting completion phase", isa: "ISA 220" },
+            ].map((agent) => (
+              <div key={agent.name} className="p-3 rounded-lg border border-ae-border bg-white/[0.02]">
+                <div className="flex items-center gap-2 mb-1">
+                  <div className={`h-2 w-2 rounded-full ${
+                    agent.status === "complete" ? "bg-ae-green" :
+                    agent.status === "active" ? "bg-brand animate-pulse" :
+                    agent.status === "pending" ? "bg-ae-orange" :
+                    "bg-ae-dim"
+                  }`} />
+                  <span className="text-[10px] font-medium text-white">{agent.name}</span>
+                </div>
+                <p className="text-[9px] text-ae-dim leading-relaxed">{agent.recommendation}</p>
+                <Badge variant="outline" className="text-[8px] mt-1 px-1 py-0 h-3.5">{agent.isa}</Badge>
+              </div>
+            ))}
+          </div>
+        </CardContent>
+      </Card>
 
       {/* Materiality + Team */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">

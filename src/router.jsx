@@ -13,6 +13,8 @@ const AnalyticsDashboard = lazy(() => import("./pages/AnalyticsDashboard"));
 const PartnerDashboard = lazy(() => import("./pages/PartnerDashboard"));
 const SettingsFirmSetup = lazy(() => import("./pages/SettingsFirmSetup"));
 const ClientPortal = lazy(() => import("./pages/ClientPortal"));
+const LandingPage = lazy(() => import("./pages/LandingPage"));
+const AuthLogin = lazy(() => import("./pages/AuthLogin"));
 
 // Engagement shell + pages
 const EngagementShell = lazy(() => import("./layouts/EngagementShell"));
@@ -132,10 +134,11 @@ const router = createBrowserRouter([
   },
   {
     path: "/auth",
-    element: <AuthLayout />,
-    children: [
-      { index: true, element: <div style={{ textAlign: "center", color: "#B0B8C8" }}>Login coming in Phase 6</div> },
-    ]
+    element: <LazyWrap><AuthLogin /></LazyWrap>,
+  },
+  {
+    path: "/welcome",
+    element: <LazyWrap><LandingPage /></LazyWrap>,
   },
   { path: "*", element: <Navigate to="/" replace /> }
 ]);

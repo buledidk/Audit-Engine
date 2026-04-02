@@ -12,9 +12,10 @@ import {
 } from "recharts";
 import {
   LayoutDashboard, Plus, BarChart3, ShieldCheck, Bell, Clock, Users,
-  FileCheck, AlertTriangle, CheckCircle2, ArrowRight, TrendingUp
+  FileCheck, AlertTriangle, CheckCircle2, ArrowRight, TrendingUp, Briefcase
 } from "lucide-react";
-import { listEngagements, createEngagement, setActiveEngagementId } from "../StorageEngine";
+import { listEngagements, createEngagement, setActiveEngagementId, createStorageEngine } from "../StorageEngine";
+import { DEMO_ENGAGEMENT } from "@/data/demoEngagement";
 
 const STATUS_COLORS = {
   planning: "#42A5F5",
@@ -103,6 +104,17 @@ export default function MainDashboard() {
       <div className="flex flex-wrap gap-3 mb-8">
         <Button onClick={handleNewEngagement} className="gap-2">
           <Plus className="h-4 w-4" /> New Engagement
+        </Button>
+        <Button variant="outline" onClick={() => {
+          const demoId = createEngagement("BuildRight Construction Ltd (Demo)");
+          const engine = createStorageEngine(demoId);
+          Object.entries(DEMO_ENGAGEMENT).forEach(([key, value]) => {
+            engine.saveImmediate(key, value);
+          });
+          setActiveEngagementId(demoId);
+          navigate(`/engagement/${demoId}`);
+        }} className="gap-2 border-brand/40 text-brand hover:bg-brand/10">
+          <Briefcase className="h-4 w-4" /> Launch Demo
         </Button>
         <Button variant="outline" onClick={() => navigate("/analytics")} className="gap-2">
           <BarChart3 className="h-4 w-4" /> Run Analytics
