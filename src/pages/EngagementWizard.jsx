@@ -144,7 +144,7 @@ export default function EngagementWizard() {
       trivial: materialityResult?.trivialThreshold?.toString() || "",
       configured: true,
     });
-    navigate(`/engagements/${id}`);
+    navigate(`/engagement/${id}`);
   };
 
   return (

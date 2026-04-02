@@ -301,9 +301,14 @@ export default function MainDashboard() {
                   key={eng.id}
                   className="flex items-center gap-4 p-4 rounded-lg border border-ae-border bg-white/[0.02] hover:bg-white/[0.05] cursor-pointer transition-colors group"
                   onClick={() => {
-                    if (!eng.id.startsWith("demo-")) {
+                    if (eng.id.startsWith("demo-")) {
+                      // Create a real engagement from demo data
+                      const realId = createEngagement(eng.name);
+                      setActiveEngagementId(realId);
+                      navigate(`/engagement/${realId}`);
+                    } else {
                       setActiveEngagementId(eng.id);
-                      navigate(`/engagements/${eng.id}`);
+                      navigate(`/engagement/${eng.id}`);
                     }
                   }}
                 >
