@@ -20,7 +20,7 @@ const SkepticismBot = ({ assertion, materiality, confidence, evidenceReliability
   const clientRef = useRef(null);
 
   useEffect(() => {
-    clientRef.current = new Anthropic({
+    clientRef.current = new Anthropic({ dangerouslyAllowBrowser: true,
       apiKey: process.env.REACT_APP_ANTHROPIC_API_KEY,
     });
   }, []);

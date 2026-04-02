@@ -23,7 +23,8 @@ export class AgentFramework extends EventEmitter {
     };
 
     this.client = new Anthropic({
-      apiKey: process.env.ANTHROPIC_API_KEY
+      apiKey: process.env.ANTHROPIC_API_KEY,
+      dangerouslyAllowBrowser: true
     });
 
     this.agents = new Map();

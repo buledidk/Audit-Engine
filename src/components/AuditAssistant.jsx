@@ -23,7 +23,7 @@ const AuditAssistant = ({ engagementId, currentPhase, procedureName, onGuidanceP
 
   // Initialize Anthropic client
   useEffect(() => {
-    clientRef.current = new Anthropic({
+    clientRef.current = new Anthropic({ dangerouslyAllowBrowser: true,
       apiKey: process.env.REACT_APP_ANTHROPIC_API_KEY,
     });
   }, []);

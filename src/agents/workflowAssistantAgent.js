@@ -10,7 +10,7 @@ import Anthropic from "@anthropic-ai/sdk";
 
 export class WorkflowAssistantAgent {
   constructor() {
-    this.client = new Anthropic({
+    this.client = new Anthropic({ dangerouslyAllowBrowser: true,
       apiKey: process.env.ANTHROPIC_API_KEY || process.env.VITE_CLAUDE_API_KEY,
     });
     this.model = "claude-haiku-4-5"; // Fast model for real-time

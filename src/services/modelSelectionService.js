@@ -70,7 +70,7 @@ class ModelSelectionService {
     // Initialize model clients
     this.clients = {
       primary: process.env.ANTHROPIC_API_KEY
-        ? new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
+        ? new Anthropic({ dangerouslyAllowBrowser: true, apiKey: process.env.ANTHROPIC_API_KEY })
         : null,
       secondary: null, // OpenAI client initialized on demand
       fallback: null, // Ollama client initialized on demand

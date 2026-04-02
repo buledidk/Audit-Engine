@@ -8,7 +8,7 @@ import Anthropic from '@anthropic-ai/sdk';
 
 export class AIExtractionService {
   constructor() {
-    this.client = new Anthropic({
+    this.client = new Anthropic({ dangerouslyAllowBrowser: true,
       apiKey: process.env.ANTHROPIC_API_KEY
     });
     this.extractionHistory = [];

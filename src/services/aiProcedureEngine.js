@@ -14,7 +14,7 @@ import Anthropic from "@anthropic-ai/sdk";
 
 export class AIProcedureEngine {
   constructor(apiKey = process.env.ANTHROPIC_API_KEY || process.env.VITE_CLAUDE_API_KEY) {
-    this.client = new Anthropic({ apiKey });
+    this.client = new Anthropic({ dangerouslyAllowBrowser: true, apiKey });
     this.model = "claude-sonnet-4-6";
     this.cache = new Map();
     this.cacheTimeout = 3600000; // 1 hour
