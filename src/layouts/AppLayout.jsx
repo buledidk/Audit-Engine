@@ -31,7 +31,9 @@ const ENGAGEMENT_NAV = (engId) => [
 ];
 
 export default function AppLayout() {
-  const { engId } = useParams();
+  const params = useParams();
+  const engId = params.engId; // legacy route
+  const engagementId = params.id; // new unified route (EngagementShell handles its own sidebar)
   const navigate = useNavigate();
   const [collapsed, setCollapsed] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -90,7 +92,7 @@ export default function AppLayout() {
         </nav>
 
         {/* Engagement Context Nav */}
-        {engId && (
+        {engId && !engagementId && (
           <>
             <div className="my-4 border-t border-ae-border" />
             {!collapsed && (
@@ -190,7 +192,7 @@ export default function AppLayout() {
         style={{ marginLeft: sidebarWidth }}
       >
         <div className="text-sm text-slate-400">
-          {engId ? (
+          {(engId || engagementId) ? (
             <span>Engagement: <span className="text-white font-medium">{engId.slice(0, 12)}</span></span>
           ) : (
             <span>auditengine.agency</span>

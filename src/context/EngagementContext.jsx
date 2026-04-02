@@ -12,9 +12,9 @@ const PERSISTED_KEYS = [
   "documentLinks","changeLog","procedureLinks"
 ];
 
-export function EngagementProvider({ initialEngId, children }) {
+export function EngagementProvider({ initialEngId, engId: engIdProp, children }) {
   // ═══ Engagement identity ═══
-  const [engId, setEngId] = useState(() => initialEngId || getActiveEngagementId());
+  const [engId, setEngId] = useState(() => initialEngId || engIdProp || getActiveEngagementId());
   const storageRef = useRef(null);
   const mounted = useRef(false);
 
