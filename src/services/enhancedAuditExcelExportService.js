@@ -110,7 +110,7 @@ export class EnhancedAuditExcelExportService {
     data.push(['Audit Partner:', engagementData.partnerName || 'N/A']);
     data.push(['Manager:', engagementData.managerName || 'N/A']);
     data.push(['Senior Auditor:', engagementData.seniorAuditorName || 'N/A']);
-    data.push([''));
+    data.push(['']);
 
     // Materiality Summary
     data.push(['MATERIALITY SUMMARY', '']);

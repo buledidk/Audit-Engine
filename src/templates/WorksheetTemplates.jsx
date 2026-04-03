@@ -1233,15 +1233,18 @@ function CommentButton({ section, wsData, updateWS, inline }) {
             fontSize: '11px'
           }} onKeyPress={(e) => {
             if (e.key === 'Enter' && e.target.value) {
-              const updated = wsData.comments || {};
-              updated[section] = [
-                ...(updated[section] || []),
-                {
-                  author: 'Current User',
-                  date: new Date().toISOString().split('T')[0],
-                  text: e.target.value
-                }
-              ];
+              const prev = wsData.comments || {};
+              const updated = {
+                ...prev,
+                [section]: [
+                  ...(prev[section] || []),
+                  {
+                    author: 'Current User',
+                    date: new Date().toISOString().split('T')[0],
+                    text: e.target.value
+                  }
+                ]
+              };
               updateWS('comments', updated);
               e.target.value = '';
             }

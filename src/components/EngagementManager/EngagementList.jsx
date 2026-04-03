@@ -17,7 +17,7 @@ export default function EngagementList({ CC = C }) {
   const [engagements, setEngagements] = useState([]);
 
   const refresh = () => setEngagements(listEngagements());
-  useEffect(refresh, []);
+  useEffect(() => { refresh(); }, []);
 
   const handleCreate = () => {
     const name = window.prompt("Engagement name:", "New Engagement");

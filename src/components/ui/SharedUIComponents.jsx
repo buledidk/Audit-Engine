@@ -6,7 +6,7 @@ import { C, HELP_TEXT } from "../../data";
 const EditableCell=memo(function EditableCell({value,onChange,style}){
   const[local,setLocal]=useState(value||"");
   const ref=useRef(null);
-  useEffect(()=>{if(document.activeElement!==ref.current)setLocal(value||"");},[value]);
+  useEffect(()=>{if(document.activeElement!==ref.current){const v=value||"";setTimeout(()=>setLocal(v),0);}},[value]);
   const handleKeyDown=useCallback(e=>{
     if(e.key==="Escape"){e.preventDefault();setLocal(value||"");ref.current?.blur();}
     if(e.key==="Enter"){e.preventDefault();onChange(local);const td=ref.current?.closest("td");if(td){const ci=Array.from(td.parentElement.children).indexOf(td);const nextRow=td.parentElement.nextElementSibling;if(nextRow){const nextInput=nextRow.children[ci]?.querySelector("input");if(nextInput){nextInput.focus();nextInput.select();}else ref.current?.blur();}else ref.current?.blur();}}

@@ -94,7 +94,7 @@ export default function AgentAssessmentDashboard() {
       {/* Header */}
       <div style={{ backgroundColor: COLORS.surface, borderBottom: '1px solid ' + COLORS.border, padding: '16px 20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <div>
-          <h1 style={{ margin: 0, fontSize: '20px', fontWeight: 600 }}>\u{1F3C6} Agent Assessment Dashboard</h1>
+          <h1 style={{ margin: 0, fontSize: '20px', fontWeight: 600 }}>🏆 Agent Assessment Dashboard</h1>
           <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.5)', marginTop: '4px' }}>
             {enrichedAgents.length} agents \u2022 Avg score: {avgScores.overall || 0} \u2022 {connected ? 'Live' : 'Demo'}
           </div>
