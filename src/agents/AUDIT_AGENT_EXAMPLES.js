@@ -645,7 +645,7 @@ export async function executeFullAuditEngagement() {
 
   try {
     // Initialize agents
-    const agents = await initializeAuditTeam();
+    const _agents = await initializeAuditTeam();
 
     // Execute each phase
 
