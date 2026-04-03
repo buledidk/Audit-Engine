@@ -339,7 +339,7 @@ export class DCFModelEngine {
   // MODEL 4: LEASE LIABILITY DCF (IFRS 16)
   // ══════════════════════════════════════════════════════════════════════
   calculateLeaseLiability(params) {
-    const { leasePayments, discountRate, commencementDate, leaseTerm, incrementalBorrowingRate } = params;
+    const { leasePayments, discountRate, _commencementDate, _leaseTerm, incrementalBorrowingRate } = params;
     const ibr = incrementalBorrowingRate || discountRate || this.marketData.boeBaseRate + 0.015;
 
     // Build payment schedule
@@ -521,7 +521,7 @@ export class DCFModelEngine {
     });
   }
 
-  _goingConcernConclusion(equityValue, stressTests, projectedFCFs) {
+  _goingConcernConclusion(equityValue, stressTests, _projectedFCFs) {
     const allPositive = stressTests.every(t => t.goingConcernViable);
     const basePositive = stressTests[0]?.equityValue > 0;
     const severeStressPositive = stressTests[stressTests.length - 1]?.goingConcernViable;
@@ -550,7 +550,7 @@ export class DCFModelEngine {
     return 3;
   }
 
-  _generateGoingConcernDocumentation({ entity, wacc, projectedFCFs, enterpriseValue, equityValue, conclusion, stressTests }) {
+  _generateGoingConcernDocumentation({ entity, wacc, _projectedFCFs, enterpriseValue, equityValue, conclusion, stressTests }) {
     return `GOING CONCERN DCF ANALYSIS — ISA 570
 Entity: ${entity?.name || 'N/A'} | Date: ${new Date().toLocaleDateString('en-GB')}
 
@@ -569,7 +569,7 @@ CONCLUSION: ${conclusion.narrative}
 ISA Reference: ISA 570 para 16-17`;
   }
 
-  _generateImpairmentDocumentation({ cguName, carryingAmount, viu, headroom, impairmentRequired, drSensitivity, preTaxDiscountRate }) {
+  _generateImpairmentDocumentation({ cguName, carryingAmount, viu, headroom, impairmentRequired, _drSensitivity, preTaxDiscountRate }) {
     return `IMPAIRMENT TEST — IAS 36 VALUE IN USE
 CGU: ${cguName} | Date: ${new Date().toLocaleDateString('en-GB')}
 Pre-tax Discount Rate: ${(preTaxDiscountRate*100).toFixed(2)}%
@@ -590,7 +590,7 @@ Methodology: IFRS 9 simplified approach using provision matrix
 ${eclByBucket.map(b => `- ${b.label}: Balance £${b.outstandingBalance.toLocaleString()} | PD ${(b.adjustedPD*100).toFixed(1)}% | LGD ${(b.lgd*100).toFixed(0)}% | ECL £${b.ecl.toLocaleString()}`).join('\n')}`;
   }
 
-  _generateLeaseDocumentation({ leaseLiability, ibr, schedule, amortisationSchedule }) {
+  _generateLeaseDocumentation({ leaseLiability, ibr, _schedule, amortisationSchedule }) {
     return `LEASE LIABILITY CALCULATION — IFRS 16
 Date: ${new Date().toLocaleDateString('en-GB')}
 Incremental Borrowing Rate: ${(ibr*100).toFixed(2)}%

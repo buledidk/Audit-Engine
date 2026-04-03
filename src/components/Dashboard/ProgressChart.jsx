@@ -1,5 +1,4 @@
 import { memo } from "react";
-import { WP_TYPE_COLORS } from "../Shared/utils/constants";
 
 const ProgressChart = memo(function ProgressChart({ sections, signOffs, CC }) {
   return (

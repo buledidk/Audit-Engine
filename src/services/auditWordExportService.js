@@ -1,4 +1,4 @@
-import { Document, Packer, Paragraph, TextRun, Table, TableCell, TableRow, BorderStyle, UnderlineType, HeadingLevel, PageBreak, PageNumber } from 'docx';
+import { Document, Packer, Paragraph, HeadingLevel, PageBreak } from 'docx';
 
 /**
  * Audit Word Document Export Service
@@ -226,7 +226,7 @@ export class AuditWordExportService {
   /**
    * Get audit planning section
    */
-  getAuditPlanning(engagement) {
+  getAuditPlanning(_engagement) {
     return [
       new Paragraph({
         text: 'AUDIT PLANNING & STRATEGY',
@@ -291,7 +291,7 @@ export class AuditWordExportService {
   /**
    * Get risk assessment section
    */
-  getRiskAssessment(engagement) {
+  getRiskAssessment(_engagement) {
     return [
       new Paragraph({
         text: 'RISK ASSESSMENT',
@@ -352,7 +352,7 @@ export class AuditWordExportService {
   /**
    * Get materiality section
    */
-  getMateriality(engagement) {
+  getMateriality(_engagement) {
     return [
       new Paragraph({
         text: 'MATERIALITY',
@@ -421,7 +421,7 @@ export class AuditWordExportService {
   /**
    * Get testing results section
    */
-  getTestingResults(engagement) {
+  getTestingResults(_engagement) {
     return [
       new Paragraph({
         text: 'TESTING RESULTS & FINDINGS',
@@ -477,7 +477,7 @@ export class AuditWordExportService {
   /**
    * Get findings section
    */
-  getFindings(engagement) {
+  getFindings(_engagement) {
     return [
       new Paragraph({
         text: 'AUDIT FINDINGS',
@@ -646,7 +646,7 @@ export class AuditWordExportService {
   /**
    * Get appendices
    */
-  getAppendices(engagement) {
+  getAppendices(_engagement) {
     return [
       new Paragraph({
         text: 'APPENDICES',

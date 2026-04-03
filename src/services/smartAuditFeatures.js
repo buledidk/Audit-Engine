@@ -16,7 +16,7 @@
  */
 export function autoTickForward(procedureId, conclusion, context) {
   const updates = [];
-  const { fsli, sectionId, materiality, currentFindings = [] } = context;
+  const { fsli, sectionId, _materiality, _currentFindings = [] } = context;
 
   if (conclusion === 'satisfactory') {
     // Update procedure
@@ -62,7 +62,7 @@ export function autoTickForward(procedureId, conclusion, context) {
  * @param {Object} engagementContext  { procedures, findings, sampleSizes }
  */
 export function cascadeMaterialityUpdate(newMateriality, engagementContext) {
-  const { procedures = [], findings = [], sampleSizes = {} } = engagementContext;
+  const { procedures = [], findings = [], _sampleSizes = {} } = engagementContext;
   const updates = [];
 
   // 1. Recalculate sample sizes for all active procedures

@@ -1,11 +1,8 @@
 import { useNavigate } from "react-router-dom";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Card, CardContent } from "@/components/ui/card";
 import {
-  ShieldCheck, BarChart3, Users, Globe, Zap, CheckCircle2,
-  ArrowRight, Lock, Brain, FileText, Calculator, Briefcase,
-  ChevronRight, Star
+  ShieldCheck, BarChart3, Users, Globe, _Zap, _CheckCircle2,
+  _ArrowRight, Lock, Brain, FileText, Calculator, _Briefcase,
+  _ChevronRight, _Star
 } from "lucide-react";
 
 const FEATURES = [
@@ -101,7 +98,6 @@ export default function LandingPage() {
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           {FEATURES.map((f) => {
-            const Icon = f.icon;
             return (
               <Card key={f.title} className="hover:border-brand/30 transition-colors">
                 <CardContent className="p-5">

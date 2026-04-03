@@ -140,7 +140,7 @@ class AgentAssessmentEngine extends EventEmitter {
     const {
       uptime = 0,
       consecutiveFailures = 0,
-      lastFailureAt = null,
+      lastFailureAt = null, // eslint-disable-line no-unused-vars
       recoverySuccessRate = 100
     } = metrics;
 
@@ -204,7 +204,7 @@ class AgentAssessmentEngine extends EventEmitter {
     const {
       specialtyTasks = 0,
       specialtyTasksCompleted = 0,
-      specialtyTasksFailed = 0
+      specialtyTasksFailed = 0 // eslint-disable-line no-unused-vars
     } = metrics;
 
     if (specialtyTasks === 0) {
@@ -228,7 +228,7 @@ class AgentAssessmentEngine extends EventEmitter {
     const {
       errorRate = 0,
       incidentCount = 0,
-      successRate = 100,
+      successRate = 100, // eslint-disable-line no-unused-vars
       consistencyScore = 100
     } = metrics;
 
@@ -252,7 +252,7 @@ class AgentAssessmentEngine extends EventEmitter {
   /**
    * Calculate consistency score
    */
-  calculateConsistency(agentId, metrics) {
+  calculateConsistency(agentId, _metrics) {
     const history = this.historicalData.get(agentId) || [];
 
     if (history.length < 2) {
@@ -345,7 +345,7 @@ class AgentAssessmentEngine extends EventEmitter {
    * Generate recommendation
    */
   generateRecommendation(agentId, assessment) {
-    const { scores, scoreRange, bottlenecks } = assessment;
+    const { _scores, scoreRange, bottlenecks } = assessment;
 
     if (scoreRange === 'excellent') {
       return 'Agent performing optimally. No action needed.';

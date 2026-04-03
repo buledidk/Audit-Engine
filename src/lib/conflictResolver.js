@@ -325,7 +325,7 @@ export class ConflictDetector {
   /**
    * Retrieve version history for diff
    */
-  static async getVersionHistory(workingPaperId, limit = 10) {
+  static async getVersionHistory(workingPaperId, _limit = 10) {
     // Implementation would fetch from database
     // Returns array of { version, timestamp, editor, snapshot }
     return [];

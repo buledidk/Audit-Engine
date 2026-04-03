@@ -10,7 +10,7 @@
  * - Multi-language support
  */
 
-import React, { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { Anthropic } from '@anthropic-ai/sdk';
 
 const AuditAssistant = ({ engagementId, currentPhase, procedureName, onGuidanceProvided }) => {

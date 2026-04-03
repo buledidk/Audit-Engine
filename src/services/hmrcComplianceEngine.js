@@ -127,7 +127,6 @@ export function calculateCorporationTax(profitBeforeTax, adjustments = {}, assoc
   }
 
   // Payment dates
-  const today  = new Date();
   // Note: year-end not passed to this function; use deadline calculator for dates
 
   return {
@@ -148,7 +147,7 @@ export function calculateCorporationTax(profitBeforeTax, adjustments = {}, assoc
 
 // ─── R&D Tax Relief ───────────────────────────────────────────────────────
 
-export function calculateRDRelief(rdExpenditure, taxableProfit, isSME = true, periodFrom = '2024-04-01') {
+export function calculateRDRelief(rdExpenditure, taxableProfit, _isSME = true, periodFrom = '2024-04-01') {
   const r = UK_TAX_RATES.rd;
   const usesMergedScheme = new Date(periodFrom) >= new Date('2024-04-01');
 
@@ -262,7 +261,7 @@ export function evaluateLossRelief(currentYearLoss, priorYearProfit, futureYearF
 /**
  * VAT position analysis — registration, returns, partial exemption
  */
-export function analyseVATPosition(revenue, taxableSupplies, exemptSupplies, vatQuarters = []) {
+export function analyseVATPosition(revenue, taxableSupplies, exemptSupplies, _vatQuarters = []) {
   const vat = UK_TAX_RATES.vat;
   const alerts = [];
 
@@ -398,7 +397,7 @@ export function calculatePAYEAndNIC(grossSalary, benefitsInKind = 0, pensionEmpl
  */
 export function companiesActCompliance(entity) {
   const {
-    yearEnd, entityType = 'private', revenue = 0, balanceSheet = 0, employees = 0,
+    yearEnd, entityType = 'private', revenue = 0, balanceSheet = 0, employees = 0, // eslint-disable-line no-unused-vars
     isPublic = false, parentGuarantees = false, isGroup = false,
   } = entity;
 
@@ -568,7 +567,7 @@ export const regulatoryUpdates = [
 ];
 
 export function getApplicableUpdates(entity) {
-  const { isGroup, isListed, framework, yearEnd } = entity;
+  const { isGroup, isListed, framework, _yearEnd } = entity;
   return regulatoryUpdates.filter(u => {
     if (u.standard.includes('600') && !isGroup) return false;
     if (u.standard.includes('IFRS 18') && framework?.includes('FRS')) return false;

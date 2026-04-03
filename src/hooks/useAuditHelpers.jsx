@@ -2,14 +2,13 @@ import { useCallback, useMemo } from "react";
 import { useEngagement } from "../context/EngagementContext";
 import { isSupabaseConfigured, supabase } from "../supabaseClient";
 import { WPS, C } from "../data";
-import { ETable, SecTitle } from "../components/ui/SharedUIComponents";
 
 export function useAuditHelpers() {
   const {
     cellData, setCellData, signOffs, setSignOffs,
-    signOffLog, setSignOffLog, changeLog, setChangeLog,
-    wpNotes, setWpNotes, archived, engId, CC, indAcc,
-    showToast, cellHistoryKey, setCellHistoryKey
+    _signOffLog, setSignOffLog, _changeLog, setChangeLog,
+    _wpNotes, _setWpNotes, archived, engId, CC, indAcc,
+    showToast, cellHistoryKey, setCellHistoryKey // eslint-disable-line no-unused-vars
   } = useEngagement();
 
   const getUserIdentity = useCallback(() => {

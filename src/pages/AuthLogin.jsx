@@ -1,10 +1,5 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Input, Label } from "@/components/ui/input";
-import { Badge } from "@/components/ui/badge";
-import { Lock, Mail, ArrowRight, Eye, EyeOff, Briefcase } from "lucide-react";
 
 export default function AuthLogin() {
   const navigate = useNavigate();

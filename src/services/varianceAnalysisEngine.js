@@ -305,7 +305,7 @@ export class VarianceAnalysisEngine {
     return 'TRIVIAL';
   }
 
-  _generateVarianceNarrative(category, variance, base, actualData) {
+  _generateVarianceNarrative(category, variance, base, _actualData) {
     const percentage = (Math.abs(variance) / base * 100).toFixed(2);
     const direction = variance > 0 ? 'increased' : 'decreased';
     const magnitude = Math.abs(variance);

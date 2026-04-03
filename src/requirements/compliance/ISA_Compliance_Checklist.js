@@ -610,12 +610,12 @@ export function getISAsForPhase(phase) {
 /**
  * Helper function to get compliance status for an engagement
  */
-export function calculateComplianceStatus(engagementData) {
+export function calculateComplianceStatus(_engagementData) {
   let totalItems = 0;
   let completedItems = 0;
 
   for (const category of Object.values(ISA_COMPLIANCE_FRAMEWORK)) {
-    for (const [isa_code, details] of Object.entries(category)) {
+    for (const [isa_code, details] of Object.entries(category)) { // eslint-disable-line no-unused-vars
       if (details.compliance_checklist) {
         details.compliance_checklist.forEach(item => {
           totalItems++;

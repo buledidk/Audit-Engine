@@ -86,7 +86,7 @@ export class AuditExcelExportService {
   /**
    * Add detailed procedures by FSLI
    */
-  addProceduresByFSLI(workbook, engagement) {
+  addProceduresByFSLI(workbook, _engagement) {
     const fslis = [
       { id: 'cash', name: 'Cash & Bank Balances' },
       { id: 'receivables', name: 'Trade Receivables' },
@@ -102,7 +102,7 @@ export class AuditExcelExportService {
     ];
 
     // Add sample procedures for each FSLI
-    fslis.forEach((fsli, idx) => {
+    fslis.forEach((fsli, _idx) => {
       proceduresData.push([
         fsli.name,
         `AUD-${fsli.id.toUpperCase()}-001`,
@@ -166,7 +166,7 @@ export class AuditExcelExportService {
   /**
    * Add Testing Results sheet
    */
-  addTestingResultsSheet(workbook, engagement) {
+  addTestingResultsSheet(workbook, _engagement) {
     const testingData = [
       ['TESTING RESULTS SUMMARY', ''],
       ['', ''],
@@ -197,7 +197,7 @@ export class AuditExcelExportService {
   /**
    * Add Audit Trail sheet
    */
-  addAuditTrailSheet(workbook, engagement) {
+  addAuditTrailSheet(workbook, _engagement) {
     const auditTrailData = [
       ['AUDIT TRAIL', ''],
       ['', ''],
@@ -222,7 +222,7 @@ export class AuditExcelExportService {
   /**
    * Add Findings sheet
    */
-  addFindingsSheet(workbook, engagement) {
+  addFindingsSheet(workbook, _engagement) {
     const findingsData = [
       ['FINDINGS & EXCEPTIONS', ''],
       ['', ''],
@@ -249,7 +249,7 @@ export class AuditExcelExportService {
   /**
    * Add Risk Assessment sheet
    */
-  addRiskAssessmentSheet(workbook, engagement) {
+  addRiskAssessmentSheet(workbook, _engagement) {
     const riskData = [
       ['RISK ASSESSMENT MATRIX', ''],
       ['', ''],
@@ -277,7 +277,7 @@ export class AuditExcelExportService {
   /**
    * Add Materiality sheet
    */
-  addMaterialitySheet(workbook, engagement) {
+  addMaterialitySheet(workbook, _engagement) {
     const materialityData = [
       ['MATERIALITY CALCULATION', ''],
       ['', ''],

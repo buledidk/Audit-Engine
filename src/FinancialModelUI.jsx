@@ -4,7 +4,7 @@
 // 10 React memo components for extended financial model calculators
 // ═══════════════════════════════════════════════════════════════
 
-import React, { useState, memo } from "react";
+import { useState, memo } from "react";
 import {
   calcImpairmentSensitivity,
   calcECLProvisionMatrix,

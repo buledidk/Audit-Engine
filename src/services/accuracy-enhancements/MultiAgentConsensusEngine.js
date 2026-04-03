@@ -140,7 +140,7 @@ export class MultiAgentConsensusEngine {
     const totalAgents = Object.values(votes).length;
     const disagreedAgents = [];
 
-    for (const [agentKey, vote] of Object.entries(votes)) {
+    for (const [agentKey, vote] of Object.entries(votes)) { // eslint-disable-line no-unused-vars
       if (!vote.agreeWithFinding) {
         disagreedAgents.push(vote.agent);
       }

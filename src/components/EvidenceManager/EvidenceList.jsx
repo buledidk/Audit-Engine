@@ -1,6 +1,5 @@
 import { useOutletContext } from "react-router-dom";
 import useEngagement from "../Shared/hooks/useEngagement";
-import EvidenceUpload from "./EvidenceUpload";
 import { DARK_COLORS as C } from "../Shared/utils/constants";
 
 export default function EvidenceList() {

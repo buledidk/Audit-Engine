@@ -1,18 +1,9 @@
 import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Input, Label, Textarea } from "@/components/ui/input";
-import { Checkbox } from "@/components/ui/checkbox";
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
-import { Progress } from "@/components/ui/progress";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import {
-  ChevronLeft, Upload, FileText, Link2, Check, AlertTriangle,
-  Shield, Eye, Pen, ClipboardCheck, AlertCircle
+  _ChevronLeft, _Upload, _FileText, _Link2, _Check, _AlertTriangle,
+  Shield, Eye, Pen, _ClipboardCheck, _AlertCircle
 } from "lucide-react";
-import { AISuggestionsPanel } from "@/components/ui/ai-transparency";
 
 const FSLI_REGISTRY = {
   REV: { name: "Revenue", section: "FRS 102 §23", isa: "ISA 240, ISA 500, ISA 520" },
@@ -83,8 +74,8 @@ export default function FSLIWorkPaper() {
   });
 
   const [procedures, setProcedures] = useState(SAMPLE_PROCEDURES);
-  const [controls, setControls] = useState(SAMPLE_CONTROLS);
-  const [findings, setFindings] = useState([
+  const [controls, _setControls] = useState(SAMPLE_CONTROLS);
+  const [findings, _setFindings] = useState([
     { id: 1, title: "Revenue cutoff — 2 invoices dated post year-end included", severity: "medium", status: "open" },
   ]);
   const [signOff, setSignOff] = useState({
@@ -438,7 +429,6 @@ Based on the audit procedures performed and evidence obtained, the ${fsli.name.t
                   { key: "reviewed", label: "Reviewed By", icon: Eye, color: "ae-orange" },
                   { key: "approved", label: "Approved By", icon: Shield, color: "ae-green" },
                 ].map((stage) => {
-                  const Icon = stage.icon;
                   return (
                     <div key={stage.key} className="p-4 rounded-lg border border-ae-border bg-white/[0.02]">
                       <div className="flex items-center gap-2 mb-3">

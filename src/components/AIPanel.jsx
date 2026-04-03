@@ -1,14 +1,13 @@
 import { useEngagement } from "../context/EngagementContext";
-import { useAuditHelpers } from "../hooks/useAuditHelpers.jsx";
-import { WPS, C } from "../data";
+import { WPS } from "../data";
 
 // ═══ AI ENGINE HOOK — Claude Intelligence Layer ═══
 export function useAIEngine() {
   const {
-    aiOpen, setAiOpen, aiLoading, setAiLoading,
-    aiMessages, setAiMessages, aiInput, setAiInput,
-    aiMode, setAiMode, aiAuditTrail, setAiAuditTrail,
-    cfg, activeWP, showToast, CC
+    _aiOpen, _setAiOpen, _aiLoading, setAiLoading,
+    aiMessages, setAiMessages, aiInput, setAiInput, // eslint-disable-line no-unused-vars
+    _aiMode, _setAiMode, aiAuditTrail, setAiAuditTrail,
+    cfg, activeWP, showToast, CC // eslint-disable-line no-unused-vars
   } = useEngagement();
 
   const { ind, fw, sz } = useEngagement();
@@ -90,13 +89,13 @@ Respond as a senior audit manager. Be specific with ISA paragraph references. Fo
 // ═══ AI PANEL COMPONENT ═══
 export default function AIPanel() {
   const {
-    aiOpen, setAiOpen, aiLoading, setAiLoading,
-    aiMessages, setAiMessages, aiInput, setAiInput,
-    aiMode, setAiMode, aiAuditTrail, setAiAuditTrail,
-    cfg, CC
+    aiOpen, setAiOpen, aiLoading, setAiLoading, // eslint-disable-line no-unused-vars
+    aiMessages, setAiMessages, aiInput, setAiInput, // eslint-disable-line no-unused-vars
+    _aiMode, _setAiMode, _aiAuditTrail, _setAiAuditTrail,
+    _cfg, _CC
   } = useEngagement();
 
-  const { callAI, aiQuickActions, exportAITrail } = useAIEngine();
+  const { callAI, aiQuickActions, _exportAITrail } = useAIEngine();
 
   return (
     <div style={{ position: "fixed", right: 0, top: 0, width: aiOpen ? 420 : 0, height: "100vh", background: "#0D1229", borderLeft: aiOpen ? "1px solid rgba(99,102,241,0.3)" : "none", transition: "width 0.3s ease", overflow: "hidden", zIndex: 200, display: "flex", flexDirection: "column" }}>

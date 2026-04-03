@@ -93,7 +93,6 @@ export const riskAssessmentAgent = {
       type: 'multi-tool',
       getCalls: (state) => {
         const cfg = state.cfg || {};
-        const ind = state.ind || {};
         return [
           {
             tool: 'assessRisk',

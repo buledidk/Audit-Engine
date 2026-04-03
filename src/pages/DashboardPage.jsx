@@ -18,7 +18,7 @@ export default function DashboardPage() {
   const [engagements, setEngagements] = useState([]);
 
   const refresh = () => setEngagements(listEngagements());
-  useEffect(() => { refresh(); }, []);
+  useEffect(() => { setTimeout(() => { refresh(); }, 0); }, []);
 
   const handleCreate = () => {
     const name = window.prompt("Engagement name:", "New Engagement");

@@ -9,11 +9,9 @@
  * Created: March 2026
  */
 
-import { Document, Packer, Paragraph, HeadingLevel, TextRun, Table, TableCell, TableRow, BorderStyle, AlignmentType, VerticalAlign } from 'docx';
+import { Document, Packer, Paragraph, HeadingLevel, AlignmentType } from 'docx';
 import complianceContentService from './complianceContentService.js';
 import agentAssignmentEngine from './agentAssignmentEngine.js';
-import evidenceLinkingService from './evidenceLinkingService.js';
-import signOffChainService from './signOffChainService.js';
 
 export class EnhancedAuditWordExportService {
   /**
@@ -22,7 +20,7 @@ export class EnhancedAuditWordExportService {
    * @param {string} phaseId - Current audit phase
    * @returns {Promise<Buffer>} Word document buffer
    */
-  async generateComprehensiveAuditReport(engagementData, phaseId = 'Final Audit') {
+  async generateComprehensiveAuditReport(engagementData, _phaseId = 'Final Audit') {
     const sections = [];
 
     // Title Page
@@ -165,7 +163,7 @@ export class EnhancedAuditWordExportService {
   /**
    * Create Engagement & Scope section
    */
-  createEngagementScope(engagementData) {
+  createEngagementScope(_engagementData) {
     return [
       new Paragraph({
         text: 'ENGAGEMENT & SCOPE',
@@ -253,7 +251,7 @@ export class EnhancedAuditWordExportService {
   /**
    * Create Risk Assessment section
    */
-  createRiskAssessmentSection(engagementData) {
+  createRiskAssessmentSection(_engagementData) {
     return [
       new Paragraph({
         text: 'AUDIT PLANNING & RISK ASSESSMENT',
@@ -369,7 +367,7 @@ export class EnhancedAuditWordExportService {
   /**
    * Create Audit Trail section
    */
-  createAuditTrailSection(engagementData) {
+  createAuditTrailSection(_engagementData) {
     return [
       new Paragraph({
         text: 'AUDIT TRAIL & EVIDENCE LINKING',
@@ -402,7 +400,7 @@ export class EnhancedAuditWordExportService {
   /**
    * Create Test Results section
    */
-  createTestResultsSection(engagementData) {
+  createTestResultsSection(_engagementData) {
     return [
       new Paragraph({
         text: 'TEST RESULTS & FINDINGS',
@@ -458,7 +456,7 @@ export class EnhancedAuditWordExportService {
   /**
    * Create ISA Compliance section
    */
-  createISAComplianceSection(engagementData) {
+  createISAComplianceSection(_engagementData) {
     return [
       new Paragraph({
         text: 'ISA COMPLIANCE CHECKLIST',
@@ -475,7 +473,7 @@ export class EnhancedAuditWordExportService {
   /**
    * Create Sign-Off section
    */
-  createSignOffSection(engagementData) {
+  createSignOffSection(_engagementData) {
     return [
       new Paragraph({
         text: 'SIGN-OFF & APPROVALS',
@@ -497,7 +495,7 @@ export class EnhancedAuditWordExportService {
   /**
    * Create Appendices
    */
-  createAppendices(engagementData) {
+  createAppendices(_engagementData) {
     return [
       new Paragraph({
         text: 'APPENDICES',

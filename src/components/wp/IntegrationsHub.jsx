@@ -7,7 +7,7 @@ import { reconcileTBToFS, reconcileBankToLedger, reconcileSubLedgerToControl, re
 
 export default function IntegrationsHub({ buildExportCtx, getMappedTotals }) {
   const { integrations, setIntegrations, tbData, setTbData, tbMappings, setTbMappings, cfg, setCfg, showToast, setAiAuditTrail } = useEngagement();
-  const { ST } = useAuditHelpers();
+  const { _ST } = useAuditHelpers();
   const[importPreview,setImportPreview]=useState(null);
   const[importValidation,setImportValidation]=useState(null);
   const[showMatrix,setShowMatrix]=useState(false);
@@ -46,7 +46,6 @@ export default function IntegrationsHub({ buildExportCtx, getMappedTotals }) {
 
   const runReconciliation=(type)=>{
     let result;
-    const ctx=buildExportCtx();
     if(type==="tbToFS"){result=reconcileTBToFS(tbData,tbMappings,{});}
     else if(type==="bankToLedger"){result=reconcileBankToLedger([],[]);}
     else if(type==="subLedgerAR"){const arTotal=0;const tbDebtors=getMappedTotals().Receivables?.cy||0;result=reconcileSubLedgerToControl(arTotal,tbDebtors,"AR to TB Debtors");}

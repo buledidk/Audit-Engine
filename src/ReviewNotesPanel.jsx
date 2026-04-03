@@ -6,7 +6,7 @@
 
 import { useState } from "react";
 
-const ReviewNotesPanel = ({ wpId, notes, onAddNote, onRespond, onClear, onReopen, colors: C, archived, getUserIdentity }) => {
+const ReviewNotesPanel = ({ _wpId, notes, onAddNote, onRespond, onClear, onReopen, colors: C, archived, getUserIdentity }) => {
   const [adding, setAdding] = useState(false);
   const [noteText, setNoteText] = useState("");
   const [cellRef, setCellRef] = useState("");

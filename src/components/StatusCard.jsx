@@ -3,7 +3,6 @@
  * Reusable status card component for mobile dashboard
  * Displays metric with icon, value, optional total and subtitle
  */
-import React from 'react';
 
 const COLORS = {
   card: 'rgba(255,255,255,0.04)',

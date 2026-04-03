@@ -1,16 +1,8 @@
 import { useState, useMemo } from "react";
-import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Input, Label, Textarea } from "@/components/ui/input";
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
-import { Progress } from "@/components/ui/progress";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import {
-  Upload, FileText, MessageSquare, Clock, CheckCircle2,
-  AlertCircle, Search, Filter, Send, Download, Shield,
-  Eye, Lock, Trash2, HelpCircle
+  Upload, _FileText, _MessageSquare, _Clock, CheckCircle2,
+  AlertCircle, _Search, _Filter, _Send, _Download, _Shield,
+  Eye, _Lock, _Trash2, HelpCircle
 } from "lucide-react";
 
 // ─── PBC Request Statuses ───────────────────────────────────────────────────
@@ -59,7 +51,7 @@ const CLIENT_ROLES = [
 ];
 
 export default function ClientPortal() {
-  const [requests, setRequests] = useState(PBC_REQUESTS);
+  const [requests, _setRequests] = useState(PBC_REQUESTS);
   const [filter, setFilter] = useState("all");
   const [searchTerm, setSearchTerm] = useState("");
   const [newMessage, setNewMessage] = useState("");
@@ -198,7 +190,6 @@ export default function ClientPortal() {
               <div className="space-y-2">
                 {filteredRequests.map((req) => {
                   const cfg = STATUS_CONFIG[req.status];
-                  const StatusIcon = cfg.icon;
                   const days = daysUntil(req.deadline);
                   return (
                     <div key={req.id} className="flex items-center gap-3 p-3 rounded-lg border border-ae-border bg-white/[0.02] hover:bg-white/[0.04] transition-colors">

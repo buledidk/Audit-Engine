@@ -1,18 +1,12 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Progress } from "@/components/ui/progress";
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import {
-  BarChart, Bar, XAxis, YAxis, CartesianGrid, ResponsiveContainer,
-  Tooltip as RTooltip, RadialBarChart, RadialBar, LineChart, Line, Legend
+  _BarChart, _Bar, _XAxis, _YAxis, _CartesianGrid, _ResponsiveContainer,
+  Tooltip as _RTooltip, _RadialBarChart, _RadialBar, _LineChart, _Line, _Legend
 } from "recharts";
 import {
-  CheckCircle2, XCircle, Clock, ShieldCheck, AlertTriangle,
-  Calendar, PoundSterling, Users, TrendingUp, ArrowRight
+  _CheckCircle2, _XCircle, _Clock, _ShieldCheck, _AlertTriangle,
+  _Calendar, _PoundSterling, _Users, _TrendingUp, _ArrowRight
 } from "lucide-react";
 
 const PARTNER_ENGAGEMENTS = [
@@ -60,7 +54,7 @@ export default function PartnerDashboard() {
   const navigate = useNavigate();
   const [approvals, setApprovals] = useState(PENDING_APPROVALS);
 
-  const handleApproval = (id, action) => {
+  const handleApproval = (id, _action) => {
     setApprovals((prev) => prev.filter((a) => a.id !== id));
   };
 

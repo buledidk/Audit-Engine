@@ -19,7 +19,7 @@ const CONFIDENCE_FACTORS = { 90: 2.31, 95: 2.6, 99: 3.0 };
  * @param {Object} options     { field, confidence, tolerableMisstatement, expectedMisstatement }
  */
 export function extractSample(population, sampleSize, method = 'random', options = {}) {
-  const { field = 'amount', confidence = 95, tolerableMisstatement, expectedMisstatement = 0 } = options;
+  const { field = 'amount', confidence = 95, tolerableMisstatement, _expectedMisstatement = 0 } = options;
   const n = population.length;
 
   // ISA 530 sample size formula for MUS

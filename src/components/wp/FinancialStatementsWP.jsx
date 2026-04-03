@@ -4,7 +4,7 @@ import { C } from "../../data";
 
 export default function FinancialStatementsWP({ wp }) {
   const { cfg } = useEngagement();
-  const { BoundET, ST } = useAuditHelpers();
+  const { _BoundET, _ST } = useAuditHelpers();
 
     if(wp.id==="fs1"){const isIFRS=cfg.framework==="ifrs";return<div><ST t={"Income Statement — "+(isIFRS?"IAS 1":"FRS 102 s5")} color={"#00838F"}/>
       <BoundET id="fs1" headers={["Line Item","Note","CY (£)","PY (£)","Movement","WP Ref"]} rows={[

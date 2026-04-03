@@ -66,7 +66,7 @@ export async function getDownloadUrl(doc) {
   return data.signedUrl;
 }
 
-export async function deleteDocument(doc, engagementId) {
+export async function deleteDocument(doc, _engagementId) {
   if (isSupabaseConfigured() && doc.storage_path) {
     await supabase.storage.from(BUCKET).remove([doc.storage_path]);
     await supabase.from('documents').update({ deleted_at: new Date().toISOString() })

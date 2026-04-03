@@ -10,7 +10,7 @@
  * Created: March 2026
  */
 
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import './GuidanceSidePanel.css';
 
 export default function GuidanceSidePanel({ sectionId, guidanceData, agentAssignments, procedures }) {

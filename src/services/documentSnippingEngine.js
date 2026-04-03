@@ -238,7 +238,6 @@ function _extractBankStatement(content) {
     }
   }
 
-  const closingBalance = lines[lines.length - 1];
   return {
     confidence: transactions.length > 0 ? 0.85 : 0.3,
     data: { transactions, transactionCount: transactions.length },

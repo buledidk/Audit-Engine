@@ -461,7 +461,6 @@ export class SmartRiskEngineV2 {
     });
 
     // Calculate based on financial metrics
-    const ratios = this.calculateFinancialRatios();
     // Add ratio-based scoring logic
     // ...
 
@@ -518,7 +517,6 @@ export class SmartRiskEngineV2 {
   identifyFocusAreas() {
     const focusAreas = [];
     const indicators = this.identifyRiskIndicators();
-    const largestAccounts = this.identifyLargestAccounts();
     const riskScores = this.calculateRiskScores();
 
     if (riskScores.overall.level === 'HIGH') {

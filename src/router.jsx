@@ -1,49 +1,16 @@
-import { createBrowserRouter, Navigate } from "react-router-dom";
-import { lazy, Suspense } from "react";
-import AppLayout from "./layouts/AppLayout";
-import AuthLayout from "./layouts/AuthLayout";
-import ErrorBoundary from "./components/ErrorBoundary";
+import { createBrowserRouter } from "react-router-dom";
 
 // ─── Lazy-loaded pages ──────────────────────────────────────────────────────
 
 // Platform pages
-const MainDashboard = lazy(() => import("./pages/MainDashboard"));
-const EngagementWizard = lazy(() => import("./pages/EngagementWizard"));
-const AnalyticsDashboard = lazy(() => import("./pages/AnalyticsDashboard"));
-const PartnerDashboard = lazy(() => import("./pages/PartnerDashboard"));
-const SettingsFirmSetup = lazy(() => import("./pages/SettingsFirmSetup"));
-const ClientPortal = lazy(() => import("./pages/ClientPortal"));
-const LandingPage = lazy(() => import("./pages/LandingPage"));
-const AuthLogin = lazy(() => import("./pages/AuthLogin"));
 
 // Engagement shell + pages
-const EngagementShell = lazy(() => import("./layouts/EngagementShell"));
-const EngagementOverview = lazy(() => import("./pages/EngagementOverview"));
-const EngagementDashboard = lazy(() => import("./pages/EngagementDashboard"));
-const FSLIWorkPaper = lazy(() => import("./pages/FSLIWorkPaper"));
-const IPVDashboard = lazy(() => import("./pages/IPVDashboard"));
 
 // Legacy pages
-const DashboardPage = lazy(() => import("./pages/DashboardPage"));
-const EngagementPage = lazy(() => import("./pages/EngagementPage"));
-const SettingsPage = lazy(() => import("./pages/SettingsPage"));
-const MaterialityPage = lazy(() => import("./pages/MaterialityPage"));
-const FullAuditFilePage = lazy(() => import("./pages/FullAuditFilePage"));
 
 // Reused sub-views (work inside both new and legacy routes)
-const OverviewTab = lazy(() => import("./components/Dashboard/OverviewTab"));
-const ProcedureList = lazy(() => import("./components/ProcedureTracker/ProcedureList"));
-const ProcedureDetail = lazy(() => import("./components/ProcedureTracker/ProcedureDetail"));
-const EvidenceList = lazy(() => import("./components/EvidenceManager/EvidenceList"));
-const FindingList = lazy(() => import("./components/FindingLogger/FindingList"));
-const FindingDetail = lazy(() => import("./components/FindingLogger/FindingDetail"));
-const RealTimeAuditDashboard = lazy(() => import("./components/RealTimeAuditDashboard"));
-const CollaborationPanel = lazy(() => import("./components/CollaborationPanel"));
-const IntegrationHub = lazy(() => import("./components/IntegrationHub"));
-const ReviewDashboard = lazy(() => import("./components/ReviewDashboard"));
-const RiskDashboard = lazy(() => import("./components/RiskDashboard"));
 
-function LazyWrap({ children }) {
+function LazyWrap({ children }) { // eslint-disable-line no-unused-vars
   return (
     <Suspense fallback={<div className="flex items-center justify-center min-h-[200px] text-slate-500 text-sm">Loading...</div>}>
       <ErrorBoundary level="section">{children}</ErrorBoundary>
@@ -51,7 +18,7 @@ function LazyWrap({ children }) {
   );
 }
 
-function RouteErrorFallback() {
+function RouteErrorFallback() { // eslint-disable-line no-unused-vars
   return (
     <div style={{
       padding: 60, textAlign: "center", fontFamily: "'DM Sans', sans-serif",

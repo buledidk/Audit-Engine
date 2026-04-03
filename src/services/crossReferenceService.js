@@ -164,7 +164,6 @@ const FINDING_TYPE_LABELS = {
   limitation: 'Limitation of Scope'
 };
 
-const RISK_LEVEL_PRIORITY = { low: 1, medium: 2, high: 3, significant: 4 };
 
 // ---------------------------------------------------------------------------
 // HELPER UTILITIES
@@ -366,7 +365,7 @@ export class CrossReferenceService {
    * @param {string} [findingType]  - Finding type (reserved for future type-based filtering).
    * @returns {Array<{sectionId: string, reason: string}>}
    */
-  getAffectedSections(sourceSection, findingType) {
+  getAffectedSections(sourceSection, _findingType) {
     const mapping = CROSS_REFERENCE_MAP[sourceSection];
     if (!mapping) {
       return [];

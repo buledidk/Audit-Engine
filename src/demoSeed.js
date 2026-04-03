@@ -9,18 +9,18 @@ export function loadDemo() {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (raw) return JSON.parse(raw);
-  } catch (e) { /* ignore */ }
+  } catch (e) { /* ignore */ } // eslint-disable-line no-unused-vars
   return null;
 }
 
 export function saveDemo(state) {
   try {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-  } catch (e) { /* ignore */ }
+  } catch (e) { /* ignore */ } // eslint-disable-line no-unused-vars
 }
 
 export function clearDemo() {
-  try { localStorage.removeItem(STORAGE_KEY); } catch (e) { /* ignore */ }
+  try { localStorage.removeItem(STORAGE_KEY); } catch (e) { /* ignore */ } // eslint-disable-line no-unused-vars
 }
 
 export function generateDemoConstruction() {
@@ -49,7 +49,6 @@ export function generateDemoConstruction() {
     configured: true
   };
 
-  const today = "2026-03-13";
   const cellData = {};
   const c = (id, row, col, val) => { cellData[`${id}_${row}_${col}`] = val; };
 
@@ -631,8 +630,6 @@ export function generateDemoConstruction() {
   const completionWPs = ["e1", "a7", "e2", "e3", "e4", "e5", "e6", "dc1"];
   const reportingWPs = ["f1", "f2"];
   const regulatoryWPs = ["reg1", "reg2", "std1"];
-  const researchWPs = ["res1", "coa1"];
-  const trailWPs = ["z1"];
 
   const allSignable = [...planningWPs, ...riskWPs, ...leadWPs, ...fsWPs, ...testingWPs, ...completionWPs, ...reportingWPs, ...regulatoryWPs];
   allSignable.forEach(wp => {

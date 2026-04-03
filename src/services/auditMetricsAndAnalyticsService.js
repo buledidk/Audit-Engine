@@ -108,7 +108,7 @@ export class AuditMetricsAndAnalyticsService {
   /**
    * Calculate compliance metrics
    */
-  calculateComplianceMetrics(engagement) {
+  calculateComplianceMetrics(_engagement) {
     return {
       isaStandardsCovered: '100%',
       frsCompliance: '100%',
@@ -124,7 +124,7 @@ export class AuditMetricsAndAnalyticsService {
   /**
    * Assess overall risk profile
    */
-  assessRiskProfile(engagement) {
+  assessRiskProfile(_engagement) {
     return {
       overallRisk: 'Medium-High',
       highRiskFSLIs: 2,
@@ -169,7 +169,7 @@ export class AuditMetricsAndAnalyticsService {
   /**
    * Analyze team performance
    */
-  analyzeTeamPerformance(engagement) {
+  analyzeTeamPerformance(_engagement) {
     return {
       teamSize: 5,
       rolesAssigned: {

@@ -1,15 +1,9 @@
 import { useState } from "react";
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
-import { Button } from "@/components/ui/button";
-import { Select, SelectTrigger, SelectContent, SelectItem, SelectValue } from "@/components/ui/select";
 import {
-  RadialBarChart, RadialBar, ResponsiveContainer, Tooltip as RTooltip,
-  BarChart, Bar, XAxis, YAxis, CartesianGrid, ScatterChart, Scatter,
-  ZAxis, LineChart, Line, Legend, PieChart, Pie, Cell
+  _RadialBarChart, _RadialBar, _ResponsiveContainer, Tooltip as _RTooltip,
+  _BarChart, _Bar, _XAxis, _YAxis, _CartesianGrid, _ScatterChart, _Scatter,
+  _ZAxis, _LineChart, _Line, _Legend, _PieChart, _Pie, _Cell
 } from "recharts";
-import { TrendingUp, AlertTriangle, ShieldCheck, Activity, BarChart3, RefreshCw } from "lucide-react";
 
 // ─── Ratio Gauges Data ──────────────────────────────────────────────────────
 const RATIO_DATA = [

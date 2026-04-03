@@ -270,7 +270,7 @@ export class EnhancedWorkingPaperTemplateService {
   /**
    * Generate assertion testing matrix (6 fundamental assertions)
    */
-  generateAssertionMatrixSection(fsliId) {
+  generateAssertionMatrixSection(_fsliId) {
     const assertions = [
       { name: 'Existence/Occurrence', description: 'Assets, liabilities, and equity recorded actually exist' },
       { name: 'Completeness', description: 'All transactions are recorded; none are omitted' },
@@ -298,7 +298,7 @@ export class EnhancedWorkingPaperTemplateService {
   /**
    * Generate results and conclusion section
    */
-  generateResultsSection(fsliId) {
+  generateResultsSection(_fsliId) {
     return {
       title: 'RESULTS & CONCLUSION',
       overallTesting: {
@@ -350,7 +350,7 @@ export class EnhancedWorkingPaperTemplateService {
   /**
    * Generate evidence index section
    */
-  generateEvidenceIndexSection(fsliId) {
+  generateEvidenceIndexSection(_fsliId) {
     return {
       title: 'EVIDENCE INDEX',
       instruction: 'List all evidence files and cross-references to supporting audit procedures',
@@ -375,7 +375,7 @@ export class EnhancedWorkingPaperTemplateService {
   /**
    * Generate sign-off section
    */
-  generateSignOffSection(fsliId) {
+  generateSignOffSection(_fsliId) {
     return {
       title: 'SIGN-OFF & APPROVALS (ISA 220 & ISA 230)',
       preparerSignOff: {
@@ -407,7 +407,7 @@ export class EnhancedWorkingPaperTemplateService {
   /**
    * Generate template validation checklist
    */
-  generateValidationChecklist(fsliId) {
+  generateValidationChecklist(_fsliId) {
     return {
       title: 'WORKING PAPER VALIDATION CHECKLIST (ISA 230)',
       items: [

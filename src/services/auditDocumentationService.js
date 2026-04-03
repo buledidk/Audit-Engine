@@ -591,7 +591,6 @@ export class AuditDocumentationService {
     const adjustedMis = misstatements.filter(f => f.isAdjusted);
     const unadjustedMis = misstatements.filter(f => !f.isAdjusted);
     const controlDeficiencies = findings.filter(f => f.findingType === 'control_deficiency');
-    const otherFindings = findings.filter(f => !['misstatement', 'control_deficiency'].includes(f.findingType));
 
     const totalLikelyUnadjusted = unadjustedMis
       .filter(f => f.amountType === 'likely')
@@ -1016,7 +1015,6 @@ export class AuditDocumentationService {
   generateFRCReadyDocumentation(engagement, allWorkingPapers = []) {
     const engName = engagement.name || engagement.clientName || 'Entity';
     const yearEnd = engagement.yearEnd || engagement.periodEnd || 'Not specified';
-    const date = ukDate();
     const engagementId = engagement.id || engagement.engagementId || 'UNKNOWN';
 
     // Table of contents.
@@ -1450,7 +1448,7 @@ export class AuditDocumentationService {
    * @param {string} riskLevel
    * @returns {string[]}
    */
-  _buildWorkDoneNarrative(section, procedure, riskLevel) {
+  _buildWorkDoneNarrative(section, procedure, _riskLevel) {
     if (Array.isArray(procedure.workDone) && procedure.workDone.length > 0) {
       return procedure.workDone;
     }
@@ -1555,7 +1553,7 @@ export class AuditDocumentationService {
    * @param {Object}   engagement
    * @returns {Array<{ref, title, stage, section}>}
    */
-  _buildTableOfContents(workingPapers, engagement) {
+  _buildTableOfContents(workingPapers, _engagement) {
     const staticSections = [
       { ref: 'PM-001', title: 'Planning Memorandum', stage: 'planning', section: 'planning' },
       { ref: 'RA-001', title: 'Risk Assessment Summary', stage: 'risk_assessment', section: 'risk_assessment' },
@@ -1703,7 +1701,7 @@ export class AuditDocumentationService {
    * @param {Object}   allSections
    * @returns {string}
    */
-  _buildKeyRisksAddressedSection(findings, allSections) {
+  _buildKeyRisksAddressedSection(findings, _allSections) {
     const highRiskFindings = findings.filter(f => f.riskLevel === 'high' || f.riskLevel === 'significant');
     const revenueFindings = findings.filter(f => f.sourceSection === 'revenue');
     const fraudRiskFindings = findings.filter(f =>

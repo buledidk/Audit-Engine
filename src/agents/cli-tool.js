@@ -6,8 +6,6 @@
  * Usage: node src/agents/cli-tool.js <command> [options]
  */
 
-import fs from 'fs/promises';
-import path from 'path';
 
 // Lazy-load AgentCLI (requires Anthropic API key)
 let cli = null;
@@ -216,8 +214,6 @@ TRANSPARENCY & COMPLIANCE:
 ╚════════════════════════════════════════════════════════════╝
 `);
 
-      const agents = cli.framework.getAllAgents();
-      const metrics = cli.framework.getMetrics();
 
       const refresh = () => {
         const now = new Date().toLocaleTimeString();

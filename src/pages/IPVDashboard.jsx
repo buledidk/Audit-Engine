@@ -1,20 +1,12 @@
 import { useState, useMemo } from "react";
 import { useParams } from "react-router-dom";
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Progress } from "@/components/ui/progress";
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
-import { Checkbox } from "@/components/ui/checkbox";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { AISuggestionsPanel } from "@/components/ui/ai-transparency";
 import {
-  PieChart, Pie, Cell, BarChart, Bar, XAxis, YAxis, CartesianGrid,
-  ResponsiveContainer, Tooltip as RTooltip, RadialBarChart, RadialBar
+  _PieChart, _Pie, _Cell, _BarChart, _Bar, _XAxis, _YAxis, _CartesianGrid,
+  _ResponsiveContainer, Tooltip as _RTooltip, _RadialBarChart, _RadialBar
 } from "recharts";
 import {
-  ShieldCheck, AlertTriangle, CheckCircle2, Clock, TrendingUp,
-  Download, FileText, Search, Eye
+  _ShieldCheck, AlertTriangle, CheckCircle2, Clock, _TrendingUp,
+  _Download, _FileText, _Search, _Eye
 } from "lucide-react";
 import { IPV_CONTROLS, ISA_620_CHECKLIST, IFRS13_HIERARCHY } from "@/services/ipvEngine";
 
@@ -59,7 +51,7 @@ const SENSITIVITY_DATA = [
 ];
 
 export default function IPVDashboard() {
-  const { id } = useParams();
+  const { _id } = useParams();
   const [isa620Checks, setIsa620Checks] = useState(() => ISA_620_CHECKLIST.reduce((acc, c) => ({ ...acc, [c.id]: false }), {}));
 
   const portfolio = DEMO_PORTFOLIO;
@@ -141,7 +133,6 @@ export default function IPVDashboard() {
                   <tbody>
                     {portfolio.map((p) => {
                       const st = STATUS_CONFIG[p.status];
-                      const StIcon = st.icon;
                       return (
                         <tr key={p.id} className="border-b border-ae-border/50 hover:bg-white/[0.03]">
                           <td className="py-2 px-2 text-slate-200 font-medium">{p.name}</td>

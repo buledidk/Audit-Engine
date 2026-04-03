@@ -232,7 +232,7 @@ class ModelSelectionService {
   /**
    * Execute with OpenAI GPT-4
    */
-  async _executeWithOpenAI(selection, task) {
+  async _executeWithOpenAI(_selection, _task) {
     // Lazy initialize OpenAI client
     if (!process.env.OPENAI_API_KEY) {
       throw new Error("OpenAI API key not configured");

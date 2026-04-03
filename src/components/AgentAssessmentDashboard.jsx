@@ -3,7 +3,7 @@
  * Full agent assessment dashboard with rankings, trends, 6-dimensional scoring
  * Integrates with AgentAssessmentEngine and AgentHealthCheck services
  */
-import React, { useState, useMemo } from 'react';
+import { useState, useMemo } from 'react';
 import { useRealtimeSync } from '../hooks/useRealtimeSync';
 
 const COLORS = {
@@ -30,7 +30,7 @@ export default function AgentAssessmentDashboard() {
   const [sortBy, setSortBy] = useState('overall_score');
   const [sortDir, setSortDir] = useState('desc');
 
-  const { data, connected, lastUpdate, refresh } = useRealtimeSync(TABLES);
+  const { data, connected, _lastUpdate, refresh } = useRealtimeSync(TABLES);
 
   const rankings = data.agent_rankings || [];
   const healthChecks = data.agent_health_checks || [];
@@ -230,7 +230,7 @@ export default function AgentAssessmentDashboard() {
               </div>
               <div style={{ backgroundColor: COLORS.card, border: '1px solid ' + COLORS.border, borderRadius: '10px', padding: '14px' }}>
                 <h3 style={{ margin: '0 0 8px 0', fontSize: '13px', color: 'rgba(255,255,255,0.7)' }}>Needs Improvement</h3>
-                {sortedAgents.slice(-5).reverse().map((a, i) => (
+                {sortedAgents.slice(-5).reverse().map((a, _i) => (
                   <div key={a.id} style={{ display: 'flex', justifyContent: 'space-between', padding: '4px 0', fontSize: '12px' }}>
                     <span>{(a.agent_name || '').replace('Agent', '')}</span>
                     <span style={{ color: (a.overall_score || 0) < 75 ? COLORS.error : COLORS.warning }}>{a.overall_score || 0}</span>

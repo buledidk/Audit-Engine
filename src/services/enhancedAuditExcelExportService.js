@@ -13,8 +13,6 @@
 import XLSX from 'xlsx';
 import complianceContentService from './complianceContentService.js';
 import agentAssignmentEngine from './agentAssignmentEngine.js';
-import evidenceLinkingService from './evidenceLinkingService.js';
-import signOffChainService from './signOffChainService.js';
 
 export class EnhancedAuditExcelExportService {
   constructor() {
@@ -44,7 +42,7 @@ export class EnhancedAuditExcelExportService {
    * @param {string} phaseId - Current audit phase
    * @returns {Buffer} Excel file buffer
    */
-  generateComprehensiveAuditWorkbook(engagementData, phaseId = 'Final Audit') {
+  generateComprehensiveAuditWorkbook(engagementData, _phaseId = 'Final Audit') {
     const workbook = XLSX.utils.book_new();
 
     // Sheet 1: Executive Summary (Enhanced)
@@ -320,7 +318,7 @@ export class EnhancedAuditExcelExportService {
   /**
    * Add Audit Trail sheet
    */
-  addAuditTrailSheet(workbook, engagementData) {
+  addAuditTrailSheet(workbook, _engagementData) {
     const data = [];
     data.push(['AUDIT TRAIL - WORK PERFORMED', '']);
     data.push(['Timestamp', 'Agent', 'FSLI', 'Action', 'Description', 'Status', 'Evidence']);
@@ -352,7 +350,7 @@ export class EnhancedAuditExcelExportService {
   /**
    * Add Evidence Index sheet
    */
-  addEvidenceIndexSheet(workbook, engagementData) {
+  addEvidenceIndexSheet(workbook, _engagementData) {
     const data = [];
     data.push(['EVIDENCE INDEX', '']);
     data.push(['#', 'Evidence ID', 'Title', 'Type', 'Relevance', 'Linked To', 'Date', 'Amount', 'Location']);
@@ -392,7 +390,6 @@ export class EnhancedAuditExcelExportService {
     const fslis = engagementData.fslis || ['C1', 'D1', 'D3', 'D4', 'D5', 'D6'];
 
     fslis.forEach(fsli => {
-      const content = complianceContentService.getComplianceContentByFSLI(fsli);
       data.push([
         fsli,
         'Senior Auditor',
@@ -429,7 +426,7 @@ export class EnhancedAuditExcelExportService {
   /**
    * Add Test Results & Findings sheet
    */
-  addTestResultsSheet(workbook, engagementData) {
+  addTestResultsSheet(workbook, _engagementData) {
     const data = [];
     data.push(['TEST RESULTS & FINDINGS', '']);
     data.push(['FSLI', 'Procedure', 'Sample Size', 'Tested', 'Passed', 'Failed', 'Exception Rate', 'Status', 'Conclusion']);
@@ -462,7 +459,7 @@ export class EnhancedAuditExcelExportService {
   /**
    * Add Risk Assessment Matrix sheet
    */
-  addRiskMatrixSheet(workbook, engagementData) {
+  addRiskMatrixSheet(workbook, _engagementData) {
     const data = [];
     data.push(['RISK ASSESSMENT MATRIX', '']);
     data.push(['FSLI', 'Inherent Risk', 'Control Risk', 'Detection Risk', 'Overall RMM', 'Control Tested', 'Procedures Planned']);
@@ -539,7 +536,7 @@ export class EnhancedAuditExcelExportService {
   /**
    * Add ISA Compliance Checklist sheet
    */
-  addISAComplianceSheet(workbook, engagementData) {
+  addISAComplianceSheet(workbook, _engagementData) {
     const data = [];
     data.push(['ISA COMPLIANCE CHECKLIST', '']);
     data.push(['ISA Standard', 'Title', 'Key Requirement', 'Status', 'Evidence']);

@@ -10,7 +10,7 @@ const fileIcon = ext => ext === "pdf" ? "📄" : ["csv","xlsx","xls"].includes(e
 export const DropZone = ({ wpId, label }) => {
   const {
     uploads, setUploads, documentLinks, setDocumentLinks,
-    archived, indAcc, showToast, engId, CC
+    archived, indAcc, showToast, engId, CC // eslint-disable-line no-unused-vars
   } = useEngagement();
 
   const { getUserIdentity, tc } = useAuditHelpers();
@@ -63,7 +63,7 @@ export const DropZone = ({ wpId, label }) => {
   // Cross-referenced evidence from other WPs
   const crossRefs = Object.entries(documentLinks).flatMap(([docId, links]) =>
     links.filter(l => l.wpId === wpId).map(l => {
-      const sourceWp = Object.entries(uploads).find(([wid, fls]) => fls.some(f => f.id === docId));
+      const sourceWp = Object.entries(uploads).find(([_wid, fls]) => fls.some(f => f.id === docId));
       const doc = sourceWp ? sourceWp[1].find(f => f.id === docId) : null;
       return doc ? {...doc, sourceWpId: sourceWp[0], assertion: l.assertion, linkedBy: l.linkedBy} : null;
     }).filter(Boolean)

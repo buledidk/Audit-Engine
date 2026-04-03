@@ -5,7 +5,7 @@
  */
 
 import { MARKET_REFERENCE_DATA } from './dcfModelEngine.js';
-import { calculateInterest, calculateECL } from './financialModellingEngine.js';
+import { calculateInterest } from './financialModellingEngine.js';
 
 // ─── Reference Data Sources ─────────────────────────────────────────────────
 
@@ -158,12 +158,11 @@ export class IPVEngine {
 
   /** IFRS 13 Level 3 — Unlisted / Private Equity */
   verifyUnlistedInvestment(instrument) {
-    const { name, clientValue, valuationMethod, assumptions = {}, expertReport } = instrument;
+    const { name, clientValue, valuationMethod, _assumptions = {}, expertReport } = instrument;
     const methods = ['DCF', 'comparable_transactions', 'NAV', 'earnings_multiple'];
     const methodValid = methods.includes(valuationMethod);
 
     // Sensitivity analysis: ±10% and ±20% on key assumption
-    const keyAssumption = assumptions.discountRate || assumptions.multiple || assumptions.growthRate || 0.10;
     const sensitivity = [
       { scenario: '-20%', factor: 0.80, value: Math.round(clientValue * 0.80) },
       { scenario: '-10%', factor: 0.90, value: Math.round(clientValue * 0.90) },

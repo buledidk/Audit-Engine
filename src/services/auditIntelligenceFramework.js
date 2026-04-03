@@ -398,7 +398,7 @@ export class AuditIntelligenceFramework {
    * - Assumption validation
    * - Completeness verification
    */
-  createAIIntelligenceCheckpoint(checkpoint, context) {
+  createAIIntelligenceCheckpoint(checkpoint, _context) {
     const intelligence = {
       checkpointName: checkpoint.name,
       auditStep: checkpoint.step,

@@ -48,14 +48,14 @@ export class ContinuousAssuranceEngine {
     return auditData.transactions?.filter(t => Math.abs(t.amount) > 100000).length || 0;
   }
 
-  _generateEarlyWarnings(auditData) {
+  _generateEarlyWarnings(_auditData) {
     return [
       { warning: 'Receivables aging', severity: 'MEDIUM', action: 'Monitor collection trends' },
       { warning: 'Inventory obsolescence', severity: 'LOW', action: 'Review slow-moving items' }
     ];
   }
 
-  _performTrendAnalysis(auditData) {
+  _performTrendAnalysis(_auditData) {
     return {
       revenueGrowth: 'Consistent month-over-month',
       expenseVariance: 'Within expected ranges',

@@ -1,6 +1,5 @@
-import { useParams, Outlet, useOutletContext } from "react-router-dom";
+import { useParams, useOutletContext } from "react-router-dom";
 import { useEffect } from "react";
-import { EngagementProvider } from "../context/EngagementContext";
 import { setActiveEngagementId } from "../StorageEngine";
 import { DARK_COLORS as C } from "../components/Shared/utils/constants";
 

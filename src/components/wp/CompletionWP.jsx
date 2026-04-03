@@ -1,13 +1,11 @@
 import { useEngagement } from "../../context/EngagementContext";
 import { useAuditHelpers } from "../../hooks/useAuditHelpers";
-import { C, WPS } from "../../data";
-import { Badge } from "../ui/SharedUIComponents";
-import { COMPLETION_CHECKLIST, GOING_CONCERN, REPRESENTATIONS, AUDIT_OPINIONS } from "../../AuditMethodology";
-import { ENGAGEMENT_COMPLETION_LETTER, AUDIT_COMMITTEE_REPORT } from "../../AdditionalWPs";
+import { C } from "../../data";
+import { COMPLETION_CHECKLIST, REPRESENTATIONS, AUDIT_OPINIONS } from "../../AuditMethodology";
 
 export default function CompletionWP({ wp }) {
-  const { cfg, ind, fw, sz, wpNotes, setWpNotes, signOffs, customItems } = useEngagement();
-  const { BoundET, ST, inp, tc } = useAuditHelpers();
+  const { cfg, ind, fw, sz, wpNotes, setWpNotes, _signOffs, _customItems } = useEngagement();
+  const { _BoundET, _ST, inp, _tc } = useAuditHelpers();
 
     if(wp.id==="e1")return<div><ST t="Completion Checklist — ISA 220/230" color={C.cmp}/>
       <BoundET id="e1" headers={["Ref","Category","Completion Item","ISA","Done?","Date","Comment"]} rows={COMPLETION_CHECKLIST.map(c=>[<span style={{fontFamily:"monospace",color:C.acc,fontWeight:700}}>{c.ref}</span>,<span style={{fontSize:10,color:C.pur,fontWeight:600,textTransform:"uppercase"}}>{c.category}</span>,<span style={{color:C.tx}}>{c.item}</span>,<span style={{fontSize:10,fontStyle:"italic",color:C.fnt}}>{c.isa}</span>,"","",""])} editable={[4,5,6]}/>

@@ -6,7 +6,6 @@
 
 import { useState, useEffect, useMemo } from "react";
 import AuditDashboardService from "../services/auditDashboardService";
-import * as apiClient from "../services/apiClient";
 
 export function AuditDashboard({ engagementId = "" }) {
   const [metrics, setMetrics] = useState(null);

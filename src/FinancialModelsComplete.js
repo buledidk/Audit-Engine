@@ -145,7 +145,6 @@ export function calcEIRAmortisedCost({ nominalAmount, fees = 0, nominalRate, ter
   let balance = netAmount;
   for (let i = 0; i < cashFlows.length; i++) {
     const interest = balance * eir;
-    const feeAmort = interest - (balance === netAmount && i === 0 ? nominalAmount * nominalRate : (repaymentType === "amortising" ? cashFlows[i] - (nominalAmount * nominalRate / (1 - Math.pow(1 + nominalRate, -(term - i)))) * (1 - 1 / (1 + nominalRate)) : 0));
     const closing = balance + interest - cashFlows[i];
     schedule.push({ period: i + 1, opening: round(balance, 2), interestAtEIR: round(interest, 2), cashFlow: round(cashFlows[i], 2), closing: round(Math.max(0, closing), 2) });
     balance = Math.max(0, closing);
@@ -154,7 +153,7 @@ export function calcEIRAmortisedCost({ nominalAmount, fees = 0, nominalRate, ter
 }
 
 // ─── F) DERIVATIVES — Interest Rate Swap ───
-export function calcIRSwapValuation({ notional, fixedRate, floatingRates, paymentFrequency = "semi-annual", maturityYears, dayCount = "ACT/365" }) {
+export function calcIRSwapValuation({ notional, fixedRate, floatingRates, paymentFrequency = "semi-annual", maturityYears, _dayCount = "ACT/365" }) {
   const periodsPerYear = paymentFrequency === "quarterly" ? 4 : paymentFrequency === "annual" ? 1 : 2;
   const totalPeriods = maturityYears * periodsPerYear;
   const fixedPerPeriod = fixedRate / periodsPerYear;
@@ -311,7 +310,6 @@ export function calcForeignCurrencyTranslation({ bsItems, plItems, closingRate, 
   });
   const translatedPL = plItems.map(item => ({ ...item, foreignAmount: item.amount, rate: averageRate, translatedAmount: round(item.amount / averageRate, 2) }));
   const bsTotal = translatedBS.reduce((s, i) => s + i.translatedAmount * (i.isAsset ? 1 : -1), 0);
-  const plTotal = translatedPL.reduce((s, i) => s + i.translatedAmount, 0);
   return { translatedBS, translatedPL, translationReserve: round(bsTotal, 2), closingRate, averageRate };
 }
 

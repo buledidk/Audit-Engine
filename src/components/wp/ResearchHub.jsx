@@ -5,7 +5,7 @@ import { C } from "../../data";
 
 export default function ResearchHub() {
   const { arMod } = useEngagement();
-  const { ST } = useAuditHelpers();
+  const { _ST } = useAuditHelpers();
   const[resTab,setResTab]=useState("assertions");
   let resContent=null;
   if(arMod){

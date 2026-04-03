@@ -3,7 +3,7 @@
 // Manages task queues, step execution, and result aggregation
 // ═══════════════════════════════════════════════════════════════
 
-import { executeTool, TOOL_DEFINITIONS } from './tools.js';
+import { executeTool } from './tools.js';
 import { AGENT_DEFINITIONS } from './definitions/index.js';
 
 // ─── ORCHESTRATOR ───────────────────────────────────────────────────
@@ -132,7 +132,7 @@ class AgentOrchestrator {
 
   // ─── STEP EXECUTION ───────────────────────────────────────────────
 
-  async _executeStep(step, engagementState, previousResults, options) {
+  async _executeStep(step, engagementState, previousResults, _options) {
     const suggestions = [];
 
     try {

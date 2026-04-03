@@ -5,8 +5,8 @@ import { AUDIT_OPINIONS } from "../../AuditMethodology";
 import { ENGAGEMENT_COMPLETION_LETTER, AUDIT_COMMITTEE_REPORT } from "../../AdditionalWPs";
 
 export default function ReportingWP({ wp }) {
-  const { cfg, ind, fw, sz, wpNotes, setWpNotes, signOffs, allWPs } = useEngagement();
-  const { BoundET, ST, inp, tc } = useAuditHelpers();
+  const { cfg, _ind, fw, _sz, wpNotes, setWpNotes, signOffs, allWPs } = useEngagement();
+  const { _BoundET, _ST, inp, tc } = useAuditHelpers();
 
     if(wp.id==="f1")return<div><ST t="Management Letter — ISA 265" color={C.rpt}/>
       <div style={{background:C.card,borderRadius:10,padding:24,border:"1px solid "+C.brd,marginBottom:16,fontSize:13,color:C.dim,lineHeight:1.9}}>

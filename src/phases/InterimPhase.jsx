@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 
 export function InterimPhase({ data, onComplete }) {
   const [procedures, setProcedures] = useState(data?.procedures || [])

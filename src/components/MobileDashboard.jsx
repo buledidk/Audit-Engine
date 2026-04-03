@@ -3,10 +3,8 @@
  * Main mobile-responsive dashboard for agent monitoring and dispatch operations
  * Features: Real-time agent status, dispatch commands, notifications, performance metrics
  */
-import React, { useState, useMemo } from 'react';
+import { useState, useMemo } from 'react';
 import { useRealtimeSync } from '../hooks/useRealtimeSync';
-import StatusCard from './StatusCard';
-import AgentGrid from './AgentGrid';
 
 const COLORS = {
   bg: '#0A0E17', surface: '#0F1622', card: 'rgba(255,255,255,0.04)',

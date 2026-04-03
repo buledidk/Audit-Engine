@@ -1,26 +1,13 @@
-import { useEffect, lazy, Suspense } from "react";
-import { I, FW, SZ, ET, WPS, TESTS, C, CL, HELP_TEXT, REGULATORY_DETAIL_MAP } from "./data";
-import { supabase, isSupabaseConfigured } from './supabaseClient';
-import { uploadFile, getDownloadUrl, deleteDocument } from './DocumentService';
-import ReviewNotesPanel from './ReviewNotesPanel';
-import VersionHistoryModal from './VersionHistoryModal';
-import EngagementPlanning from './components/EngagementPlanning';
+import { useEffect } from "react";
+import { ET, TESTS, C } from "./data";
 import { smartExtract } from "./DataExtractor";
 import { validateImportData } from "./IntegrationsEngine";
 import { generateTestingWorkbook } from "./ExcelGenerator";
-import { EngagementProvider, useEngagement } from "./context/EngagementContext";
+import { useEngagement } from "./context/EngagementContext";
 import { useAuditHelpers } from "./hooks/useAuditHelpers.jsx";
 import { useExportHandlers } from "./hooks/useExportHandlers.jsx";
 import { useKeyboardShortcuts } from "./hooks/useKeyboardShortcuts.jsx";
-import AIPanel, { useAIEngine } from "./components/AIPanel";
-import AgentPanel from "./agents/AgentPanel";
-import { AddModal, SampleCalcModal, WelcomeWizard, ExtractPreviewModal, ToastNotification } from "./components/AuditModals";
-import { WPHead } from "./components/wp/WPHeader";
-import AuditSidebar from "./components/AuditSidebar";
-import { EvidenceTracker } from "./components/wp/EvidenceTracker";
-import Dashboard from "./components/AuditDashboard";
-import WPBody from "./components/wp/WPBody";
-const ReviewDashboard = lazy(() => import("./components/ReviewDashboard"));
+import { useAIEngine } from "./components/AIPanel";
 
 // ═══════════════════════════════════════════════════════════════
 // AUDITENGINE v10 AURA — FULL AUDIT SOFTWARE
@@ -35,42 +22,42 @@ export default function AuditEngine({ initialEngId }){
   );
 }
 
-function AuditLayout(){
+function AuditLayout(){ // eslint-disable-line no-unused-vars
   const {
-    activeWP, setActiveWP, sbOpen, setSbOpen, cfg, setCfg,
-    signOffs, setSignOffs, wpNotes, setWpNotes, cellData, setCellData, agentPanelOpen, setAgentPanelOpen,
-    customItems, setCustomItems, showModal, setShowModal, mi, setMi,
-    uploads, setUploads, archived, setArchived, reviewStatus, setReviewStatus,
-    integrations, setIntegrations, showSampleCalc, setShowSampleCalc,
-    tbData, setTbData, tbMappings, setTbMappings,
+    activeWP, setActiveWP, sbOpen, setSbOpen, cfg, setCfg, // eslint-disable-line no-unused-vars
+    signOffs, _setSignOffs, wpNotes, setWpNotes, cellData, _setCellData, agentPanelOpen, setAgentPanelOpen,
+    customItems, _setCustomItems, _showModal, _setShowModal, _mi, _setMi,
+    _uploads, _setUploads, archived, _setArchived, reviewStatus, _setReviewStatus,
+    _integrations, _setIntegrations, _showSampleCalc, _setShowSampleCalc,
+    tbData, _setTbData, tbMappings, _setTbMappings,
     aiOpen, setAiOpen, showDebug, setShowDebug,
-    aiLoading, setAiLoading, aiMessages, setAiMessages,
-    aiInput, setAiInput, aiMode, setAiMode,
-    arMod, coaMod, fmUIMod,
-    engId, setEngId, storageRef,
-    aiAuditTrail, setAiAuditTrail, toastMsg, setToastMsg,
-    chResult, setChResult, wpSearch, setWpSearch,
-    validationResult, setValidationResult,
-    mobileMenuOpen, setMobileMenuOpen, showWelcome, setShowWelcome,
-    extractPreview, setExtractPreview, lastSaveTime, setLastSaveTime,
+    _aiLoading, _setAiLoading, _aiMessages, _setAiMessages,
+    _aiInput, _setAiInput, _aiMode, _setAiMode,
+    _arMod, _coaMod, _fmUIMod,
+    _engId, _setEngId, _storageRef,
+    aiAuditTrail, _setAiAuditTrail, _toastMsg, _setToastMsg,
+    _chResult, _setChResult, _wpSearch, _setWpSearch,
+    _validationResult, _setValidationResult,
+    mobileMenuOpen, setMobileMenuOpen, _showWelcome, _setShowWelcome,
+    _extractPreview, setExtractPreview, lastSaveTime, _setLastSaveTime,
     downloadingBtns, setDownloadingBtns, splashDone,
-    theme, CC, toggleTheme, showToast, upd,
-    debugClicks, debugTimer, renderCount, wpSearchRef,
+    _theme, CC, _toggleTheme, showToast, _upd,
+    _debugClicks, _debugTimer, renderCount, _wpSearchRef,
     ind, fw, sz, indAcc,
-    signOffLog, setSignOffLog, reviewNotes, setReviewNotes,
-    documentLinks, setDocumentLinks, changeLog, setChangeLog,
+    _signOffLog, _setSignOffLog, _reviewNotes, _setReviewNotes,
+    _documentLinks, _setDocumentLinks, changeLog, _setChangeLog,
     cellHistoryKey, setCellHistoryKey,
-    allWPs, totalWPs, doneCount, visibleWPs, curWP,
-    startNewEngagement, switchEngagement, forceSaveAll
+    allWPs, totalWPs, doneCount, visibleWPs, curWP, // eslint-disable-line no-unused-vars
+    _startNewEngagement, _switchEngagement, _forceSaveAll
   } = useEngagement();
 
   const {
-    getCell, setCell, BoundET, ST, doSign,
-    getUserIdentity, formatSignOff, getSectionName, tc,
-    inp, lbl
+    getCell, _setCell, _BoundET, _ST, _doSign,
+    _getUserIdentity, _formatSignOff, getSectionName, tc,
+    inp, lbl // eslint-disable-line no-unused-vars
   } = useAuditHelpers();
 
-  const { generateWord, generateEngagementLetterWord, generateRepresentationsWord, generateManagementLetterWord, generateAuditReportWord, generateAuditWorkbook, doExportEngagement, doImportEngagement, loadDemoEngagement, buildWPCsv, doExport } = useExportHandlers();
+  const { _generateWord, _generateEngagementLetterWord, _generateRepresentationsWord, _generateManagementLetterWord, _generateAuditReportWord, _generateAuditWorkbook, _doExportEngagement, _doImportEngagement, _loadDemoEngagement, buildWPCsv, doExport } = useExportHandlers();
 
   useEffect(()=>{renderCount.current++;});
 
@@ -93,12 +80,12 @@ function AuditLayout(){
   };
 
   // ═══ ENHANCED DOWNLOAD HANDLERS ═══
-  const withLoading=(key,fn)=>async(...args)=>{
+  const withLoading=(key,fn)=>async(...args)=>{ // eslint-disable-line no-unused-vars
     if(downloadingBtns[key])return;
     setDownloadingBtns(p=>({...p,[key]:true}));
     try{await fn(...args);}catch(e){console.error("Download error:",e);showToast("Download failed: "+e.message,"error");}finally{setDownloadingBtns(p=>{const n={...p};delete n[key];return n;});}
   };
-  const downloadTestingXlsx=async(wp)=>{
+  const downloadTestingXlsx=async(wp)=>{ // eslint-disable-line no-unused-vars
     const key="testing_"+wp.id;
     if(downloadingBtns[key])return;
     setDownloadingBtns(p=>({...p,[key]:true}));

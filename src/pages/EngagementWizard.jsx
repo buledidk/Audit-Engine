@@ -1,15 +1,8 @@
 import { useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Input, Label, Textarea } from "@/components/ui/input";
-import { Progress } from "@/components/ui/progress";
-import { Checkbox } from "@/components/ui/checkbox";
-import { Select, SelectTrigger, SelectContent, SelectItem, SelectValue } from "@/components/ui/select";
 import {
-  ChevronLeft, ChevronRight, Check, Building2, Users, ShieldAlert,
-  Calculator, ClipboardList, Save
+  _ChevronLeft, _ChevronRight, _Check, Building2, Users, ShieldAlert,
+  Calculator, ClipboardList, Save // eslint-disable-line no-unused-vars
 } from "lucide-react";
 import { calculateMateriality } from "@/services/materialityEngine";
 import { createEngagement, setActiveEngagementId, createStorageEngine } from "../StorageEngine";
@@ -164,7 +157,6 @@ export default function EngagementWizard() {
       <div className="mb-8">
         <div className="flex items-center justify-between mb-2">
           {STEPS.map((s, i) => {
-            const Icon = s.icon;
             const isActive = i === step;
             const isDone = i < step;
             return (

@@ -1,8 +1,7 @@
 import { useAuditHelpers } from "../../hooks/useAuditHelpers";
-import { C } from "../../data";
 
 export default function RegulatoryWP({ wp }) {
-  const { BoundET, ST } = useAuditHelpers();
+  const { _BoundET, _ST } = useAuditHelpers();
 
     if(wp.id==="reg1")return<div><ST t="Companies House Compliance — CA 2006" color={"#37474F"}/>
       <BoundET id="reg1" headers={["Requirement","Deadline","Status","Evidence","Comment"]} rows={[

@@ -124,7 +124,6 @@ export async function fullHealthCheck(req, res) {
 
 export async function readiness(req, res) {
   const models = modelSelectionService.getAvailableModels();
-  const connectors = connectorManager.getHealthSummary();
   const agentHealth = agentMonitoringService.getSystemHealth();
 
   const ready =

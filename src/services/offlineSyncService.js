@@ -50,7 +50,7 @@ class OfflineSyncService {
     this.syncInProgress = true;
     this.emit('sync:started', { queueSize: this.queue.size });
 
-    for (const [actionId, item] of this.queue) {
+    for (const [actionId, item] of this.queue) { // eslint-disable-line no-unused-vars
       try {
         // Simulate sync to backend
         await new Promise(r => setTimeout(r, 100));

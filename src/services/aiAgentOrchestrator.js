@@ -20,7 +20,6 @@ import { ComplianceAgent } from "./complianceAgent.js";
 import { EvidenceAnalysisAgent } from "./evidenceAnalysisAgent.js";
 import { WorkflowAssistantAgent } from "./workflowAssistantAgent.js";
 import { agentQualityAssessmentService } from "./agentQualityAssessmentService.js";
-import { realtimeKPIService } from "./realtimeKPIService.js";
 
 class AIAgentOrchestrator {
   constructor() {

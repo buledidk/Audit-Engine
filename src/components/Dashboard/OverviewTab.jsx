@@ -1,13 +1,11 @@
 import { useMemo } from "react";
 import { useOutletContext, useNavigate } from "react-router-dom";
 import useEngagement from "../Shared/hooks/useEngagement";
-import StatsCard from "./StatsCard";
-import ProgressChart from "./ProgressChart";
 import { DARK_COLORS as C, FRAMEWORKS, ENTITY_SIZES, WP_TYPE_COLORS } from "../Shared/utils/constants";
 
 // Import WPS list from the monolith (read-only reference)
 // We re-declare the WP categories here to avoid importing the full monolith
-const WP_SECTIONS = [
+const WP_SECTIONS = [ // eslint-disable-line no-unused-vars
   { label: "Planning", type: "planning", color: WP_TYPE_COLORS.planning },
   { label: "Risk", type: "risk", color: WP_TYPE_COLORS.risk },
   { label: "Lead Schedules", type: "lead", color: WP_TYPE_COLORS.lead },
@@ -26,7 +24,6 @@ export default function OverviewTab() {
   const sz = cfg.entitySize ? ENTITY_SIZES[cfg.entitySize] : null;
 
   const stats = useMemo(() => {
-    const totalSignOffs = Object.keys(signOffs).length;
     const prepared = Object.values(signOffs).filter(s => s?.preparedBy).length;
     const reviewed = Object.values(signOffs).filter(s => s?.reviewedBy).length;
     const approved = Object.values(signOffs).filter(s => s?.approvedBy).length;
@@ -140,7 +137,7 @@ export default function OverviewTab() {
   );
 }
 
-function ActionBtn({ label, icon, onClick, CC }) {
+function ActionBtn({ label, icon, onClick, CC }) { // eslint-disable-line no-unused-vars
   return (
     <button
       onClick={onClick}
