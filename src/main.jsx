@@ -1,4 +1,6 @@
+import React from 'react' // eslint-disable-line no-unused-vars
 import ReactDOM from 'react-dom/client'
+import { RouterProvider } from 'react-router-dom' // eslint-disable-line no-unused-vars
 import router from './router'
 import './index.css'
 
