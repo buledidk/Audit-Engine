@@ -47,7 +47,7 @@ export class SentimentAnalysisEngine {
     return { score: Math.min(1, Math.max(-1, score)), sentiment: score > 0 ? 'POSITIVE' : 'NEGATIVE' };
   }
 
-  _extractThemes(narratives) {
+  _extractThemes(_narratives) {
     return ['Growth focus', 'Risk management', 'Operational improvements'];
   }
 
@@ -73,7 +73,7 @@ export class SentimentAnalysisEngine {
     };
   }
 
-  _analyzeTone(narratives) {
+  _analyzeTone(_narratives) {
     return { confidence: 'HIGH', defensiveness: 'LOW', transparency: 'HIGH' };
   }
 }

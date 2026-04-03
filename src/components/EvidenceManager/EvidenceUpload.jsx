@@ -2,7 +2,7 @@ import { useState, useRef } from "react";
 import useEngagement from "../Shared/hooks/useEngagement";
 
 export default function EvidenceUpload({ wpId, CC, onUpload }) {
-  const { uploads, setUploads } = useEngagement();
+  const { _uploads, setUploads } = useEngagement();
   const [dragOver, setDragOver] = useState(false);
   const fileRef = useRef(null);
 

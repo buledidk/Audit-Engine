@@ -279,7 +279,7 @@ export const auditComplianceValidator = {
   /**
    * Validate phase compliance
    */
-  validatePhaseCompliance: function(phaseKey, region = 'ISA') {
+  validatePhaseCompliance: function(phaseKey, _region = 'ISA') {
     const phase = auditFrameworkIndex.getPhase(phaseKey);
     const requirements = auditFrameworkIndex.getPhaseRequirements(phase.name);
     const isaStandards = phase.isaAlignment;

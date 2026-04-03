@@ -13,7 +13,7 @@ import {
   ListObjectsV2Command,
 } from '@aws-sdk/client-s3';
 import { CloudWatchClient, PutMetricDataCommand } from '@aws-sdk/client-cloudwatch';
-import { CloudWatchLogsClient, PutLogEventsCommand } from '@aws-sdk/client-cloudwatch-logs';
+import { CloudWatchLogsClient } from '@aws-sdk/client-cloudwatch-logs';
 import { EventEmitter } from 'events';
 
 class AWSConnector extends EventEmitter {

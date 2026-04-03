@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 
 /**
  * ProjectDashboard - Real-time tracking of audit automation platform
@@ -41,7 +41,7 @@ export function ProjectDashboard() {
           const data = await response.json();
           setStatus(prevStatus => ({...prevStatus, ...data}));
         }
-      } catch (error) {
+      } catch (error) { // eslint-disable-line no-unused-vars
         console.log('Status check not yet available');
       }
     };
@@ -60,7 +60,7 @@ export function ProjectDashboard() {
     return '#00ff00'; // Bright green
   };
 
-  const ProgressBar = ({ progress, label }) => (
+  const ProgressBar = ({ progress, label }) => ( // eslint-disable-line no-unused-vars
     <div style={{ marginBottom: '15px' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '5px' }}>
         <span style={{ fontWeight: 'bold' }}>{label}</span>
@@ -83,7 +83,7 @@ export function ProjectDashboard() {
     </div>
   );
 
-  const SystemHealth = ({ name, running, status }) => (
+  const SystemHealth = ({ name, running, status }) => ( // eslint-disable-line no-unused-vars
     <div style={{
       padding: '10px',
       marginBottom: '10px',

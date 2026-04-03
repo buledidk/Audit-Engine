@@ -15,7 +15,7 @@
  */
 
 const { v4: uuidv4 } = require('uuid');
-const { exec } = require('child_process');
+const { _exec } = require('child_process');
 const { spawn } = require('child_process');
 const EventEmitter = require('events');
 const logger = require('../utils/logger');
@@ -225,7 +225,7 @@ class CommandDispatcher extends EventEmitter {
       });
 
       // Wait for process to complete
-      await new Promise((resolve, reject) => {
+      await new Promise((resolve, _reject) => {
         process.on('close', (exitCode) => {
           if (timeout) clearTimeout(timeout);
 

@@ -21,7 +21,6 @@
 import { AuditExcelExportService } from './auditExcelExportService.js';
 import { AuditWordExportService } from './auditWordExportService.js';
 import { FSLINarrativeService } from './fsliNarrativeService.js';
-import FinancialRatioCalculationEngine from './financialRatioCalculationEngine.js';
 
 export class WorksheetAutopopulationService {
   constructor() {
@@ -77,7 +76,7 @@ export class WorksheetAutopopulationService {
    * Auto-generates working papers when any audit section is populated
    */
   async onSectionPopulated(data) {
-    const { sectionId, sectionType, engagementId, procedures, findings, content } = data;
+    const { sectionId, sectionType, engagementId, _procedures, _findings, _content } = data;
 
     console.log(`📄 Section populated: ${sectionType} (${sectionId})`);
 
@@ -132,7 +131,7 @@ export class WorksheetAutopopulationService {
    * Auto-updates worksheets with risk assessment details
    */
   async onRiskAssessed(data) {
-    const { engagementId, riskSummary, fsliRisks } = data;
+    const { engagementId, riskSummary, _fsliRisks } = data;
 
     console.log(`⚠️  Risk assessment updated for engagement: ${engagementId}`);
 
@@ -325,7 +324,7 @@ export class WorksheetAutopopulationService {
 
       // Add control results to FSLI worksheets if applicable
       if (worksheets.fslis) {
-        for (const [fsliId, fsliWorksheet] of Object.entries(worksheets.fslis)) {
+        for (const [fsliId, fsliWorksheet] of Object.entries(worksheets.fslis)) { // eslint-disable-line no-unused-vars
           if (fsliWorksheet.controls) {
             const controlIndex = fsliWorksheet.controls.findIndex(
               c => c.controlId === controlData.controlId

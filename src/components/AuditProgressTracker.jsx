@@ -3,11 +3,11 @@
  * Real-time progress tracking across all audit phases with time management
  */
 
-import React, { useState, useMemo } from 'react';
+import { useState, useMemo } from 'react';
 
-const AuditProgressTracker = ({ auditData, phases }) => {
+const AuditProgressTracker = ({ _auditData, phases }) => {
   const [selectedPhase, setSelectedPhase] = useState(null);
-  const [timeBreakdown, setTimeBreakdown] = useState({});
+  const [_timeBreakdown, _setTimeBreakdown] = useState({});
 
   /**
    * Calculate phase progress
@@ -130,7 +130,7 @@ const AuditProgressTracker = ({ auditData, phases }) => {
       <div style={{ marginBottom: '24px' }}>
         <div style={{ fontWeight: 'bold', marginBottom: '12px' }}>📅 Audit Phase Timeline</div>
 
-        {phases.map((phase, idx) => {
+        {phases.map((phase, _idx) => {
           const progress = getPhaseProgress(phase);
           const isSelected = selectedPhase?.id === phase.id;
 

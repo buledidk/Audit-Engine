@@ -153,7 +153,7 @@ class AgentHealthCheck extends EventEmitter {
   /**
    * Check heartbeat
    */
-  async checkHeartbeat(agentId) {
+  async checkHeartbeat(_agentId) {
     // Mock heartbeat check - would normally call agent endpoint
     return {
       name: 'heartbeat',
@@ -168,7 +168,7 @@ class AgentHealthCheck extends EventEmitter {
   /**
    * Check latency
    */
-  async checkLatency(agentId) {
+  async checkLatency(_agentId) {
     const latency = Math.random() * 500 + 50;
     const threshold = this.healthThresholds.latency;
 
@@ -196,7 +196,7 @@ class AgentHealthCheck extends EventEmitter {
   /**
    * Check error rate
    */
-  async checkErrorRate(agentId) {
+  async checkErrorRate(_agentId) {
     const errorRate = Math.random() * 10;
     const threshold = this.healthThresholds.errorRate;
 
@@ -224,7 +224,7 @@ class AgentHealthCheck extends EventEmitter {
   /**
    * Check memory usage
    */
-  async checkMemoryUsage(agentId) {
+  async checkMemoryUsage(_agentId) {
     const memoryUsage = Math.random() * 80 + 100; // MB
     const memoryLimit = 512; // MB
     const percentUsage = (memoryUsage / memoryLimit) * 100;
@@ -256,7 +256,7 @@ class AgentHealthCheck extends EventEmitter {
   /**
    * Check CPU usage
    */
-  async checkCPUUsage(agentId) {
+  async checkCPUUsage(_agentId) {
     const cpuUsage = Math.random() * 80;
     const threshold = this.healthThresholds.cpuUsage;
 
@@ -284,7 +284,7 @@ class AgentHealthCheck extends EventEmitter {
   /**
    * Check queue health
    */
-  async checkQueueHealth(agentId) {
+  async checkQueueHealth(_agentId) {
     const queueLength = Math.floor(Math.random() * 30);
     const threshold = this.healthThresholds.queueLength;
 
@@ -312,7 +312,7 @@ class AgentHealthCheck extends EventEmitter {
   /**
    * Check response time
    */
-  async checkResponseTime(agentId) {
+  async checkResponseTime(_agentId) {
     const responseTime = Math.random() * 2000 + 100;
     const threshold = this.healthThresholds.responseTime;
 

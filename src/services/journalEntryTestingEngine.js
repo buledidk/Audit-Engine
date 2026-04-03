@@ -61,11 +61,11 @@ export class JournalEntryTestingEngine {
   analyzeJournalEntries(journalEntries, context = {}) {
     const {
       engagementId,
-      yearEnd,
-      periodStart,
-      periodEnd,
-      financeUsers = [],
-      seniorManagement = [],
+      yearEnd, // eslint-disable-line no-unused-vars
+      periodStart, // eslint-disable-line no-unused-vars
+      periodEnd, // eslint-disable-line no-unused-vars
+      financeUsers = [], // eslint-disable-line no-unused-vars
+      seniorManagement = [], // eslint-disable-line no-unused-vars
       materiality,
       performanceMateriality,
     } = context;
@@ -135,7 +135,7 @@ export class JournalEntryTestingEngine {
   // ─── TEST INDIVIDUAL JOURNAL ENTRY ───────────────────────────────────
   _testJournalEntry(je, jeRef, context) {
     const flags = [];
-    const { yearEnd, periodStart, periodEnd, financeUsers = [], seniorManagement = [], fiscalYearLastDay } = context;
+    const { yearEnd, _periodStart, _periodEnd, financeUsers = [], seniorManagement = [], _fiscalYearLastDay } = context;
 
     const postingDate = je.postingDate ? new Date(je.postingDate) : null;
     const entryDate = je.entryDate ? new Date(je.entryDate) : null;
@@ -633,8 +633,6 @@ ISA References: ISA 240 para 32, A37-A49 | Prepared by: [Auditor] | Reviewed by:
 
   _approximatePValue(chiSquare, df) {
     // Approximation using Wilson-Hilferty transformation
-    const k = df / 2;
-    const x = chiSquare / 2;
     // Regularized incomplete gamma function approximation
     if (chiSquare <= 0) return 1.0;
     if (chiSquare > df * 5) return 0.0001;

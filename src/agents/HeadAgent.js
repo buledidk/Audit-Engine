@@ -211,7 +211,7 @@ sCount = 0;
   /**
    * Fetch metrics for specific agent
    */
-  async fetchAgentMetrics(agentId) {
+  async fetchAgentMetrics(_agentId) {
     // This would be implemented to call actual agent endpoints
     // For now, return mock metrics
     const mockMetrics = {
@@ -465,7 +465,6 @@ sCount = 0;
         .sort((a, b) => b[1].healthScore - a[1].healthScore);
 
       for (const [agentId, status] of sortedAgents) {
-        const agent = this.agents.get(agentId);
 
         rankings.push({
           agentId,

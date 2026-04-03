@@ -2,19 +2,14 @@ import { useState, useCallback } from "react";
 import { useEngagement } from "../../context/EngagementContext";
 import { useAuditHelpers } from "../../hooks/useAuditHelpers";
 import { C, TESTS } from "../../data";
-import { Badge } from "../ui/SharedUIComponents";
-import { FSLILead } from "./FSLILeadSchedule";
 import { TRANSACTION_CYCLES, SUBSTANTIVE_PROCEDURES, IFRS15_REVENUE_COMPLIANCE } from "../../AuditMethodology";
 import { TESTING_PROGRAMMES } from "../../TestingProgrammes";
-import { ImpairmentDCFCalc, StandaloneDCFCalc, EIRCalc, ProvisionUnwindingCalc, LeaseCalc, BlackScholesCalc, ECLCalc, IFRS15RevenueCalc } from "../FinancialModelCalculators";
-import ConclusionBuilder from "./ConclusionBuilder";
-import ProcedureEvidencePopover from "./ProcedureEvidencePopover";
 
 const JUDGMENT_OPTIONS = ["Satisfactory", "Satisfactory with observations", "Exception noted", "Unable to conclude", "Further work required", "N/A"];
 
 export default function TestingWP({ wp }) {
-  const { cfg, ind, customItems, setShowModal, setShowSampleCalc, setMi, wpNotes, setWpNotes, procedureLinks, uploads } = useEngagement();
-  const { BoundET, ST, inp, tc } = useAuditHelpers();
+  const { cfg, ind, customItems, setShowModal, setShowSampleCalc, setMi, wpNotes, setWpNotes, procedureLinks, _uploads } = useEngagement();
+  const { _BoundET, _ST, inp, _tc } = useAuditHelpers();
   const [evPopover, setEvPopover] = useState(null);
   const handleLinkEvidence = useCallback((tableId, ri) => setEvPopover({ key: tableId + "_" + ri, wpId: wp.id }), [wp.id]);
   const getLinkCounts = useCallback((tableId, count) => { const c = {}; for (let i = 0; i < count; i++) { const k = tableId + "_" + i; if (procedureLinks[k]?.length) c[i] = procedureLinks[k].length; } return c; }, [procedureLinks]);
@@ -71,7 +66,7 @@ export default function TestingWP({ wp }) {
     {wp.id==="d1"&&IFRS15_REVENUE_COMPLIANCE&&IFRS15_REVENUE_COMPLIANCE.length>0&&<div style={{marginTop:24}}>
       <ST t="IFRS 15 Revenue Compliance — Scenario Analysis" color={C.tl}/>
       <div style={{fontSize:11,color:C.dim,marginBottom:16}}>Assess each IFRS 15 scenario for applicability to {cfg.entityName||"this entity"} ({ind?.l} — {cfg.sector})</div>
-      {IFRS15_REVENUE_COMPLIANCE.map((rc,rci)=><div key={rc.id} style={{marginBottom:16,background:C.card,border:"1px solid "+C.brd,borderRadius:10,overflow:"hidden"}}>
+      {IFRS15_REVENUE_COMPLIANCE.map((rc,_rci)=><div key={rc.id} style={{marginBottom:16,background:C.card,border:"1px solid "+C.brd,borderRadius:10,overflow:"hidden"}}>
         <div style={{padding:"12px 16px",background:C.tl+"0D",borderBottom:"1px solid "+C.tl+"33",display:"flex",alignItems:"center",gap:10}}>
           <span style={{fontFamily:"monospace",color:C.tl,fontWeight:700,fontSize:11}}>{rc.id}</span>
           <span style={{fontSize:12,color:C.tx,fontWeight:600}}>{rc.topic}</span>

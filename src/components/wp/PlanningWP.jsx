@@ -1,17 +1,14 @@
 import { useEngagement } from "../../context/EngagementContext";
 import { useAuditHelpers } from "../../hooks/useAuditHelpers";
 import { C } from "../../data";
-import { Badge, VerifiedBadge } from "../ui/SharedUIComponents";
 import {
   ENGAGEMENT_LETTER, ACCEPTANCE_CHECKLIST, MATERIALITY_BENCHMARKS, MATERIALITY_NOTES,
-  FRAUD_PRESUMPTIONS, JOURNAL_ENTRY_TESTING, GOING_CONCERN, RISK_TRILOGY
+  FRAUD_PRESUMPTIONS, JOURNAL_ENTRY_TESTING, GOING_CONCERN, RISK_TRILOGY // eslint-disable-line no-unused-vars
 } from "../../AuditMethodology";
-import { ENTITY_LEVEL_CONTROLS, JOURNAL_ENTRY_TESTING_WP } from "../../AdditionalWPs";
-import { TRANSACTION_CYCLES } from "../../AuditMethodology";
 
 export default function PlanningWP({ wp }) {
-  const { cfg, setCfg, ind, fw, sz, indAcc, wpNotes, setWpNotes, customItems, signOffs, setShowModal, setMi, showToast } = useEngagement();
-  const { BoundET, ST, inp, lbl, tc } = useAuditHelpers();
+  const { cfg, _setCfg, ind, fw, sz, _indAcc, wpNotes, setWpNotes, _customItems, _signOffs, _setShowModal, _setMi, _showToast } = useEngagement();
+  const { _BoundET, _ST, inp, _lbl, _tc } = useAuditHelpers();
 
   if (!ind) return null;
 

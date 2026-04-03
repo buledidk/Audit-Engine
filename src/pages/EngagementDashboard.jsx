@@ -1,19 +1,12 @@
 import { useState, useMemo } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Progress } from "@/components/ui/progress";
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import {
-  RadialBarChart, RadialBar, ResponsiveContainer, Tooltip as RTooltip,
-  ScatterChart, Scatter, XAxis, YAxis, ZAxis, CartesianGrid
+  _RadialBarChart, _RadialBar, _ResponsiveContainer, Tooltip as _RTooltip,
+  _ScatterChart, _Scatter, _XAxis, _YAxis, _ZAxis, _CartesianGrid
 } from "recharts";
 import {
-  CheckCircle2, Clock, AlertTriangle, XCircle, ShieldCheck,
-  ChevronRight, Users, FileText, BarChart3, Lock, Unlock
+  CheckCircle2, Clock, AlertTriangle, _XCircle, _ShieldCheck,
+  _ChevronRight, _Users, FileText, _BarChart3, _Lock, _Unlock
 } from "lucide-react";
 
 const PHASES = [
@@ -208,7 +201,6 @@ export default function EngagementDashboard() {
                 <div className="space-y-4">
                   {Object.entries(fsliStatusCounts).map(([status, count]) => {
                     const cfg = STATUS_CONFIG[status];
-                    const Icon = cfg.icon;
                     return (
                       <div key={status} className="flex items-center gap-3">
                         <Icon className="h-4 w-4" style={{ color: cfg.color }} />

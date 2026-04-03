@@ -9,7 +9,7 @@ export const solvencyGoingConcernAgent = {
   category: 'financial_analysis',
   isaReferences: ['ISA 570', 'IAS 1', 'FRS 102 s3'],
 
-  analyze(financials, context = {}) {
+  analyze(financials, _context = {}) {
     const f = financials || {};
     const results = {
       ratios: {},

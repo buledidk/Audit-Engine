@@ -1,14 +1,12 @@
 import { useState } from "react";
-import { useOutletContext, useNavigate } from "react-router-dom";
+import { useOutletContext } from "react-router-dom";
 import useEngagement from "../Shared/hooks/useEngagement";
-import FindingForm from "./FindingForm";
 import { DARK_COLORS as C } from "../Shared/utils/constants";
 
 export default function FindingList() {
   const { CC } = useOutletContext() || { CC: C };
   const { customItems, setCustomItems } = useEngagement();
   const [showForm, setShowForm] = useState(false);
-  const navigate = useNavigate();
 
   const findings = customItems.risks || [];
 

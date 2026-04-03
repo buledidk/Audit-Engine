@@ -71,7 +71,7 @@ export class AutoPopulationEngine {
   // ─── REVENUE ───────────────────────────────────────────────────────────────
 
   _populateRevenue(context) {
-    const { m, pm, ss, rl } = this._fmt(context);
+    const { m, pm, ss, _rl } = this._fmt(context);
     return {
       title: 'Revenue Recognition',
       isaReferences: [
@@ -636,7 +636,7 @@ export class AutoPopulationEngine {
   // ─── CASH & BANK ───────────────────────────────────────────────────────────
 
   _populateCashBank(context) {
-    const { m, pm, ss } = this._fmt(context);
+    const { _m, pm, _ss } = this._fmt(context);
     return {
       title: 'Cash and Bank Balances',
       isaReferences: [
@@ -919,7 +919,7 @@ export class AutoPopulationEngine {
   // ─── PROVISIONS ────────────────────────────────────────────────────────────
 
   _populateProvisions(context) {
-    const { m, pm, ss } = this._fmt(context);
+    const { m, pm, _ss } = this._fmt(context);
     return {
       title: 'Provisions and Contingent Liabilities',
       isaReferences: [
@@ -1205,7 +1205,7 @@ export class AutoPopulationEngine {
   // ─── TAX ───────────────────────────────────────────────────────────────────
 
   _populateTax(context) {
-    const { m, pm, ss } = this._fmt(context);
+    const { _m, pm, _ss } = this._fmt(context);
     return {
       title: 'Taxation (Current and Deferred)',
       isaReferences: [
@@ -1590,7 +1590,7 @@ export class AutoPopulationEngine {
   // ─── LEASES ────────────────────────────────────────────────────────────────
 
   _populateLeases(context) {
-    const { m, pm, ss } = this._fmt(context);
+    const { _m, pm, ss } = this._fmt(context);
     return {
       title: 'Leases (IFRS 16 / FRS 102 s20)',
       isaReferences: [
@@ -1693,7 +1693,7 @@ export class AutoPopulationEngine {
   // ─── FINANCIAL INSTRUMENTS ─────────────────────────────────────────────────
 
   _populateFinancialInstruments(context) {
-    const { m, pm } = this._fmt(context);
+    const { _m, pm } = this._fmt(context);
     return {
       title: 'Financial Instruments',
       isaReferences: [
@@ -1821,7 +1821,7 @@ export class AutoPopulationEngine {
   // ─── PLANNING ──────────────────────────────────────────────────────────────
 
   _populatePlanning(context) {
-    const { m, pm, rl, fw, ind } = this._fmt(context);
+    const { m, pm, _rl, fw, ind } = this._fmt(context);
     return {
       title: 'Audit Planning — ISA 300',
       isaReferences: [
@@ -2272,7 +2272,7 @@ export class AutoPopulationEngine {
 
   // ─── ANALYTICS SECTIONS ────────────────────────────────────────────────────
 
-  _populateBenford(context) {
+  _populateBenford(_context) {
     return {
       title: "Benford's Law Analysis",
       isaReferences: [{ ref: 'ISA 240 para 32', description: 'Unpredictability in audit procedures — data analytics' }],
@@ -2304,7 +2304,7 @@ export class AutoPopulationEngine {
     };
   }
 
-  _populateDuPont(context) {
+  _populateDuPont(_context) {
     return {
       title: 'DuPont Decomposition Analysis',
       isaReferences: [{ ref: 'ISA 520', description: 'Analytical procedures — DuPont used as substantive analytical' }],
@@ -2336,7 +2336,7 @@ export class AutoPopulationEngine {
     };
   }
 
-  _populateZScore(context) {
+  _populateZScore(_context) {
     return {
       title: 'Altman Z-Score — Financial Distress Analysis',
       isaReferences: [{ ref: 'ISA 570 (Revised) para 9', description: 'Going concern assessment — quantitative indicators' }],
@@ -2368,7 +2368,7 @@ export class AutoPopulationEngine {
     };
   }
 
-  _populateMScore(context) {
+  _populateMScore(_context) {
     return {
       title: 'Beneish M-Score — Earnings Manipulation Detection',
       isaReferences: [{ ref: 'ISA 240 para 32', description: 'Fraud risk — earnings manipulation detection' }],
@@ -2401,7 +2401,7 @@ export class AutoPopulationEngine {
   }
 
   _populateJournalEntries(context) {
-    const { m, pm } = this._fmt(context);
+    const { _m, _pm } = this._fmt(context);
     return {
       title: 'Journal Entry Testing (ISA 240)',
       isaReferences: [

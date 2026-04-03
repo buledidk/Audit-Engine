@@ -33,7 +33,7 @@ export default function EngagementDetail({ CC }) {
   );
 }
 
-function Stat({ label, value, CC }) {
+function Stat({ label, value, CC }) { // eslint-disable-line no-unused-vars
   return (
     <div style={{ textAlign: "center", padding: 8, borderRadius: 6, background: "rgba(255,255,255,0.02)" }}>
       <div style={{ fontSize: 16, fontWeight: 700, color: CC.tx }}>{value}</div>

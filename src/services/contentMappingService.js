@@ -92,7 +92,7 @@ export function getContextualGuidance(fsliId, engagementContext = {}) {
   }
 
   const guidance = baseContent.data;
-  const { industry = 'general', riskProfile = 'medium', entitySize = 'medium', complexAccounts = [], priorYearIssues = [] } = engagementContext;
+  const { industry = 'general', riskProfile = 'medium', entitySize = 'medium', _complexAccounts = [], priorYearIssues = [] } = engagementContext;
 
   // Apply industry-specific adjustments
   const industryAdjustment = INDUSTRY_RISK_ADJUSTMENTS[industry.toLowerCase()]?.[fsliId];
@@ -347,7 +347,7 @@ export function mapRiskFactorsToFSLIProcedures(entityRiskFactors = {}) {
   const adjustedFSLIs = [];
 
   const {
-    industryVolatility = 'medium',
+    industryVolatility = 'medium', // eslint-disable-line no-unused-vars
     managementTurnover = false,
     weakInternalControls = false,
     regulatoryPressure = false,

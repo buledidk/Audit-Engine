@@ -6,7 +6,6 @@
 // ═══════════════════════════════════════════════════════════════
 
 import { extractFromCSV, extractFromExcel } from "./DataExtractor";
-import { enhancedAutoMap } from "./TBPipeline";
 
 // ─── A) CONNECTORS ARRAY ───
 

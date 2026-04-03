@@ -95,7 +95,7 @@ export class AuditPrePopulationEngine {
    * AUTO-POPULATE RECEIVABLES PROCEDURES
    * Based on: Receivables ratios, ECL, customer analysis
    */
-  autoPopulateReceivablesSection(financialData, priorYear) {
+  autoPopulateReceivablesSection(financialData, _priorYear) {
     const procedures = [];
 
     // Procedure 1: Receivables Confirmation
@@ -157,7 +157,7 @@ export class AuditPrePopulationEngine {
    * AUTO-POPULATE INVENTORY PROCEDURES
    * Based on: Inventory ratios, NRV, obsolescence risk
    */
-  autoPopulateInventorySection(financialData, priorYear) {
+  autoPopulateInventorySection(financialData, _priorYear) {
     const procedures = [];
 
     // Procedure 1: Physical Inventory Observation
@@ -447,7 +447,7 @@ export class AuditPrePopulationEngine {
            (pe < 15 ? 'suggests reasonable valuation.' : 'indicates elevated valuation expectations.');
   }
 
-  _generateOverallFinancialAssessment(allRatios) {
+  _generateOverallFinancialAssessment(_allRatios) {
     return `Based on comprehensive ratio analysis, the entity demonstrates ` +
            `adequate liquidity, manageable leverage, and profitability within industry norms. ` +
            `No significant concerns identified in initial financial assessment. ` +
@@ -461,11 +461,11 @@ export class AuditPrePopulationEngine {
     return riskLevel === 'HIGH' ? baseSize * 1.5 : riskLevel === 'MEDIUM' ? baseSize : baseSize * 0.75;
   }
 
-  _calculateReceivablesSampleSize(financialData) {
+  _calculateReceivablesSampleSize(_financialData) {
     return 50;
   }
 
-  _calculateInventorySampleSize(financialData) {
+  _calculateInventorySampleSize(_financialData) {
     return 100;
   }
 
@@ -476,7 +476,7 @@ export class AuditPrePopulationEngine {
     };
   }
 
-  _analyzeRevenueTrends(financialData) {
+  _analyzeRevenueTrends(_financialData) {
     return 'Revenue trend is consistent with industry and company historical performance.';
   }
 
@@ -484,47 +484,47 @@ export class AuditPrePopulationEngine {
     return financialData.topCustomerPercentage || '45% from top 5 customers - significant concentration risk';
   }
 
-  _assessExpectedCreditLoss(financialData) {
+  _assessExpectedCreditLoss(_financialData) {
     return 'IFRS 9 ECL calculation will evaluate PD×LGD×EAD for all receivables portfolios.';
   }
 
-  _assessRevenueRiskLevel(financialData) {
+  _assessRevenueRiskLevel(_financialData) {
     return 'HIGH';
   }
 
-  _analyzeReceivablesAging(financialData) {
+  _analyzeReceivablesAging(_financialData) {
     return { current: '60%', '30-60days': '20%', '60-90days': '15%', 'over90days': '5%' };
   }
 
-  _assessAllowanceForDoubtfulAccounts(financialData) {
+  _assessAllowanceForDoubtfulAccounts(_financialData) {
     return 'Allowance represents approximately 2% of gross receivables - requires validation.';
   }
 
-  _calculateProbabilityOfDefault(financialData) {
+  _calculateProbabilityOfDefault(_financialData) {
     return '1-3% based on historical default rates and current economic conditions';
   }
 
-  _assessLossGivenDefault(financialData) {
+  _assessLossGivenDefault(_financialData) {
     return '40-60% based on typical recovery rates and collateral values';
   }
 
-  _identifyInventoryLocations(financialData) {
+  _identifyInventoryLocations(_financialData) {
     return ['Main warehouse', 'Regional distribution centers', 'Customer sites (consignment)'];
   }
 
-  _assessObsolescenceRisk(financialData) {
+  _assessObsolescenceRisk(_financialData) {
     return 'MODERATE - Items with > 180 days in inventory require NRV assessment';
   }
 
-  _identifySlowMovingInventory(financialData) {
+  _identifySlowMovingInventory(_financialData) {
     return 'Items with < 4x annual turnover require detailed NRV evaluation';
   }
 
-  _identifyObsoleteInventory(financialData) {
+  _identifyObsoleteInventory(_financialData) {
     return 'No sales in > 12 months - recommend full write-down assessment';
   }
 
-  _calculateInventoryWriteDown(financialData) {
+  _calculateInventoryWriteDown(_financialData) {
     return 'TBD - will be determined after physical observation and NRV testing';
   }
 }

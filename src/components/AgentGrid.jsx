@@ -3,7 +3,7 @@
  * Grid view of all 18 agents with real-time health metrics
  * Shows status, CPU, memory, response time, uptime for each agent
  */
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 const COLORS = {
   bg: '#0A0E17', surface: '#0F1622', card: 'rgba(255,255,255,0.04)',
@@ -180,7 +180,7 @@ export default function AgentGrid({ agents = [] }) {
   );
 }
 
-function MetricBar({ label, value, max, unit, color }) {
+function MetricBar({ label, value, max, unit, color }) { // eslint-disable-line no-unused-vars
   return (
     <div style={{ flex: 1 }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '10px', color: 'rgba(255,255,255,0.5)', marginBottom: '3px' }}>

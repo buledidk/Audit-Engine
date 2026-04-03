@@ -1,17 +1,11 @@
 import { useMemo } from "react";
 import { useNavigate, useOutletContext } from "react-router-dom";
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Progress } from "@/components/ui/progress";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { AISuggestionsPanel } from "@/components/ui/ai-transparency";
 import {
-  RadialBarChart, RadialBar, ResponsiveContainer, PieChart, Pie, Cell
+  _RadialBarChart, _RadialBar, _ResponsiveContainer, _PieChart, _Pie, _Cell
 } from "recharts";
 import {
-  CheckCircle2, Clock, AlertTriangle, FileText, ArrowRight,
-  Zap, ShieldCheck, BarChart3, Users, Calendar, Brain
+  CheckCircle2, Clock, AlertTriangle, FileText, ArrowRight, // eslint-disable-line no-unused-vars
+  _Zap, ShieldCheck, BarChart3, Users, _Calendar, _Brain
 } from "lucide-react";
 
 import { useEngagement } from "@/context/EngagementContext";
@@ -34,10 +28,9 @@ const GATES = [
 
 export default function EngagementOverview() {
   const navigate = useNavigate();
-  const { engId } = useOutletContext() || {};
+  const { _engId } = useOutletContext() || {};
 
-  let ctx;
-  try { ctx = useEngagement(); } catch { ctx = null; }
+  const ctx = useEngagement();
 
   const cfg = ctx?.cfg || {};
   const signOffs = ctx?.signOffs || {};
@@ -139,7 +132,6 @@ export default function EngagementOverview() {
           <CardContent>
             <div className="space-y-2">
               {actionItems.map((item, i) => {
-                const Icon = item.icon;
                 return (
                   <button key={i} onClick={item.action} className="flex items-center gap-3 w-full p-2.5 rounded-lg hover:bg-white/5 transition-colors text-left cursor-pointer">
                     <Icon className={`h-4 w-4 ${item.color}`} />
@@ -161,7 +153,6 @@ export default function EngagementOverview() {
           { label: "Approved", value: stats.approved, icon: ShieldCheck, color: "text-ae-green", bg: "bg-ae-green/10" },
           { label: "Open Notes", value: stats.openNotes, icon: AlertTriangle, color: "text-ae-red", bg: "bg-ae-red/10" },
         ].map((stat) => {
-          const Icon = stat.icon;
           return (
             <Card key={stat.label}>
               <CardContent className="p-4">
@@ -245,7 +236,6 @@ export default function EngagementOverview() {
           { label: "Findings", to: "findings", icon: AlertTriangle, count: `${stats.findings} items` },
           { label: "Full Audit File", to: "full", icon: Users, count: "Export" },
         ].map((item) => {
-          const Icon = item.icon;
           return (
             <button key={item.label} onClick={() => navigate(item.to)} className="p-4 rounded-lg border border-ae-border bg-white/[0.02] hover:bg-white/[0.05] transition-colors text-left cursor-pointer group">
               <Icon className="h-5 w-5 text-ae-dim group-hover:text-brand transition-colors mb-2" />

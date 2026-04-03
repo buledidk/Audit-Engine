@@ -156,7 +156,7 @@ export class RegulatoryUpdateEngine {
    * Delegates to checkForUpdates(), then reshapes the output to match the
    * legacy contract: { newRequirements, affectedAreas, requiredUpdates, complianceStatus }.
    */
-  async checkUpdates(auditData) {
+  async checkUpdates(_auditData) {
     const updates = await this.checkForUpdates();
 
     const newRequirements = updates.map((u) => ({
@@ -224,7 +224,7 @@ export class RegulatoryUpdateEngine {
 
           results.push(update);
         }
-      } catch (_err) {
+      } catch (_err) { // eslint-disable-line no-unused-vars
         // Network failure for this source -- silently skip.
         // Cached data will be used as fallback below.
       }

@@ -571,7 +571,7 @@ export class AuditSmartFeaturesService {
   /**
    * Generate Interim Audit Program
    */
-  generateInterimProgram(auditData) {
+  generateInterimProgram(_auditData) {
     const procedures = [];
 
     procedures.push({

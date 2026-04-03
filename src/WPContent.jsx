@@ -4,7 +4,7 @@ import { memo } from "react";
    A8 — ISA 520 Planning Analytical Review
    ─────────────────────────────────────────────────────────────── */
 export const AnalyticalReviewWP = memo(function AnalyticalReviewWP({
-  BoundET, ST, cfg, ind, C, inp, wpNotes, setWpNotes
+  _BoundET, _ST, _cfg, ind, C, inp, wpNotes, setWpNotes
 }) {
   const ratios = [
     ["Gross Margin %", "Gross Profit / Revenue × 100"],
@@ -68,7 +68,7 @@ export const AnalyticalReviewWP = memo(function AnalyticalReviewWP({
    A3 — ISA 300 Audit Strategy
    ─────────────────────────────────────────────────────────────── */
 export const AuditStrategyEnhanced = memo(function AuditStrategyEnhanced({
-  BoundET, ST, cfg, ind, fw, C, inp, wpNotes, setWpNotes
+  _BoundET, _ST, cfg, ind, fw, C, inp, wpNotes, setWpNotes
 }) {
   const teamRows = [
     ["Engagement Partner", "", "", "", "", ""],
@@ -133,7 +133,7 @@ export const AuditStrategyEnhanced = memo(function AuditStrategyEnhanced({
 
       <ST t="Use of Experts (ISA 620)" color={C.tl} />
       <BoundET id="a3_experts" headers={["Area", "Expert Name / Firm", "Nature of Work", "ISA 620 Compliance", "Reliance"]}
-        rows={[1, 2, 3].map((n) => [
+        rows={[1, 2, 3].map((_n) => [
           "", "", "", "", "",
         ])} editable={[0, 1, 2, 3, 4]} />
 
@@ -148,7 +148,7 @@ export const AuditStrategyEnhanced = memo(function AuditStrategyEnhanced({
    A5 — ISA 315 Entity Understanding
    ─────────────────────────────────────────────────────────────── */
 export const EntityUnderstandingEnhanced = memo(function EntityUnderstandingEnhanced({
-  BoundET, ST, cfg, ind, fw, C, inp, wpNotes, setWpNotes
+  _BoundET, _ST, cfg, ind, fw, C, inp, wpNotes, setWpNotes
 }) {
   const policies = [
     ["Revenue recognition", "", "", "", ""],
@@ -212,7 +212,7 @@ export const EntityUnderstandingEnhanced = memo(function EntityUnderstandingEnha
    A9 — ISA 250A + ISA 250B Laws & Regulations / AML
    ─────────────────────────────────────────────────────────────── */
 export const LawsRegsEnhanced = memo(function LawsRegsEnhanced({
-  BoundET, ST, cfg, ind, C, inp, wpNotes, setWpNotes
+  _BoundET, _ST, _cfg, ind, C, inp, wpNotes, setWpNotes
 }) {
   const directLaws = [
     ["Companies Act 2006", "Direct"],
@@ -292,7 +292,7 @@ export const LawsRegsEnhanced = memo(function LawsRegsEnhanced({
    E3 — ISA 560 Subsequent Events
    ─────────────────────────────────────────────────────────────── */
 export const SubsequentEventsEnhanced = memo(function SubsequentEventsEnhanced({
-  BoundET, ST, cfg, C, inp, wpNotes, setWpNotes
+  _BoundET, _ST, cfg, C, inp, wpNotes, setWpNotes
 }) {
   const procedures = [
     "Review post-year-end bank statements",
@@ -346,7 +346,7 @@ export const SubsequentEventsEnhanced = memo(function SubsequentEventsEnhanced({
    E5 — ISA 450 Adjustments Summary
    ─────────────────────────────────────────────────────────────── */
 export const AdjustmentsSummaryEnhanced = memo(function AdjustmentsSummaryEnhanced({
-  BoundET, ST, cfg, C, inp, wpNotes, setWpNotes
+  _BoundET, _ST, cfg, C, inp, wpNotes, setWpNotes
 }) {
   const unadjRows = Array.from({ length: 10 }, (_, i) => [
     i + 1, "", "", "", "", "", "",
@@ -408,7 +408,7 @@ export const AdjustmentsSummaryEnhanced = memo(function AdjustmentsSummaryEnhanc
    F1 — ISA 265 Management Letter
    ─────────────────────────────────────────────────────────────── */
 export const ManagementLetterEnhanced = memo(function ManagementLetterEnhanced({
-  BoundET, ST, cfg, C, inp, wpNotes, setWpNotes
+  _BoundET, _ST, cfg, C, inp, wpNotes, setWpNotes
 }) {
   return (
     <div>
@@ -455,7 +455,7 @@ export const ManagementLetterEnhanced = memo(function ManagementLetterEnhanced({
    C2 — Enhanced P&L Lead Schedule
    ─────────────────────────────────────────────────────────────── */
 export const PLLeadEnhanced = memo(function PLLeadEnhanced({
-  BoundET, ST, cfg, C, inp, wpNotes, setWpNotes
+  _BoundET, _ST, _cfg, C, inp, wpNotes, setWpNotes
 }) {
   const lines = [
     { item: "Revenue", sub: false },
@@ -475,7 +475,7 @@ export const PLLeadEnhanced = memo(function PLLeadEnhanced({
     <div>
       <ST t="C2 — Profit & Loss Lead Schedule" color={C.ld} />
       <BoundET id="c2_pl" headers={["Note Ref", "Line Item", "PY (£)", "CY (£)", "Movement (£)", "Movement %", "WP Ref", "Audit Adj Dr", "Audit Adj Cr", "Adjusted Balance", "Status"]}
-        rows={lines.map((l, i) => [
+        rows={lines.map((l, _i) => [
           "", <span style={{ color: C.tx, fontWeight: l.sub ? 700 : 500, fontStyle: l.sub ? "italic" : "normal" }}>{l.item}</span>,
           "", "", "", "", "", "", "", "", "",
         ])} editable={[0, 2, 3, 4, 7, 8, 9, 10]} />
@@ -494,7 +494,7 @@ export const PLLeadEnhanced = memo(function PLLeadEnhanced({
    C3 — Enhanced Balance Sheet Lead Schedule
    ─────────────────────────────────────────────────────────────── */
 export const BSLeadEnhanced = memo(function BSLeadEnhanced({
-  BoundET, ST, cfg, C, inp, wpNotes, setWpNotes
+  _BoundET, _ST, _cfg, C, inp, wpNotes, setWpNotes
 }) {
   const lines = [
     { item: "Intangible Assets", sub: false },

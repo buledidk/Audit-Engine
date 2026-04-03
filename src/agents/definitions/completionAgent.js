@@ -22,7 +22,7 @@ export const completionAgent = {
           visibleWPs: state.visibleWPs,
         },
       }),
-      mapResult: (result, state) => {
+      mapResult: (result, _state) => {
         const predictions = result.predictions || [];
         const criticals = predictions.filter(p => p.severity === 'critical');
         const warnings = predictions.filter(p => p.severity === 'warning');

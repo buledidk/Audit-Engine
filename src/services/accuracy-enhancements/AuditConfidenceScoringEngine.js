@@ -116,7 +116,7 @@ export class AuditConfidenceScoringEngine {
   /**
    * Score consistency across sources
    */
-  _scoreConsistency(finding, context) {
+  _scoreConsistency(finding, _context) {
     let score = 0.5; // Base score
 
     // Check consistency with other findings
@@ -236,7 +236,7 @@ export class AuditConfidenceScoringEngine {
   /**
    * Generate recommended audit procedures
    */
-  _generateRecommendedProcedures(score, finding) {
+  _generateRecommendedProcedures(score, _finding) {
     const procedures = [];
 
     if (score < 0.85) {

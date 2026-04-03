@@ -7,7 +7,7 @@ export default function AuditSidebar(){
     activeWP, setActiveWP, sbOpen, setSbOpen, cfg, theme, CC, toggleTheme,
     debugClicks, debugTimer, setShowDebug, wpSearchRef, wpSearch, setWpSearch,
     totalWPs, doneCount, signOffs, reviewNotes, mobileMenuOpen,
-    indAcc, lastSaveTime, agentPanelOpen, setAgentPanelOpen
+    indAcc, lastSaveTime, agentPanelOpen, setAgentPanelOpen // eslint-disable-line no-unused-vars
   } = useEngagement();
 
   const { tc } = useAuditHelpers();

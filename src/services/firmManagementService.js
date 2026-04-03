@@ -209,7 +209,7 @@ class FirmManagementService {
     return null;
   }
 
-  async updateEngagementStatus(engagementId, status, userId) {
+  async updateEngagementStatus(engagementId, status, _userId) {
     const validStatuses = ['acceptance','planning','interim','final','completion','post_engagement','complete','declined'];
     if (!validStatuses.includes(status)) throw new Error(`Invalid status: ${status}`);
     const updates = { status, updated_at: new Date().toISOString() };

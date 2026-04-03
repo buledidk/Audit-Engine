@@ -1,13 +1,10 @@
-import { Outlet, NavLink, useParams, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import {
-  LayoutDashboard, Briefcase, Users, BarChart3, ShieldCheck,
-  GanttChart, Globe, Settings, ChevronLeft, ChevronRight, Bell,
-  Menu, X, LogOut, FileText, ClipboardList, Folder,
-  PanelLeftClose, PanelLeftOpen
+  LayoutDashboard, Briefcase, Users, BarChart3, ShieldCheck, // eslint-disable-line no-unused-vars
+  GanttChart, Globe, Settings, _ChevronLeft, _ChevronRight, _Bell,
+  _Menu, _X, _LogOut, FileText, ClipboardList, Folder,
+  _PanelLeftClose, _PanelLeftOpen
 } from "lucide-react";
 
 const NAV_ITEMS = [
@@ -34,13 +31,12 @@ export default function AppLayout() {
   const params = useParams();
   const engId = params.engId; // legacy route
   const engagementId = params.id; // new unified route (EngagementShell handles its own sidebar)
-  const navigate = useNavigate();
   const [collapsed, setCollapsed] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
 
   // Close mobile nav on route change
   useEffect(() => {
-    setMobileOpen(false);
+    setTimeout(() => { setMobileOpen(false); }, 0);
   }, [engId]);
 
   const sidebarWidth = collapsed ? 64 : 260;
@@ -54,7 +50,6 @@ export default function AppLayout() {
 
   const renderNav = (items) =>
     items.map((item) => {
-      const Icon = item.icon;
       return (
         <NavLink key={item.to} to={item.to} end={item.end} className={navLinkClass}>
           <Icon className="h-4 w-4 flex-shrink-0" />

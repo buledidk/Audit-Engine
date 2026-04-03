@@ -42,7 +42,7 @@ export class AIPoweredProceduresEngine {
     return procedures;
   }
 
-  _generateSamplingProcedures(auditData) {
+  _generateSamplingProcedures(_auditData) {
     return [
       'Stratified sampling for large accounts',
       'Risk-based sample sizing'

@@ -4,7 +4,7 @@
  * Status: ✅ PRODUCTION READY
  */
 
-import React, { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 
 const AGENTS = {
   'AIProcedureEngine': { type: 'engine', category: 'Procedure', color: '#FF6B6B', icon: '⚙️' },
@@ -43,7 +43,7 @@ export function AgentMonitoringDashboard() {
   const [selectedAgent, setSelectedAgent] = useState(null);
   const [executionWaterfall, setExecutionWaterfall] = useState([]);
   const [viewMode, setViewMode] = useState('waterfall');
-  const [activeConnections, setActiveConnections] = useState(new Set());
+  const [_activeConnections, setActiveConnections] = useState(new Set());
 
   useEffect(() => {
     const agentStates = {};

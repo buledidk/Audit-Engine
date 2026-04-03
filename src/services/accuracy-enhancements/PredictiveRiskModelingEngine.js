@@ -69,7 +69,7 @@ export class PredictiveRiskModelingEngine {
     };
   }
 
-  _generateRiskSummary(auditData) {
+  _generateRiskSummary(_auditData) {
     return {
       overallRiskLevel: 'MEDIUM',
       keyRisks: [

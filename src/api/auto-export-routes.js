@@ -8,8 +8,6 @@
 
 import express from 'express';
 import WorksheetAutopopulationService from '../services/WorksheetAutopopulationService.js';
-import { AuditExcelExportService } from '../services/auditExcelExportService.js';
-import { AuditWordExportService } from '../services/auditWordExportService.js';
 
 const router = express.Router();
 
@@ -254,7 +252,7 @@ router.get('/api/auto-export/download-all/:engagementId', (req, res) => {
  */
 router.post('/api/auto-export/enable', (req, res) => {
   try {
-    const { engagementId, formats = ['excel', 'word'] } = req.body;
+    const { _engagementId, formats = ['excel', 'word'] } = req.body;
 
     WorksheetAutopopulationService.setAutoExportEnabled(true);
     WorksheetAutopopulationService.setExportFormats(formats);

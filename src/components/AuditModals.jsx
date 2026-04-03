@@ -5,7 +5,7 @@ import { C, I, FW, SZ, ET } from "../data";
 import { parsePlatformExport, mapToTrialBalance } from "../IntegrationsEngine";
 
 export const AddModal=()=>{
-  const { showModal, setShowModal, mi, setMi, customItems, setCustomItems } = useEngagement();
+  const { showModal, setShowModal, mi, setMi, _customItems, setCustomItems } = useEngagement();
   const { lbl, inp } = useAuditHelpers();
   if(!showModal)return null;const type=showModal;return<div style={{position:"fixed",inset:0,background:"rgba(0,0,0,0.7)",zIndex:1000,display:"flex",alignItems:"center",justifyContent:"center"}} onClick={()=>setShowModal(null)}>
     <div onClick={e=>e.stopPropagation()} style={{background:"#151D30",border:"1px solid "+C.brd,borderRadius:16,padding:32,width:500,maxWidth:"90vw"}}>
@@ -27,7 +27,6 @@ export const SampleCalcModal=()=>{
   const[popSize,setPopSize]=useState("");const[matLevel,setMatLevel]=useState(cfg.materiality||"");const[confidence,setConfidence]=useState("95");
     if(!showSampleCalc)return null;
     const N=parseFloat(popSize)||0;const M=parseFloat(matLevel)||1;const conf=confidence==="95"?3.0:2.31;
-    const sampleSize=N>0&&M>0?Math.min(Math.max(Math.ceil(N*conf/M*100),1),N):0;
     const monetaryUnit=N>0&&M>0?Math.max(Math.ceil(conf*N/M),1):0;
     const recommended=N>0?Math.min(Math.max(Math.ceil(N/(1+(N*((confidence==="95"?0.05:0.1)**2)))),Math.ceil(conf*2),25),N):0;
     return<div style={{position:"fixed",inset:0,background:"rgba(0,0,0,0.7)",zIndex:1000,display:"flex",alignItems:"center",justifyContent:"center"}} onClick={()=>setShowSampleCalc(false)}>
@@ -65,7 +64,7 @@ export const SampleCalcModal=()=>{
 
 export const WelcomeWizard=()=>{
   const { showWelcome, setShowWelcome, setCfg, setTbData, showToast } = useEngagement();
-  const { inp } = useAuditHelpers();
+  const { _inp } = useAuditHelpers();
     if(!showWelcome)return null;
     const[step,setStep]=useState(1);
     const[wCfg,setWCfg]=useState({industry:"",framework:"",entityName:"",fye:"",entitySize:"",engagementType:"statutory"});

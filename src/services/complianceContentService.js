@@ -9,9 +9,6 @@
  * Created: March 2026
  */
 
-import { ISA_COMPLIANCE_FRAMEWORK } from '../requirements/compliance/ISA_Compliance_Checklist.js';
-import auditFramework from '../data/auditFramework.json';
-import auditProceduresLibrary from '../data/auditProceduresLibrary.json';
 
 /**
  * Comprehensive compliance content organized by FSLI

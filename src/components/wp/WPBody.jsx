@@ -1,16 +1,3 @@
-import PlanningWP from "./PlanningWP";
-import RiskWP from "./RiskWP";
-import LeadScheduleWP from "./LeadScheduleWP";
-import TestingWP from "./TestingWP";
-import FinancialStatementsWP from "./FinancialStatementsWP";
-import CompletionWP from "./CompletionWP";
-import ReportingWP from "./ReportingWP";
-import RegulatoryWP from "./RegulatoryWP";
-import StandardsBrowser from "./StandardsBrowser";
-import ResearchHub from "./ResearchHub";
-import ChartOfAccountsWP from "./ChartOfAccountsWP";
-import FinancialModelsWP from "./FinancialModelsWP";
-import IntegrationsHub from "./IntegrationsHub";
 import { C } from "../../data";
 
 const PLANNING_IDS = new Set(["a1","a2","a3","a4","a5","a6","a7","a8","a9","a10"]);

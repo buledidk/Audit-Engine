@@ -283,7 +283,7 @@ export function getAgentProfile(agentId) {
  * @returns {array} Recommended agents ranked by suitability
  */
 export function findBestAgentForTask(taskCharacteristics = {}) {
-  const { taskType, fsliId, riskLevel = 'medium', requiresSpecialization = false } = taskCharacteristics;
+  const { _taskType, fsliId, riskLevel = 'medium', requiresSpecialization = false } = taskCharacteristics;
 
   // Get suggestions from content mapping service
   const suggestions = contentMappingService.suggestAgentAssignments(fsliId || 'D3', { riskProfile: riskLevel });

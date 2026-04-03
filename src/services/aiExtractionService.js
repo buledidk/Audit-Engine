@@ -196,7 +196,7 @@ Extract all audit-relevant data with high accuracy. Focus on:
   /**
    * Map extracted procedures to ISA standards
    */
-  mapToProcedures(procedures, auditContext) {
+  mapToProcedures(procedures, _auditContext) {
     const standardProcedures = {
       'bank confirmation': 'ISA 505',
       'confirmation': 'ISA 505',
@@ -232,7 +232,7 @@ Extract all audit-relevant data with high accuracy. Focus on:
   /**
    * Map compliance gaps to frameworks
    */
-  mapToFrameworks(gaps, auditContext) {
+  mapToFrameworks(gaps, _auditContext) {
     return gaps.map(gap => {
       let framework = gap.framework || 'ISA 200';
 

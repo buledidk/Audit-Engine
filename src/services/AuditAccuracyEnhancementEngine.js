@@ -378,7 +378,7 @@ export class AuditAccuracyEnhancementEngine {
   /**
    * Integrate with audit workflow at specific points
    */
-  async integrateWithWorkflow(phase, data, workflowState) {
+  async integrateWithWorkflow(phase, data, _workflowState) {
     const integration = {
       phase,
       enhancementsApplied: [],

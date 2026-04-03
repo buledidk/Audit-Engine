@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import { useMemo } from "react";
 
 /**
  * Sample Size Suggestion Engine
@@ -147,7 +147,7 @@ export function SampleSizeSuggestion({
     return risk === "High" ? COLORS.red : risk === "Medium" ? COLORS.orange : COLORS.green;
   };
 
-  const SampleMethodCard = ({ title, data, isRecommended = false }) => (
+  const SampleMethodCard = ({ title, data, isRecommended = false }) => ( // eslint-disable-line no-unused-vars
     <div style={{
       background: isRecommended ? `${COLORS.accent}15` : COLORS.card,
       border: `1px solid ${isRecommended ? `${COLORS.accent}40` : COLORS.border}`,

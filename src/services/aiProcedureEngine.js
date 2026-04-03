@@ -173,7 +173,7 @@ Return JSON with:
    * @param {Array} procedures - Available procedures
    * @returns {Promise<Object>} Strategy recommendation
    */
-  async recommendAuditStrategy(context, procedures) {
+  async recommendAuditStrategy(context, _procedures) {
     const prompt = `
 You are a senior audit partner designing audit strategy.
 

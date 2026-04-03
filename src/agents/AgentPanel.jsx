@@ -3,12 +3,11 @@
 // ═══════════════════════════════════════════════════════════════
 
 import { useState } from 'react';
-import { C } from '../data';
 import { useEngagement } from '../context/EngagementContext.jsx';
 import { useAgents } from '../hooks/useAgents.js';
 
 export default function AgentPanel() {
-  const { agentPanelOpen, setAgentPanelOpen, CC } = useEngagement();
+  const { agentPanelOpen, setAgentPanelOpen, _CC } = useEngagement();
   const {
     runAgent, abortAgent, agentStatus, agentResults,
     currentStep, stepLog, totalSteps, currentStepIndex,

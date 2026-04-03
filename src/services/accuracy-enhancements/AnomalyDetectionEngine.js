@@ -242,7 +242,6 @@ export class AnomalyDetectionEngine {
 
     if (balances.length < 3) return anomalies;
 
-    const mean = balances.reduce((a, b) => a + b, 0) / balances.length;
     const sorted = balances.sort((a, b) => a - b);
     const q1 = sorted[Math.floor(sorted.length * 0.25)];
     const q3 = sorted[Math.floor(sorted.length * 0.75)];

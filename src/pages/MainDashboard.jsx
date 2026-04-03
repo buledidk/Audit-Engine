@@ -1,18 +1,12 @@
 import { useState, useEffect } from "react";
-import { useNavigate, useOutletContext } from "react-router-dom";
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Progress } from "@/components/ui/progress";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { ScrollArea } from "@/components/ui/scroll-area";
+import { useNavigate } from "react-router-dom";
 import {
-  BarChart, Bar, XAxis, YAxis, Tooltip as RTooltip, ResponsiveContainer,
-  PieChart, Pie, Cell, RadialBarChart, RadialBar
+  _BarChart, _Bar, _XAxis, _YAxis, Tooltip as _RTooltip, _ResponsiveContainer,
+  _PieChart, _Pie, _Cell, _RadialBarChart, _RadialBar
 } from "recharts";
 import {
-  LayoutDashboard, Plus, BarChart3, ShieldCheck, Bell, Clock, Users,
-  FileCheck, AlertTriangle, CheckCircle2, ArrowRight, TrendingUp, Briefcase
+  _LayoutDashboard, _Plus, _BarChart3, _ShieldCheck, _Bell, _Clock, _Users,
+  _FileCheck, _AlertTriangle, _CheckCircle2, _ArrowRight, _TrendingUp, _Briefcase
 } from "lucide-react";
 import { listEngagements, createEngagement, setActiveEngagementId, createStorageEngine } from "../StorageEngine";
 import { DEMO_ENGAGEMENT } from "@/data/demoEngagement";

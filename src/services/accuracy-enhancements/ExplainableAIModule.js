@@ -156,7 +156,7 @@ export class ExplainableAIModule {
   /**
    * Generate SHAP values explanation
    */
-  _generateSHAPValues(anomalies) {
+  _generateSHAPValues(_anomalies) {
     // Simplified SHAP value explanation
     return {
       method: 'SHAP (SHapley Additive exPlanations)',
@@ -230,7 +230,7 @@ export class ExplainableAIModule {
   /**
    * Explain agent inputs
    */
-  _explainAgentInputs(consensus) {
+  _explainAgentInputs(_consensus) {
     return {
       planningAgent: {
         focus: 'Audit scope and overall strategy',

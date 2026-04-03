@@ -66,7 +66,7 @@ export const planningAgent = {
       name: 'Populate Fraud Assessment (A5)',
       type: 'analyze',
       analyze: (state) => {
-        const { cfg, ind } = extractState(state);
+        const { _cfg, ind } = extractState(state);
         return [
           cell('a5', 'fraud_revenue_recognition', 'Revenue recognition is a presumed fraud risk per ISA 240.26. ' + (ind?.l === 'Construction' ? 'Construction contracts introduce particular fraud risk through percentage of completion estimates.' : ind?.l === 'Technology' ? 'SaaS revenue recognition timing and multiple element arrangements require scrutiny.' : 'Standard revenue cut-off and occurrence testing to be performed.'), 'ISA 240.26 presumption'),
           cell('a5', 'fraud_management_override', 'Management override of controls is always a presumed fraud risk per ISA 240.31 and cannot be rebutted. Journal entry testing, review of estimates for bias, and evaluation of unusual transactions required.', 'ISA 240.31 — cannot be rebutted'),
@@ -90,7 +90,7 @@ export const planningAgent = {
       name: 'Populate Laws & Regulations (A7)',
       type: 'analyze',
       analyze: (state) => {
-        const { cfg, ind } = extractState(state);
+        const { cfg, _ind } = extractState(state);
         const laws = ['Companies Act 2006', 'Corporation Tax Act 2010', 'HMRC requirements'];
         if (cfg.industry === 'financial_services') laws.push('FCA Handbook', 'PRA Rulebook', 'MLR 2017');
         if (cfg.industry === 'charities') laws.push('Charities Act 2011', 'Charity Commission regulations');

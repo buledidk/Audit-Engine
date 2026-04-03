@@ -4,10 +4,10 @@
  * Designed for long-hour audit engagement sessions
  */
 
-import React, { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 
-const AuditorWellnessMonitor = ({ auditSession }) => {
-  const [sessionStats, setSessionStats] = useState({
+const AuditorWellnessMonitor = ({ _auditSession }) => {
+  const [sessionStats, _setSessionStats] = useState({
     hoursWorked: 0,
     tasksCompleted: 0,
     decisionsCount: 0,
@@ -127,7 +127,7 @@ const AuditorWellnessMonitor = ({ auditSession }) => {
   }, [sessionStats]);
 
   useEffect(() => {
-    calculateFatigueLevel();
+    setTimeout(() => { calculateFatigueLevel(); }, 0);
   }, [sessionStats, calculateFatigueLevel]);
 
   /**

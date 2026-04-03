@@ -4,7 +4,7 @@ import { C } from "../../data";
 
 export const FSLILead = ({ wp }) => {
   const { ind } = useEngagement();
-  const { BoundET } = useAuditHelpers();
+  const { _BoundET } = useAuditHelpers();
 
   if (!wp.fk || !ind?.f?.[wp.fk]) return null;
   const lines = ind.f[wp.fk].filter(l => l !== "N/A" && l !== "N/A for pure SaaS");

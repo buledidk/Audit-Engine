@@ -9,7 +9,7 @@
  * Created: March 2026
  */
 
-import React, { useState } from 'react';
+import { useState } from 'react';
 import './AgentAssignmentPanel.css';
 
 export default function AgentAssignmentPanel({ sectionId, assignments, onAssignmentChange, agentWorkload }) {
@@ -21,7 +21,7 @@ export default function AgentAssignmentPanel({ sectionId, assignments, onAssignm
     ? assignments
     : assignments.filter(a => a.role === filterByRole);
 
-  const handleReassign = (agentId, newAgentId) => {
+  const handleReassign = (agentId, newAgentId) => { // eslint-disable-line no-unused-vars
     if (onAssignmentChange) {
       onAssignmentChange({
         action: 'reassign',

@@ -6,7 +6,7 @@ export default function ProcedureUpdate() {
   const { wpId } = useParams();
   const { CC } = useOutletContext() || { CC: C };
   const navigate = useNavigate();
-  const { cellData, setCellData, signOffs } = useEngagement();
+  const { cellData, setCellData, _signOffs } = useEngagement();
 
   // Get all cell data keys for this WP
   const wpKeys = Object.keys(cellData).filter(k =>

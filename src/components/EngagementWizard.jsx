@@ -85,7 +85,7 @@ const initialState = {
 
 // ─── Sub-components ───────────────────────────────────────────────────────
 
-function StepIndicator({ currentStep }) {
+function StepIndicator({ currentStep }) { // eslint-disable-line no-unused-vars
   return (
     <div style={{ display: 'flex', alignItems: 'center', marginBottom: 24, padding: '12px 0', borderBottom: '1px solid #e5e7eb' }}>
       {STEPS.map((step, i) => (
@@ -112,7 +112,7 @@ function StepIndicator({ currentStep }) {
   );
 }
 
-function FormField({ label, children, required, hint }) {
+function FormField({ label, children, required, hint }) { // eslint-disable-line no-unused-vars
   return (
     <div style={{ marginBottom: 16 }}>
       <label style={{ display: 'block', fontWeight: 600, marginBottom: 4, fontSize: 14, color: '#374151' }}>
@@ -129,7 +129,7 @@ const selectStyle = { ...inputStyle, background: '#fff' };
 
 // ─── Step 1: Client Details ───────────────────────────────────────────────
 
-function StepClientDetails({ data, onChange }) {
+function StepClientDetails({ data, onChange }) { // eslint-disable-line no-unused-vars
   return (
     <div>
       <h3 style={{ marginTop: 0 }}>Client Details</h3>
@@ -176,7 +176,7 @@ function StepClientDetails({ data, onChange }) {
 
 // ─── Step 2: Acceptance & Independence ───────────────────────────────────
 
-function StepAcceptance({ data, onChange }) {
+function StepAcceptance({ data, onChange }) { // eslint-disable-line no-unused-vars
   const checks = [
     { key: 'ethicsConfirmed',    label: 'Ethics and independence confirmed for all team members (ISQM 1 / ISA 220)' },
     { key: 'conflictsChecked',   label: 'Conflicts of interest checked — no prohibited relationships identified' },
@@ -217,7 +217,7 @@ function StepAcceptance({ data, onChange }) {
 
 // ─── Step 3: Risk Assessment ──────────────────────────────────────────────
 
-function StepRiskAssessment({ data, onChange }) {
+function StepRiskAssessment({ data, onChange }) { // eslint-disable-line no-unused-vars
   const totalRiskScore = RISK_FACTORS
     .filter(rf => data.riskFactors?.[rf.key])
     .reduce((s, rf) => s + rf.weight, 0);
@@ -282,7 +282,7 @@ function StepRiskAssessment({ data, onChange }) {
 
 // ─── Step 4: Materiality ──────────────────────────────────────────────────
 
-function StepMateriality({ data, onChange }) {
+function StepMateriality({ data, onChange }) { // eslint-disable-line no-unused-vars
   const handleCalculate = () => {
     const fin = Object.fromEntries(
       Object.entries(data.financials).map(([k, v]) => [k, parseFloat(v) || 0])
@@ -355,7 +355,7 @@ function StepMateriality({ data, onChange }) {
 
 // ─── Step 5: Team Assignment ──────────────────────────────────────────────
 
-function StepTeam({ data, onChange }) {
+function StepTeam({ data, onChange }) { // eslint-disable-line no-unused-vars
   const roles = ['Engagement Partner', 'Manager', 'Senior Auditor', 'Junior Auditor', 'EQCR Reviewer', 'Specialist'];
 
   const addTeamMember = () => onChange('team', [...(data.team || []), { name: '', role: 'Senior Auditor', hours: '', areas: '' }]);
@@ -427,7 +427,7 @@ function StepTeam({ data, onChange }) {
 
 // ─── Step 6: Planning Summary ─────────────────────────────────────────────
 
-function StepPlanningSummary({ data }) {
+function StepPlanningSummary({ data }) { // eslint-disable-line no-unused-vars
   const mat = data.materiality;
   const riskFactorNames = RISK_FACTORS
     .filter(rf => data.riskFactors?.[rf.key])

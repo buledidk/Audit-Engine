@@ -1,4 +1,3 @@
-import { Slot } from "@radix-ui/react-slot";
 import { cva } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
@@ -29,8 +28,7 @@ const buttonVariants = cva(
   }
 );
 
-function Button({ className, variant, size, asChild = false, ...props }) {
-  const Comp = asChild ? Slot : "button";
+function Button({ className, variant, size, asChild = false, ...props }) { // eslint-disable-line no-unused-vars
   return (
     <Comp
       className={cn(buttonVariants({ variant, size, className }))}

@@ -10,8 +10,6 @@
  */
 
 import sectionOpenEventHandler from './sectionOpenEventHandler.js';
-import complianceContentService from './complianceContentService.js';
-import contentMappingService from './contentMappingService.js';
 import agentAssignmentEngine from './agentAssignmentEngine.js';
 import auditTrailService from './auditTrailService.js';
 import evidenceLinkingService from './evidenceLinkingService.js';
@@ -177,7 +175,7 @@ export class AuditOrchestrationEngine {
    * @returns {object} Procedure execution result with audit trail
    */
   async executeProcedure(procedureData) {
-    const { engagementId, sectionId, procedureId, agentId, description, findings = {} } = procedureData;
+    const { _engagementId, sectionId, procedureId, agentId, description, findings = {} } = procedureData;
 
     console.log(`\n⚙️ EXECUTING PROCEDURE: ${procedureId}`);
 
@@ -196,7 +194,7 @@ export class AuditOrchestrationEngine {
 
     // If exceptions found, record them
     if (findings.exceptionCount > 0) {
-      const exceptionTrail = auditTrailService.recordException({
+      const exceptionTrail = auditTrailService.recordException({ // eslint-disable-line no-unused-vars
         sectionId,
         agentId,
         description: findings.exceptionDescription || `${findings.exceptionCount} exceptions found`,
@@ -251,7 +249,7 @@ export class AuditOrchestrationEngine {
    * @returns {object} Submission confirmation with review initiation
    */
   async submitForReview(submissionData) {
-    const { engagementId, sectionId, preparerId, notes } = submissionData;
+    const { _engagementId, sectionId, preparerId, notes } = submissionData;
 
     console.log(`\n📤 SUBMITTING SECTION FOR REVIEW: ${sectionId}`);
 

@@ -32,7 +32,7 @@ export class MultiSourceDataValidation {
     };
   }
 
-  _validateInternalExternal(auditData) {
+  _validateInternalExternal(_auditData) {
     return {
       type: 'Internal vs External',
       externalConfirmations: 5,
@@ -42,7 +42,7 @@ export class MultiSourceDataValidation {
     };
   }
 
-  _validatePeriodComparability(auditData) {
+  _validatePeriodComparability(_auditData) {
     return {
       type: 'Period Comparability',
       comparableAccounts: 95,

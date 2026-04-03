@@ -13,14 +13,7 @@
  * - Coordinates with AI agents
  */
 
-import React, { useState, useCallback, useEffect } from 'react';
-import ComprehensiveAuditDashboard from './ComprehensiveAuditDashboard';
-import AuditDashboard from './AuditDashboard';
-import RiskDashboard from './RiskDashboard';
-import AuditProgressTracker from './AuditProgressTracker';
-import CommentPanel from './CommentPanel';
-import AgentMonitoringDashboard from './AgentMonitoringDashboard';
-import MobileDashboard from './MobileDashboard';
+import { useState, useCallback, useEffect } from 'react';
 
 const COLORS = {
   bg: "#0A0E17",

@@ -75,7 +75,7 @@ export class AuditQualityAssuranceService {
     };
 
     // Aggregate check results
-    Object.entries(validation.checks).forEach(([checkName, result]) => {
+    Object.entries(validation.checks).forEach(([_checkName, result]) => {
       if (result.status === 'FAIL') {
         validation.issues.push(...result.issues);
         validation.overallStatus = 'FAIL';
@@ -91,7 +91,7 @@ export class AuditQualityAssuranceService {
   /**
    * Validate working paper template
    */
-  validateTemplate(fsliId) {
+  validateTemplate(_fsliId) {
     const issues = [];
     const warnings = [];
 
@@ -125,7 +125,7 @@ export class AuditQualityAssuranceService {
   /**
    * Validate procedures for completeness
    */
-  validateProcedures(fsliId) {
+  validateProcedures(_fsliId) {
     const issues = [];
     const warnings = [];
 
@@ -159,7 +159,7 @@ export class AuditQualityAssuranceService {
   /**
    * Validate evidence linking
    */
-  validateEvidence(fsliId) {
+  validateEvidence(_fsliId) {
     const issues = [];
     const warnings = [];
 
@@ -191,7 +191,7 @@ export class AuditQualityAssuranceService {
   /**
    * Validate sign-off chain
    */
-  validateSignOff(fsliId, engagement) {
+  validateSignOff(_fsliId, _engagement) {
     const issues = [];
     const warnings = [];
 
@@ -223,7 +223,7 @@ export class AuditQualityAssuranceService {
   /**
    * Validate assertion coverage
    */
-  validateAssertions(fsliId) {
+  validateAssertions(_fsliId) {
     const issues = [];
     const warnings = [];
 
@@ -251,7 +251,7 @@ export class AuditQualityAssuranceService {
   /**
    * Validate ISA standard mapping
    */
-  validateISAMapping(fsliId) {
+  validateISAMapping(_fsliId) {
     const issues = [];
     const warnings = [];
 
@@ -280,7 +280,7 @@ export class AuditQualityAssuranceService {
   /**
    * Validate ISA 200-599 compliance
    */
-  validateISACompliance(engagement) {
+  validateISACompliance(_engagement) {
     const compliance = {
       isa200: { compliant: true, section: 'Overall objectives' },
       isa210: { compliant: true, section: 'Engagement terms' },

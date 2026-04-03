@@ -332,7 +332,7 @@ export class AgentQualityAssessmentService {
    * EVALUATE ACCURACY
    * Rate accuracy on scale of 1-5
    */
-  async _evaluateAccuracy(agentName, responseData, requestType) {
+  async _evaluateAccuracy(agentName, responseData, _requestType) {
     // Simple heuristic: 5 = excellent, 1 = poor
     // In production, this would compare against human review
 
@@ -358,7 +358,7 @@ export class AgentQualityAssessmentService {
    * RATE RECOMMENDATION QUALITY
    * Score quality of recommendations (1-5 scale)
    */
-  async _rateRecommendationQuality(responseData, agentName) {
+  async _rateRecommendationQuality(responseData, _agentName) {
     if (!responseData || !responseData.recommendations) return 1;
 
     let score = 3; // default
@@ -383,7 +383,7 @@ export class AgentQualityAssessmentService {
    * CALCULATE COMPOSITE SCORE
    * Weighted calculation: accuracy (40%), compliance (35%), speed (15%), cost (10%)
    */
-  _calculateCompositeScore(executions, agentName) {
+  _calculateCompositeScore(executions, _agentName) {
     if (!executions || executions.length === 0) {
       return { score: 0, status: 'NO_DATA' };
     }

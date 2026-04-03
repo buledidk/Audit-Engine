@@ -1,15 +1,7 @@
 import { useState } from "react";
-import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Input, Label } from "@/components/ui/input";
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
-import { Select, SelectTrigger, SelectContent, SelectItem, SelectValue } from "@/components/ui/select";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { Progress } from "@/components/ui/progress";
 import {
-  Building2, Shield, Users, CreditCard, Database, Key,
-  CheckCircle2, XCircle, Plus, Pencil, Trash2, Save, Wifi, WifiOff
+  _Building2, _Shield, _Users, _CreditCard, _Database, _Key,
+  _CheckCircle2, _XCircle, _Plus, _Pencil, _Trash2, _Save, _Wifi, _WifiOff
 } from "lucide-react";
 
 const DEMO_FIRM = {
@@ -50,7 +42,7 @@ const SUBSCRIPTION_TIERS = [
 export default function SettingsFirmSetup() {
   const [firm, setFirm] = useState(DEMO_FIRM);
   const [supabaseConnected, setSupabaseConnected] = useState(true);
-  const [apiKeys, setApiKeys] = useState([
+  const [apiKeys, _setApiKeys] = useState([
     { id: 1, name: "Production API Key", key: "ae_live_**********************3f9a", created: "2026-01-15", lastUsed: "2026-03-31" },
     { id: 2, name: "Development API Key", key: "ae_test_**********************8b2c", created: "2026-02-01", lastUsed: "2026-03-28" },
   ]);

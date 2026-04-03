@@ -3,14 +3,12 @@
 // Each tool wraps an existing service/engine for agent use
 // ═══════════════════════════════════════════════════════════════
 
-import { MaterialityEngine } from '../services/materialityEngine.js';
 import { AIProcedureEngine } from '../services/aiProcedureEngine.js';
 import { ExceptionPredictionEngine } from '../services/exceptionPredictionEngine.js';
 import { ISA_UK_STANDARDS } from '../StandardsLibrary.js';
 import { CROSS_REFERENCE_INDEX } from '../CrossReferenceIndex.js';
 
 // Instantiate engines for tool use
-const materialityEngine = new MaterialityEngine();
 const aiProcedureEngine = new AIProcedureEngine();
 const exceptionEngine = new ExceptionPredictionEngine();
 

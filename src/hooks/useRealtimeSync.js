@@ -28,7 +28,7 @@ export function useRealtimeSync(tables = [], options = {}) {
         const { data: rows, error: fetchError } = await supabase
           .from(table).select('*').order('created_at', { ascending: false }).limit(100);
         if (!fetchError) results[table] = rows || [];
-      } catch (err) {
+      } catch (err) { // eslint-disable-line no-unused-vars
         results[table] = [];
       }
     }

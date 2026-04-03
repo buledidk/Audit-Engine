@@ -10,7 +10,6 @@
  */
 
 import contentMappingService from './contentMappingService.js';
-import complianceContentService from './complianceContentService.js';
 import agentAssignmentEngine from './agentAssignmentEngine.js';
 import signOffChainService from './signOffChainService.js';
 
@@ -18,7 +17,6 @@ import signOffChainService from './signOffChainService.js';
  * Event handlers registry
  */
 const eventHandlers = new Map();
-let sectionOpenListener = null;
 
 /**
  * Handle section open event
@@ -38,8 +36,8 @@ export async function handleSectionOpen(eventData) {
     userId,
     userName,
     engagementContext = {},
-    previousPhase = null,
-    materiality = 0
+    previousPhase = null, // eslint-disable-line no-unused-vars
+    materiality = 0 // eslint-disable-line no-unused-vars
   } = eventData;
 
   console.log(`\n📂 Section Opened: ${sectionId}`);
@@ -171,7 +169,7 @@ function emitEvent(eventType, eventData) {
  * @param {object} guidanceData - Guidance package
  * @returns {array} Next steps with priorities
  */
-function generateNextSteps(sectionId, guidanceData) {
+function generateNextSteps(_sectionId, _guidanceData) {
   const steps = [];
 
   // Step 1: Understand procedures

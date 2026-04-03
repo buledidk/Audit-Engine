@@ -1766,7 +1766,7 @@ function searchAccountsGlobal(searchTerm) {
   if (!searchTerm) return [];
 
   const results = [];
-  for (const [industryId, accounts] of Object.entries(UK_COA_TEMPLATES)) {
+  for (const [industryId, accounts] of Object.entries(UK_COA_TEMPLATES)) { // eslint-disable-line no-unused-vars
     const match = fuzzyMatchAccount(searchTerm, industryId);
     if (match.match && match.score > 0) {
       results.push({

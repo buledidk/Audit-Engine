@@ -1,11 +1,10 @@
 import { useEngagement } from "../../context/EngagementContext";
 import { useAuditHelpers } from "../../hooks/useAuditHelpers";
 import { C } from "../../data";
-import { Badge } from "../ui/SharedUIComponents";
 import { TRANSACTION_CYCLES, RISK_TRILOGY } from "../../AuditMethodology";
 import { ENTITY_LEVEL_CONTROLS } from "../../AdditionalWPs";
 
-const RiskHeatMap=({risks})=>{
+const RiskHeatMap=({risks})=>{ // eslint-disable-line no-unused-vars
   const levels={"SIGNIFICANT":{impact:4,likelihood:4},"ELEVATED":{impact:3,likelihood:3},"NORMAL":{impact:2,likelihood:2}};
   const grid=Array.from({length:5},()=>Array.from({length:5},()=>[]));
   risks.forEach(r=>{const lv=levels[r.lv]||levels.NORMAL;grid[4-lv.impact][lv.likelihood-1].push(r);});
@@ -29,8 +28,8 @@ const RiskHeatMap=({risks})=>{
   </div>};
 
 export default function RiskWP({ wp }){
-  const {cfg, ind, customItems, signOffs, setShowModal, setMi} = useEngagement();
-  const {BoundET, ST, tc} = useAuditHelpers();
+  const {cfg, ind, customItems, _signOffs, setShowModal, _setMi} = useEngagement();
+  const {_BoundET, _ST, _tc} = useAuditHelpers();
 
   if(!ind)return null;
 

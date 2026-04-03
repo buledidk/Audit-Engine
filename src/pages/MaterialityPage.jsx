@@ -1,6 +1,5 @@
 import { useOutletContext } from "react-router-dom";
 import useEngagement from "../components/Shared/hooks/useEngagement";
-import MaterialityCalculator from "../components/MaterialityCalculator";
 import { DARK_COLORS as C } from "../components/Shared/utils/constants";
 
 export default function MaterialityPage() {

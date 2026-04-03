@@ -6,11 +6,11 @@
 
 import { supabase, isSupabaseConfigured } from '../supabaseClient';
 import {
-  COMMENT_TYPES,
-  COMMENT_TEMPLATES,
-  RESOLUTION_STATUS,
-  WORKPAPER_COMMENT_SECTIONS,
-  STAGE_COMMENT_SECTIONS
+  COMMENT_TYPES, // eslint-disable-line no-unused-vars
+  COMMENT_TEMPLATES, // eslint-disable-line no-unused-vars
+  RESOLUTION_STATUS, // eslint-disable-line no-unused-vars
+  WORKPAPER_COMMENT_SECTIONS, // eslint-disable-line no-unused-vars
+  STAGE_COMMENT_SECTIONS // eslint-disable-line no-unused-vars
 } from '../models/commentSystem';
 
 // ═════════════════════════════════════════════════════════════════════
@@ -738,7 +738,7 @@ export const runComplianceChecks = async (engagementId) => {
 
   try {
     // Get engagement config
-    const { data: config } = await supabase
+    const { data: _config } = await supabase
       .from('engagement_comment_config')
       .select('*')
       .eq('engagement_id', engagementId)
@@ -865,7 +865,7 @@ export const recordAuditTrail = async (trailData) => {
   if (!isSupabaseConfigured()) return null;
 
   const {
-    engagementId,
+    engagementId, // eslint-disable-line no-unused-vars
     userId,
     action,
     wpId,

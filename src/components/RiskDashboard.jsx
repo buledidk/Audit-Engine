@@ -10,9 +10,9 @@
  * - Drill-down to procedures
  */
 
-import React, { useState, useMemo } from 'react';
+import { useState, useMemo } from 'react';
 
-const RiskDashboard = ({ engagementId, format = 'HEATMAP', riskData = null }) => {
+const RiskDashboard = ({ _engagementId, format = 'HEATMAP', riskData = null }) => {
   const [selectedArea, setSelectedArea] = useState(null);
   const [viewMode, setViewMode] = useState(format);
 
@@ -90,7 +90,7 @@ const RiskDashboard = ({ engagementId, format = 'HEATMAP', riskData = null }) =>
     return 'LOW';
   };
 
-  const RiskBar = ({ risk, label, width = '100%' }) => (
+  const RiskBar = ({ risk, label, width = '100%' }) => ( // eslint-disable-line no-unused-vars
     <div className="risk-bar-container" style={{ width }}>
       <div className="risk-bar-label">{label}</div>
       <div className="risk-bar-track">
@@ -212,7 +212,7 @@ const RiskDashboard = ({ engagementId, format = 'HEATMAP', riskData = null }) =>
 
         {viewMode === 'WATERFALL' && (
           <div className="waterfall-chart">
-            {Object.entries(data.byArea).map(([area, risk], idx) => (
+            {Object.entries(data.byArea).map(([area, risk], _idx) => (
               <div key={area} className="waterfall-bar">
                 <div className="waterfall-label">{area}</div>
                 <div className="waterfall-values">

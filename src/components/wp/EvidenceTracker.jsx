@@ -9,7 +9,7 @@ export const EvidenceTracker = ({ wpId }) => {
 
   const ASSERTIONS = ["Existence","Completeness","Accuracy","Valuation","Rights","Cut-off","Presentation"];
   const directTags = (uploads[wpId] || []).map(f => f.evidence_tag).filter(Boolean);
-  const crossTags = Object.entries(documentLinks).flatMap(([docId, links]) =>
+  const crossTags = Object.entries(documentLinks).flatMap(([_docId, links]) =>
     links.filter(l => l.wpId === wpId && l.assertion).map(l => l.assertion));
   const allTags = [...directTags, ...crossTags];
 

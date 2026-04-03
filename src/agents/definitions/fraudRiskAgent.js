@@ -140,7 +140,7 @@ export const fraudRiskAgent = {
     return lines.join('\n');
   },
 
-  getAffectedSections(results) {
+  getAffectedSections(_results) {
     // Fraud risk affects all sections
     return [
       'revenue', 'trade_debtors', 'inventory', 'ppe', 'intangibles',
@@ -350,7 +350,6 @@ function _calculateBeneishMScore(f) {
 function _testJournalEntries(journalEntries, ctx) {
   const entries = journalEntries || [];
   const periodEnd = ctx.periodEnd ? new Date(ctx.periodEnd) : null;
-  const periodStart = ctx.periodStart ? new Date(ctx.periodStart) : null;
   const financeUsers = ctx.financeUsers ? new Set(ctx.financeUsers.map(u => u.toLowerCase())) : FINANCE_USERS;
 
   const summary = {
@@ -544,7 +543,7 @@ function _assessRevenueManipulation(f, transactions, ctx) {
 }
 
 // ─── Expense Manipulation ────────────────────────────────────────
-function _assessExpenseManipulation(f, transactions) {
+function _assessExpenseManipulation(f, _transactions) {
   const results = {};
   const totalExpenses = f.totalExpenses || f.operatingExpenses || 0;
   const priorExpenses = f.priorTotalExpenses || totalExpenses;

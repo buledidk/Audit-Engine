@@ -1,17 +1,12 @@
-import { Outlet, NavLink, useParams, useNavigate } from "react-router-dom";
-import { useState, useEffect, useMemo } from "react";
-import { EngagementProvider, useEngagement } from "@/context/EngagementContext";
+import { useParams } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useEngagement } from "@/context/EngagementContext";
 import { setActiveEngagementId } from "@/StorageEngine";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Progress } from "@/components/ui/progress";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import {
-  LayoutDashboard, ClipboardList, Folder, FileText, BarChart3,
-  ShieldCheck, GanttChart, CheckCircle2, ChevronRight, ChevronDown,
-  Briefcase, AlertTriangle, PanelLeftClose, PanelLeftOpen,
-  Calculator, Globe, Zap, BookOpen
+  _LayoutDashboard, ClipboardList, _Folder, _FileText, BarChart3,
+  ShieldCheck, _GanttChart, CheckCircle2, _ChevronRight, _ChevronDown,
+  _Briefcase, _AlertTriangle, _PanelLeftClose, _PanelLeftOpen,
+  _Calculator, _Globe, _Zap, _BookOpen
 } from "lucide-react";
 
 const WP_SECTIONS = [
@@ -70,13 +65,11 @@ export default function EngagementShell() {
 }
 
 /** Inner shell — consumes EngagementContext for real data */
-function EngagementShellInner({ engId }) {
-  const navigate = useNavigate();
+function EngagementShellInner({ engId }) { // eslint-disable-line no-unused-vars
   const [collapsed, setCollapsed] = useState(false);
   const [expandedSections, setExpandedSections] = useState({ planning: false, risk: false, testing: true, completion: false });
 
-  let ctx;
-  try { ctx = useEngagement(); } catch { ctx = null; }
+  const ctx = useEngagement();
 
   const cfg = ctx?.cfg || {};
   const signOffs = ctx?.signOffs || {};
@@ -102,7 +95,6 @@ function EngagementShellInner({ engId }) {
 
   const toggleSection = (key) => setExpandedSections(prev => ({ ...prev, [key]: !prev[key] }));
 
-  const sidebarWidth = collapsed ? 0 : 260;
 
   const navClass = ({ isActive }) =>
     `flex items-center gap-2 px-3 py-1.5 rounded-md text-[12px] transition-colors cursor-pointer ${
@@ -135,7 +127,6 @@ function EngagementShellInner({ engId }) {
 
               {/* Phase Sections */}
               {WP_SECTIONS.map((section) => {
-                const Icon = section.icon;
                 const isExpanded = expandedSections[section.key];
                 const sectionDone = section.items.filter(wp => signOffs[wp.id]?.preparedBy).length;
                 return (

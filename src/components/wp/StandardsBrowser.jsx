@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { C, REGULATORY_DETAIL_MAP } from "../../data";
-import { VerifiedBadge } from "../ui/SharedUIComponents";
 import {
   COMPANIES_ACT_2006, ISA_UK_STANDARDS, FRS_102_SECTIONS,
   FRS_101_SUMMARY, FRS_105_SUMMARY, IFRS_STANDARDS, UK_REGULATORS,
@@ -9,7 +8,7 @@ import {
 import {
   FRC_DETAIL, HMRC_DETAIL, FCA_DETAIL, PRA_DETAIL, CHARITY_COMMISSION_DETAIL
 } from "../../RegulatoryData";
-import { CROSS_REFERENCE_INDEX, VERIFICATION_METADATA } from "../../CrossReferenceIndex";
+import { VERIFICATION_METADATA } from "../../CrossReferenceIndex";
 import {
   INSURANCE_AUDIT_STANDARDS, BANKING_AUDIT_STANDARDS, CHARITY_SORP_DETAIL,
   PUBLIC_SECTOR_STANDARDS, HOUSING_ASSOCIATION_STANDARDS,
@@ -25,7 +24,7 @@ import {
 import { useAuditHelpers } from "../../hooks/useAuditHelpers";
 
 export default function StandardsBrowser() {
-  const { ST, inp } = useAuditHelpers();
+  const { _ST, inp } = useAuditHelpers();
   const [stdTab,setStdTab]=useState("isa");
   const [stdSearch,setStdSearch]=useState("");
   const [stdExpanded,setStdExpanded]=useState(null);

@@ -104,7 +104,7 @@ class AgentRecoveryService extends EventEmitter {
   /**
    * Disable agent and escalate to admin
    */
-  disableAgent(agentName, error) {
+  disableAgent(agentName, _error) {
     console.error(`🚨 DISABLED: ${agentName} - Too many failures`);
 
     const agent = agentMonitoringService.agents.get(agentName);

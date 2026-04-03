@@ -296,10 +296,9 @@ function _buildCostPredictionModel(data) {
 }
 
 // ─── Margin Prediction ───────────────────────────────────────────
-function _buildMarginPrediction(data, revenueModel, costModel) {
+function _buildMarginPrediction(data, _revenueModel, _costModel) {
   const marginSeries = data.grossMarginSeries || [];
   const opMarginSeries = data.operatingMarginSeries || [];
-  const ebitdaSeries = data.ebitdaMarginSeries || [];
 
   const grossMarginTrend = marginSeries.length >= 3 ? _calculateTrend(marginSeries.map(m => m.value || m)) : null;
   const opMarginTrend = opMarginSeries.length >= 3 ? _calculateTrend(opMarginSeries.map(m => m.value || m)) : null;

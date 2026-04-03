@@ -3,7 +3,7 @@
  * Provides UI for exporting audit procedures, working papers, and reports
  */
 
-import React, { useState } from 'react';
+import { useState } from 'react';
 import AuditExcelExportService from '../services/auditExcelExportService';
 import AuditWordExportService from '../services/auditWordExportService';
 

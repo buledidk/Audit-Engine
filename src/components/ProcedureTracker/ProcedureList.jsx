@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useNavigate, useOutletContext } from "react-router-dom";
 import useEngagement from "../Shared/hooks/useEngagement";
 import { DARK_COLORS as C, WP_TYPE_COLORS } from "../Shared/utils/constants";
-import { formatSignOff } from "../Shared/utils/formatters";
 
 // WP list reference — subset of the monolith's WPS
 const WP_CATEGORIES = [

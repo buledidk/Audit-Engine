@@ -20,7 +20,6 @@ const FALLBACK_BENCHMARKS = {
 };
 
 // Benford expected distribution
-const BENFORD_EXPECTED = { 1: 0.301, 2: 0.176, 3: 0.125, 4: 0.097, 5: 0.079, 6: 0.067, 7: 0.058, 8: 0.051, 9: 0.046 };
 
 // FRC thematic risk areas mapped to FSLIs
 const FRC_RISK_MAP = {
@@ -151,7 +150,7 @@ export class AuditMLEngine {
     return Math.min(score, 100);
   }
 
-  _riskDrivers(fsli, financials, benchmarks) {
+  _riskDrivers(fsli, financials, _benchmarks) {
     const drivers = [];
     const { revenue, profitBeforeTax, totalAssets, debt } = financials;
 
@@ -285,7 +284,7 @@ export class AuditMLEngine {
         engagement_data:  engagementData,
         created_at:       new Date().toISOString(),
       }]);
-    } catch (e) {
+    } catch (e) { // eslint-disable-line no-unused-vars
       // offline — stored in memory
     }
 
@@ -408,7 +407,7 @@ export class AuditMLEngine {
 
 // ── Helpers ─────────────────────────────────────────────────────────────────
 
-function _getFSLIsForIndustry(industry, entityType) {
+function _getFSLIsForIndustry(industry, _entityType) {
   const base = ['Revenue', 'Trade Debtors', 'Trade Creditors', 'Cash and Cash Equivalents', 'Property Plant Equipment', 'Provisions', 'Accruals and Prepayments', 'Payroll and PAYE', 'Deferred Tax'];
   const extras = {
     manufacturing:    ['Inventory', 'Work in Progress', 'Capital Expenditure'],
@@ -421,7 +420,7 @@ function _getFSLIsForIndustry(industry, entityType) {
   return [...base, ...(extras[industry] || [])];
 }
 
-function _frcAlertForTheme(theme, industry) {
+function _frcAlertForTheme(theme, _industry) {
   const alerts = {
     revenue_recognition: { theme, alert: 'FRC repeatedly finds insufficient challenge of revenue recognition assumptions', action: 'Document basis for revenue recognition per IFRS 15/FRS 102', year: '2024/25' },
     going_concern:       { theme, alert: 'FRC 2024/25: Going concern assessments frequently lack sufficient rigour', action: 'Ensure 12-month assessment covers at least 1 year from approval date (ISA 570 revised)', year: '2024/25' },
