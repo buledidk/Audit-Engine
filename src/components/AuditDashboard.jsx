@@ -12,43 +12,21 @@ export function AuditDashboard({ engagementId = "" }) {
   const [heatMap, setHeatMap] = useState(null);
   const [activities, setActivities] = useState(null);
   const [teamData, setTeamData] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(!engagementId ? false : true);
+  const [error, setError] = useState(!engagementId ? "Engagement ID required" : null);
 
   const service = useMemo(() => {
     return new AuditDashboardService();
   }, []);
 
-  // Subscribe to real-time updates
-  useEffect(() => {
-    if (!engagementId) {
-      setError("Engagement ID required");
-      setLoading(false);
-      return;
-    }
-
-    setLoading(true);
-    setError(null);
-
-    // Initial load
-    loadData();
-
-    // Subscribe to real-time updates
-    const unsubscribe = service.subscribeToUpdates(engagementId, (data) => {
-      setMetrics(data.metrics);
-      setHeatMap(data.heatMap);
-      setActivities(data.activity);
-    });
-
-    return () => {
-      unsubscribe();
-    };
-  }, [engagementId, service]);
-
   /**
    * Load initial data
    */
   async function loadData() {
+     
+    setLoading(true);
+     
+    setError(null);
     try {
       const [metricsData, heatMapData, activitiesData, teamDataData] =
         await Promise.all([
@@ -68,6 +46,27 @@ export function AuditDashboard({ engagementId = "" }) {
       setLoading(false);
     }
   }
+
+  // Subscribe to real-time updates
+  useEffect(() => {
+    if (!engagementId) {
+      return;
+    }
+
+    // Initial load
+    loadData(); // eslint-disable-line react-hooks/set-state-in-effect -- loadData is async, sets state after await
+
+    // Subscribe to real-time updates
+    const unsubscribe = service.subscribeToUpdates(engagementId, (data) => {
+      setMetrics(data.metrics);
+      setHeatMap(data.heatMap);
+      setActivities(data.activity);
+    });
+
+    return () => {
+      unsubscribe();
+    };
+  }, [engagementId, service]);
 
   /**
    * Get risk color

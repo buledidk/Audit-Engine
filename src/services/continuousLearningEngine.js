@@ -26,7 +26,7 @@ class ContinuousLearningEngine {
                           if (data.riskPatterns) this.riskPatterns = new Map(Object.entries(data.riskPatterns));
                           if (data.feedbackLog) this.feedbackLog = data.feedbackLog.slice(-500);
                 }
-        } catch (e) { /* fresh start */ } // eslint-disable-line no-unused-vars
+        } catch (e) { /* fresh start */ }  
   }
 
   _persist() {
@@ -39,7 +39,7 @@ class ContinuousLearningEngine {
                           savedAt: new Date().toISOString()
                 };
                 localStorage.setItem('ae_learning_engine', JSON.stringify(data));
-        } catch (e) { /* quota exceeded, skip */ } // eslint-disable-line no-unused-vars
+        } catch (e) { /* quota exceeded, skip */ }  
   }
 
   // Record an audit event for pattern learning

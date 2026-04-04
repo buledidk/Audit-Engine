@@ -1,12 +1,12 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
-  _BarChart, _Bar, _XAxis, _YAxis, Tooltip as _RTooltip, _ResponsiveContainer,
-  _PieChart, _Pie, _Cell, _RadialBarChart, _RadialBar
+  BarChart, Bar, XAxis, YAxis, Tooltip as RTooltip, ResponsiveContainer,
+  PieChart, Pie, Cell
 } from "recharts";
 import {
-  _LayoutDashboard, _Plus, _BarChart3, _ShieldCheck, _Bell, _Clock, _Users,
-  _FileCheck, _AlertTriangle, _CheckCircle2, _ArrowRight, _TrendingUp, _Briefcase
+  LayoutDashboard, Plus, BarChart3, ShieldCheck, Bell, Users,
+  AlertTriangle, ArrowRight, Briefcase
 } from "lucide-react";
 import { listEngagements, createEngagement, setActiveEngagementId, createStorageEngine } from "../StorageEngine";
 import { DEMO_ENGAGEMENT } from "@/data/demoEngagement";
@@ -34,13 +34,16 @@ const OVERDUE_ITEMS = [
   { name: "Going concern assessment", engagement: "Oakhaven Charity", days: 2 },
 ];
 
+const DEMO_ENGAGEMENTS = [
+  { id: "demo-1", name: "Acme Holdings Ltd", created: 1 },
+  { id: "demo-2", name: "Meridian Finance PLC", created: 2 },
+  { id: "demo-3", name: "BuildRight Construction", created: 3 },
+  { id: "demo-4", name: "Oakhaven Charity", created: 4 },
+];
+
 export default function MainDashboard() {
   const navigate = useNavigate();
-  const [engagements, setEngagements] = useState([]);
-
-  useEffect(() => {
-    setEngagements(listEngagements());
-  }, []);
+  const [engagements, setEngagements] = useState(() => listEngagements());
 
   const stats = {
     total: engagements.length || 12,
@@ -293,12 +296,7 @@ export default function MainDashboard() {
         </CardHeader>
         <CardContent>
           <div className="space-y-2">
-            {(engagements.length > 0 ? engagements : [
-              { id: "demo-1", name: "Acme Holdings Ltd", created: Date.now() - 86400000 * 30 },
-              { id: "demo-2", name: "Meridian Finance PLC", created: Date.now() - 86400000 * 15 },
-              { id: "demo-3", name: "BuildRight Construction", created: Date.now() - 86400000 * 7 },
-              { id: "demo-4", name: "Oakhaven Charity", created: Date.now() - 86400000 * 3 },
-            ]).map((eng, i) => {
+            {(engagements.length > 0 ? engagements : DEMO_ENGAGEMENTS).map((eng, i) => {
               const phases = ["Planning", "Execution", "Completion", "Review"];
               const phase = phases[i % 4];
               const progress = [35, 62, 88, 95][i % 4];

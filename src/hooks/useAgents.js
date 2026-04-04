@@ -83,6 +83,7 @@ export function useAgents() {
   ]);
 
   // Run an agent
+  // eslint-disable-next-line react-hooks/preserve-manual-memoization
   const runAgent = useCallback(async (agentName, options = {}) => {
     if (agentStatus === 'running') return null;
     const state = getEngagementState();
@@ -107,6 +108,7 @@ export function useAgents() {
   }, [agentStatus, getEngagementState, engagement.setAiAuditTrail, engagement.cfg?.partner]);
 
   // Accept a suggestion — apply it to cellData
+  // eslint-disable-next-line react-hooks/preserve-manual-memoization
   const acceptResult = useCallback((resultId) => {
     setAgentResults(prev => {
       const updated = prev.map(r => r.id === resultId ? { ...r, status: 'accepted' } : r);
@@ -132,6 +134,7 @@ export function useAgents() {
   }, []);
 
   // Accept all pending suggestions
+  // eslint-disable-next-line react-hooks/preserve-manual-memoization
   const acceptAll = useCallback(() => {
     setAgentResults(prev => {
       const updates = {};

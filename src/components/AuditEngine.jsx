@@ -45,19 +45,7 @@ export default function AuditEngine() {
   const [showRiskDashboard, setShowRiskDashboard] = useState(false);
   const [showAgentMonitoring, setShowAgentMonitoring] = useState(false);
     const [showMobileDashboard, setShowMobileDashboard] = useState(false);
-  const [engagementData, setEngagementData] = useState({
-    id: null,
-    name: '',
-    client: '',
-    year: new Date().getFullYear(),
-    phases: {},
-    risks: [],
-    procedures: [],
-    workingPapers: []
-  });
-
-  // Initialize phases
-  useEffect(() => {
+  const [engagementData, setEngagementData] = useState(() => {
     const phases = {};
     AUDIT_PHASES.forEach(phase => {
       phases[phase.id] = {
@@ -70,8 +58,17 @@ export default function AuditEngine() {
         findings: []
       };
     });
-    setEngagementData(prev => ({ ...prev, phases }));
-  }, []);
+    return {
+      id: null,
+      name: '',
+      client: '',
+      year: new Date().getFullYear(),
+      phases,
+      risks: [],
+      procedures: [],
+      workingPapers: []
+    };
+  });
 
   const handlePhaseChange = useCallback((phaseId) => {
     setCurrentPhase(phaseId);

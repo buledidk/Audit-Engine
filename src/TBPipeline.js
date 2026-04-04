@@ -162,7 +162,7 @@ export function enhancedAutoMap(tbRows, industryId, ChartOfAccounts) {
           }
         });
       }
-    } catch (e) { // eslint-disable-line no-unused-vars
+    } catch (e) {  
       // ChartOfAccounts mapping is optional enhancement
     }
   }

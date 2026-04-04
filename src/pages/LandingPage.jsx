@@ -1,8 +1,8 @@
 import { useNavigate } from "react-router-dom";
 import {
-  ShieldCheck, BarChart3, Users, Globe, _Zap, _CheckCircle2,
-  _ArrowRight, Lock, Brain, FileText, Calculator, _Briefcase,
-  _ChevronRight, _Star
+  ShieldCheck, BarChart3, Users, Globe, Zap, CheckCircle2,
+  ArrowRight, Lock, Brain, FileText, Calculator, Briefcase,
+  ChevronRight, Star
 } from "lucide-react";
 
 const FEATURES = [

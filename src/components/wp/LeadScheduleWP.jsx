@@ -19,7 +19,7 @@ const parseTbCsv=(text)=>{
       }
     }
     return rows;
-  }catch(e){ // eslint-disable-line no-unused-vars
+  }catch(e){  
     // fallback to basic parsing
     const lines=text.trim().split("\n");const rows=[];
     for(let i=1;i<lines.length;i++){const cols=lines[i].split(",").map(c=>c.replace(/^"|"$/g,"").trim());if(cols.length>=3&&cols[0]){rows.push({code:cols[0],account:cols[1]||"",py:parseFloat(cols[2])||0,cy:parseFloat(cols[3])||0});}}

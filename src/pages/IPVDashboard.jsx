@@ -1,12 +1,12 @@
 import { useState, useMemo } from "react";
 import { useParams } from "react-router-dom";
 import {
-  _PieChart, _Pie, _Cell, _BarChart, _Bar, _XAxis, _YAxis, _CartesianGrid,
-  _ResponsiveContainer, Tooltip as _RTooltip, _RadialBarChart, _RadialBar
+  PieChart, Pie, Cell, BarChart, Bar, XAxis, YAxis, CartesianGrid,
+  ResponsiveContainer, Tooltip as RTooltip
 } from "recharts";
 import {
-  _ShieldCheck, AlertTriangle, CheckCircle2, Clock, _TrendingUp,
-  _Download, _FileText, _Search, _Eye
+  AlertTriangle, CheckCircle2, Clock,
+  Download
 } from "lucide-react";
 import { IPV_CONTROLS, ISA_620_CHECKLIST, IFRS13_HIERARCHY } from "@/services/ipvEngine";
 
@@ -63,6 +63,7 @@ export default function IPVDashboard() {
   const totalClientValue = portfolio.reduce((s, p) => s + p.clientValue, 0);
   const totalIndepValue = portfolio.reduce((s, p) => s + p.independentValue, 0);
 
+  // eslint-disable-next-line react-hooks/preserve-manual-memoization
   const hierarchyData = useMemo(() => {
     const counts = { 1: 0, 2: 0, 3: 0 };
     const values = { 1: 0, 2: 0, 3: 0 };

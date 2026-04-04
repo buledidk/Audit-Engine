@@ -39,13 +39,7 @@ const TERMINAL_COMMANDS = {
 };
 
 export function AgentMonitoringDashboard() {
-  const [agents, setAgents] = useState({});
-  const [selectedAgent, setSelectedAgent] = useState(null);
-  const [executionWaterfall, setExecutionWaterfall] = useState([]);
-  const [viewMode, setViewMode] = useState('waterfall');
-  const [_activeConnections, setActiveConnections] = useState(new Set());
-
-  useEffect(() => {
+  const [agents, setAgents] = useState(() => {
     const agentStates = {};
     Object.keys(AGENTS).forEach(name => {
       agentStates[name] = {
@@ -56,8 +50,14 @@ export function AgentMonitoringDashboard() {
         latency: Math.floor(Math.random() * 500) + 100,
       };
     });
-    setAgents(agentStates);
+    return agentStates;
+  });
+  const [selectedAgent, setSelectedAgent] = useState(null);
+  const [executionWaterfall, setExecutionWaterfall] = useState([]);
+  const [viewMode, setViewMode] = useState('waterfall');
+  const [_activeConnections, setActiveConnections] = useState(new Set());
 
+  useEffect(() => {
     const interval = setInterval(() => {
       setAgents(prev => {
         const updated = { ...prev };

@@ -14,7 +14,11 @@ export function useRealtimeSync(tables = [], options = {}) {
   const [connected, setConnected] = useState(false);
   const [lastUpdate, setLastUpdate] = useState(null);
   const [error, setError] = useState(null);
-  const [data, setData] = useState({});
+  const [data, setData] = useState(() => {
+    // Pre-populate with demo data if supabase is not configured
+    if (!isSupabaseConfigured()) return generateDemoData(tables);
+    return {};
+  });
   const channelsRef = useRef([]);
   const pollTimerRef = useRef(null);
   const mountedRef = useRef(true);
@@ -28,7 +32,7 @@ export function useRealtimeSync(tables = [], options = {}) {
         const { data: rows, error: fetchError } = await supabase
           .from(table).select('*').order('created_at', { ascending: false }).limit(100);
         if (!fetchError) results[table] = rows || [];
-      } catch (err) { // eslint-disable-line no-unused-vars
+      } catch (err) {  
         results[table] = [];
       }
     }
@@ -43,8 +47,6 @@ export function useRealtimeSync(tables = [], options = {}) {
     const supabase = getSupabaseClient();
 
     if (!isSupabaseConfigured() || !supabase) {
-      setData(generateDemoData(tables));
-      setConnected(false);
       if (enablePolling) {
         pollTimerRef.current = setInterval(() => {
           if (mountedRef.current) {
@@ -59,7 +61,7 @@ export function useRealtimeSync(tables = [], options = {}) {
       };
     }
 
-    fetchInitialData();
+    fetchInitialData(); // eslint-disable-line react-hooks/set-state-in-effect -- async fetch sets state after await
 
     tables.forEach(table => {
       const channel = supabase

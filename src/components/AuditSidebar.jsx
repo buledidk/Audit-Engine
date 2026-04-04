@@ -5,7 +5,7 @@ import { WPS, C, I } from "../data";
 export default function AuditSidebar(){
   const {
     activeWP, setActiveWP, sbOpen, setSbOpen, cfg, theme, CC, toggleTheme,
-    debugClicks, debugTimer, setShowDebug, wpSearchRef, wpSearch, setWpSearch,
+    debugClicks: debugClicksRef, debugTimer: debugTimerRef, setShowDebug, wpSearchRef, wpSearch, setWpSearch,
     totalWPs, doneCount, signOffs, reviewNotes, mobileMenuOpen,
     indAcc, lastSaveTime, agentPanelOpen, setAgentPanelOpen // eslint-disable-line no-unused-vars
   } = useEngagement();
@@ -16,7 +16,7 @@ export default function AuditSidebar(){
 
   return(
       <aside aria-label="Working paper navigation" role="navigation" className={mobileMenuOpen?"ae-mobile-open":""} style={{width:sw,height:"100vh",position:"fixed",left:0,top:0,background:CC.sb,borderRight:"1px solid "+CC.brd,overflowY:"auto",overflowX:"hidden",transition:"width 0.3s ease, transform 0.3s ease",zIndex:100,display:"flex",flexDirection:"column"}}>
-        <div style={{padding:sbOpen?"16px 18px":"16px 10px",borderBottom:"1px solid "+CC.brd,display:"flex",alignItems:"center",gap:10,cursor:"pointer",flexShrink:0}} onClick={()=>{debugClicks.current++;if(debugTimer.current)clearTimeout(debugTimer.current);if(debugClicks.current>=3){debugClicks.current=0;setShowDebug(p=>!p);return;}debugTimer.current=setTimeout(()=>{if(debugClicks.current<3)setSbOpen(!sbOpen);debugClicks.current=0;},300);}}>
+        <div style={{padding:sbOpen?"16px 18px":"16px 10px",borderBottom:"1px solid "+CC.brd,display:"flex",alignItems:"center",gap:10,cursor:"pointer",flexShrink:0}} onClick={()=>{debugClicksRef.current++;if(debugTimerRef.current)clearTimeout(debugTimerRef.current);if(debugClicksRef.current>=3){debugClicksRef.current=0;setShowDebug(p=>!p);return;}debugTimerRef.current=setTimeout(()=>{if(debugClicksRef.current<3)setSbOpen(!sbOpen);debugClicksRef.current=0;},300);}}>
           <div style={{width:32,height:32,borderRadius:8,background:"#1E3A5F",display:"flex",alignItems:"center",justifyContent:"center",fontFamily:"'DM Sans',sans-serif",fontSize:13,fontWeight:700,color:"#fff",flexShrink:0}}>AE</div>
           {sbOpen&&<div style={{overflow:"hidden",whiteSpace:"nowrap",flex:1}}><div style={{fontFamily:"'Cormorant Garamond',serif",fontSize:18,fontWeight:600}}>Audit<span style={{color:CC.acc}}>Engine</span></div><div style={{fontSize:9,color:CC.fnt,letterSpacing:"0.18em",textTransform:"uppercase",fontVariant:"small-caps"}}>AURA</div></div>}
           {sbOpen&&<button onClick={e=>{e.stopPropagation();toggleTheme();}} title={theme==="dark"?"Switch to Light Mode":"Switch to Dark Mode"} style={{width:28,height:28,borderRadius:6,background:"rgba(255,255,255,0.08)",border:"1px solid "+CC.brd,display:"flex",alignItems:"center",justifyContent:"center",fontSize:14,cursor:"pointer",color:CC.dim,flexShrink:0}}>{theme==="dark"?"☀️":"🌙"}</button>}

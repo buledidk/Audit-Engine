@@ -9,18 +9,18 @@ export function loadDemo() {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (raw) return JSON.parse(raw);
-  } catch (e) { /* ignore */ } // eslint-disable-line no-unused-vars
+  } catch (e) { /* ignore */ }  
   return null;
 }
 
 export function saveDemo(state) {
   try {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-  } catch (e) { /* ignore */ } // eslint-disable-line no-unused-vars
+  } catch (e) { /* ignore */ }  
 }
 
 export function clearDemo() {
-  try { localStorage.removeItem(STORAGE_KEY); } catch (e) { /* ignore */ } // eslint-disable-line no-unused-vars
+  try { localStorage.removeItem(STORAGE_KEY); } catch (e) { /* ignore */ }  
 }
 
 export function generateDemoConstruction() {

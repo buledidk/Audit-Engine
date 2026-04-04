@@ -284,7 +284,7 @@ export class AuditMLEngine {
         engagement_data:  engagementData,
         created_at:       new Date().toISOString(),
       }]);
-    } catch (e) { // eslint-disable-line no-unused-vars
+    } catch (e) {  
       // offline — stored in memory
     }
 

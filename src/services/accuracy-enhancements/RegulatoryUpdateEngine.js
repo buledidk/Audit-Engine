@@ -224,7 +224,7 @@ export class RegulatoryUpdateEngine {
 
           results.push(update);
         }
-      } catch (_err) { // eslint-disable-line no-unused-vars
+      } catch (_err) {  
         // Network failure for this source -- silently skip.
         // Cached data will be used as fallback below.
       }
