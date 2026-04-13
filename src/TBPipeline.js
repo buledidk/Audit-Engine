@@ -8,16 +8,29 @@
  * Returns array of { code, account, py, cy }
  */
 export async function parseTBXlsx(arrayBuffer) {
-  const XLSX = await import("xlsx");
-  const wb = XLSX.read(arrayBuffer, { type: "array" });
-  if (!wb.SheetNames.length) return [];
+  const ExcelJS = (await import("exceljs")).default;
+  const wb = new ExcelJS.Workbook();
+  await wb.xlsx.load(arrayBuffer);
+  if (!wb.worksheets.length) return [];
 
   const allRows = [];
 
   // Iterate through all sheets and merge rows
-  for (const sheetName of wb.SheetNames) {
-    const sheet = wb.Sheets[sheetName];
-    const data = XLSX.utils.sheet_to_json(sheet, { header: 1, defval: "" });
+  for (const ws of wb.worksheets) {
+    const sheetName = ws.name;
+    // Build array-of-arrays representation
+    const data = [];
+    ws.eachRow({ includeEmpty: true }, (row) => {
+      const values = row.values || [];
+      // exceljs row.values is 1-indexed; slice(1) to get 0-indexed
+      const cells = values.slice(1).map(v => {
+        if (v === null || v === undefined) return "";
+        if (typeof v === "object" && v.result !== undefined) return v.result;
+        if (typeof v === "object" && v.text !== undefined) return v.text;
+        return v;
+      });
+      data.push(cells);
+    });
     if (data.length < 2) continue;
 
     // Try to detect header row — look for rows containing "code" or "account" keywords

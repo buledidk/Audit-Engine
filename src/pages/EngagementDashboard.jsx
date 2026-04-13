@@ -1,12 +1,12 @@
 import { useState, useMemo } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import {
-  _RadialBarChart, _RadialBar, _ResponsiveContainer, Tooltip as _RTooltip,
-  _ScatterChart, _Scatter, _XAxis, _YAxis, _ZAxis, _CartesianGrid
+  RadialBarChart, RadialBar, ResponsiveContainer, Tooltip as RTooltip,
+  ScatterChart, Scatter, XAxis, YAxis, ZAxis, CartesianGrid
 } from "recharts";
 import {
-  CheckCircle2, Clock, AlertTriangle, _XCircle, _ShieldCheck,
-  _ChevronRight, _Users, FileText, _BarChart3, _Lock, _Unlock
+  CheckCircle2, Clock, AlertTriangle, XCircle, ShieldCheck,
+  ChevronRight, Users, FileText, BarChart3, Lock, Unlock
 } from "lucide-react";
 
 const PHASES = [

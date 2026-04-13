@@ -1,7 +1,7 @@
 import { useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import {
-  _ChevronLeft, _ChevronRight, _Check, Building2, Users, ShieldAlert,
+  ChevronLeft, ChevronRight, Check, Building2, Users, ShieldAlert,
   Calculator, ClipboardList, Save // eslint-disable-line no-unused-vars
 } from "lucide-react";
 import { calculateMateriality } from "@/services/materialityEngine";

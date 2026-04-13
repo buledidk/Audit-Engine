@@ -88,6 +88,20 @@ export function EngagementProvider({ initialEngId, engId: engIdProp, children })
     localStorage.setItem("ae-theme", next);
   }, [theme]);
 
+  const handleDebugClick = useCallback(() => {
+    debugClicks.current++;
+    if (debugTimer.current) clearTimeout(debugTimer.current);
+    if (debugClicks.current >= 3) {
+      debugClicks.current = 0;
+      setShowDebug(p => !p);
+      return;
+    }
+    debugTimer.current = setTimeout(() => {
+      if (debugClicks.current < 3) setSbOpen(prev => !prev);
+      debugClicks.current = 0;
+    }, 300);
+  }, [debugClicks, debugTimer, setShowDebug, setSbOpen]);
+
   const showToast = useCallback((msg, type = "success") => {
     setToastMsg({ msg, type });
     setTimeout(() => setToastMsg(null), 3000);
@@ -270,7 +284,7 @@ export function EngagementProvider({ initialEngId, engId: engIdProp, children })
     lastSaveTime, setLastSaveTime,
     splashDone, setSplashDone,
     cellHistoryKey, setCellHistoryKey,
-    theme, setTheme, toggleTheme,
+    theme, setTheme, toggleTheme, handleDebugClick,
     agentPanelOpen, setAgentPanelOpen,
     agentResults, setAgentResults,
     // Lazy modules
@@ -295,8 +309,7 @@ export function EngagementProvider({ initialEngId, engId: engIdProp, children })
 
 export function useEngagement() {
   const ctx = useContext(EngagementContext);
-  if (!ctx) throw new Error("useEngagement must be used within EngagementProvider");
-  return ctx;
+  return ctx || null;
 }
 
 export default EngagementContext;

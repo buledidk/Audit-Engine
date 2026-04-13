@@ -56,7 +56,7 @@ export function AgentMonitoringDashboard() {
         latency: Math.floor(Math.random() * 500) + 100,
       };
     });
-    setAgents(agentStates);
+    setTimeout(() => { setAgents(agentStates); }, 0);
 
     const interval = setInterval(() => {
       setAgents(prev => {

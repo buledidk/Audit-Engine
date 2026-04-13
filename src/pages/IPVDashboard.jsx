@@ -1,12 +1,12 @@
 import { useState, useMemo } from "react";
 import { useParams } from "react-router-dom";
 import {
-  _PieChart, _Pie, _Cell, _BarChart, _Bar, _XAxis, _YAxis, _CartesianGrid,
-  _ResponsiveContainer, Tooltip as _RTooltip, _RadialBarChart, _RadialBar
+  PieChart, Pie, Cell, BarChart, Bar, XAxis, YAxis, CartesianGrid,
+  ResponsiveContainer, Tooltip as RTooltip, RadialBarChart, RadialBar
 } from "recharts";
 import {
-  _ShieldCheck, AlertTriangle, CheckCircle2, Clock, _TrendingUp,
-  _Download, _FileText, _Search, _Eye
+  ShieldCheck, AlertTriangle, CheckCircle2, Clock, TrendingUp,
+  Download, FileText, Search, Eye
 } from "lucide-react";
 import { IPV_CONTROLS, ISA_620_CHECKLIST, IFRS13_HIERARCHY } from "@/services/ipvEngine";
 
@@ -63,7 +63,7 @@ export default function IPVDashboard() {
   const totalClientValue = portfolio.reduce((s, p) => s + p.clientValue, 0);
   const totalIndepValue = portfolio.reduce((s, p) => s + p.independentValue, 0);
 
-  const hierarchyData = useMemo(() => {
+  const hierarchyData = (() => {
     const counts = { 1: 0, 2: 0, 3: 0 };
     const values = { 1: 0, 2: 0, 3: 0 };
     portfolio.forEach(p => { if (p.ifrs13Level) { counts[p.ifrs13Level]++; values[p.ifrs13Level] += p.clientValue; } });
@@ -72,7 +72,7 @@ export default function IPVDashboard() {
       { name: "Level 2", count: counts[2], value: values[2], fill: "#FFA726" },
       { name: "Level 3", count: counts[3], value: values[3], fill: "#CE93D8" },
     ];
-  }, [portfolio]);
+  })();
 
   return (
     <div className="min-h-screen bg-ae-bg p-4 md:p-6">

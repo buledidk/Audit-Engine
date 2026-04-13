@@ -1,7 +1,7 @@
 import { useState } from "react";
 import {
-  _Building2, _Shield, _Users, _CreditCard, _Database, _Key,
-  _CheckCircle2, _XCircle, _Plus, _Pencil, _Trash2, _Save, _Wifi, _WifiOff
+  Building2, Shield, Users, CreditCard, Database, Key,
+  CheckCircle2, XCircle, Plus, Pencil, Trash2, Save, Wifi, WifiOff
 } from "lucide-react";
 
 const DEMO_FIRM = {

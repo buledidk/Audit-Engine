@@ -3,10 +3,10 @@ import { useState, useEffect } from "react";
 import { useEngagement } from "@/context/EngagementContext";
 import { setActiveEngagementId } from "@/StorageEngine";
 import {
-  _LayoutDashboard, ClipboardList, _Folder, _FileText, BarChart3,
-  ShieldCheck, _GanttChart, CheckCircle2, _ChevronRight, _ChevronDown,
-  _Briefcase, _AlertTriangle, _PanelLeftClose, _PanelLeftOpen,
-  _Calculator, _Globe, _Zap, _BookOpen
+  LayoutDashboard, ClipboardList, Folder, FileText, BarChart3,
+  ShieldCheck, GanttChart, CheckCircle2, ChevronRight, ChevronDown,
+  Briefcase, AlertTriangle, PanelLeftClose, PanelLeftOpen,
+  Calculator, Globe, Zap, BookOpen
 } from "lucide-react";
 
 const WP_SECTIONS = [
