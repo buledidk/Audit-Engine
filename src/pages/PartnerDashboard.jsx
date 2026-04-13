@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
-  _BarChart, _Bar, _XAxis, _YAxis, _CartesianGrid, _ResponsiveContainer,
-  Tooltip as _RTooltip, _RadialBarChart, _RadialBar, _LineChart, _Line, _Legend
+  BarChart, Bar, XAxis, YAxis, CartesianGrid, ResponsiveContainer,
+  Tooltip as RTooltip, RadialBarChart, RadialBar, LineChart, Line, Legend
 } from "recharts";
 import {
-  _CheckCircle2, _XCircle, _Clock, _ShieldCheck, _AlertTriangle,
-  _Calendar, _PoundSterling, _Users, _TrendingUp, _ArrowRight
+  CheckCircle2, XCircle, Clock, ShieldCheck, AlertTriangle,
+  Calendar, PoundSterling, Users, TrendingUp, ArrowRight
 } from "lucide-react";
 
 const PARTNER_ENGAGEMENTS = [

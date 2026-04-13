@@ -2,9 +2,9 @@ import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import {
   LayoutDashboard, Briefcase, Users, BarChart3, ShieldCheck, // eslint-disable-line no-unused-vars
-  GanttChart, Globe, Settings, _ChevronLeft, _ChevronRight, _Bell,
-  _Menu, _X, _LogOut, FileText, ClipboardList, Folder,
-  _PanelLeftClose, _PanelLeftOpen
+  GanttChart, Globe, Settings, ChevronLeft, ChevronRight, Bell,
+  Menu, X, LogOut, FileText, ClipboardList, Folder,
+  PanelLeftClose, PanelLeftOpen
 } from "lucide-react";
 
 const NAV_ITEMS = [

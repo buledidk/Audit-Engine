@@ -83,7 +83,7 @@ export function useAgents() {
   ]);
 
   // Run an agent
-  const runAgent = useCallback(async (agentName, options = {}) => {
+  const runAgent = async (agentName, options = {}) => {
     if (agentStatus === 'running') return null;
     const state = getEngagementState();
     const result = await orchestrator.runAgent(agentName, state, options);
@@ -104,10 +104,10 @@ export function useAgents() {
     }
 
     return result;
-  }, [agentStatus, getEngagementState, engagement.setAiAuditTrail, engagement.cfg?.partner]);
+  };
 
   // Accept a suggestion — apply it to cellData
-  const acceptResult = useCallback((resultId) => {
+  const acceptResult = (resultId) => {
     setAgentResults(prev => {
       const updated = prev.map(r => r.id === resultId ? { ...r, status: 'accepted' } : r);
       const accepted = updated.find(r => r.id === resultId);
@@ -122,7 +122,7 @@ export function useAgents() {
       }
       return updated;
     });
-  }, [engagement.setCellData, engagement.showToast]);
+  };
 
   // Reject a suggestion
   const rejectResult = useCallback((resultId) => {
@@ -132,7 +132,7 @@ export function useAgents() {
   }, []);
 
   // Accept all pending suggestions
-  const acceptAll = useCallback(() => {
+  const acceptAll = () => {
     setAgentResults(prev => {
       const updates = {};
       const updated = prev.map(r => {
@@ -150,7 +150,7 @@ export function useAgents() {
       }
       return updated;
     });
-  }, [engagement.setCellData, engagement.showToast]);
+  };
 
   // Abort current agent
   const abortAgent = useCallback(() => {

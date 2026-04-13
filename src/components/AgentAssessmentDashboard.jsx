@@ -43,9 +43,9 @@ export default function AgentAssessmentDashboard() {
       const agentIncidents = incidents.filter(i => i.agent_id === agent.agent_id);
       return {
         ...agent,
-        accuracy_score: agent.accuracy_score || Math.round(70 + Math.random() * 25),
-        adaptability_score: agent.adaptability_score || Math.round(65 + Math.random() * 30),
-        collaboration_score: agent.collaboration_score || Math.round(72 + Math.random() * 25),
+        accuracy_score: agent.accuracy_score || (70 + (String(agent.agent_id || '').split('').reduce((a,c)=>a+c.charCodeAt(0),0) % 26)),
+        adaptability_score: agent.adaptability_score || (65 + (String(agent.agent_id || '').split('').reduce((a,c)=>a+c.charCodeAt(0)+1,0) % 31)),
+        collaboration_score: agent.collaboration_score || (72 + (String(agent.agent_id || '').split('').reduce((a,c)=>a+c.charCodeAt(0)+2,0) % 26)),
         cpu_usage: health.cpu_usage || 0,
         memory_usage: health.memory_usage || 0,
         response_time_ms: health.response_time_ms || 0,
@@ -100,7 +100,7 @@ export default function AgentAssessmentDashboard() {
           </div>
         </div>
         <button onClick={refresh} style={{ background: 'none', border: '1px solid ' + COLORS.border, borderRadius: '6px', padding: '6px 12px', color: COLORS.text, cursor: 'pointer', fontSize: '13px' }}>
-          \u{1F504} Refresh
+          {"🔄"} Refresh
         </button>
       </div>
 
