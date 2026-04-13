@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import {
-  _ChevronLeft, _Upload, _FileText, _Link2, _Check, _AlertTriangle,
-  Shield, Eye, Pen, _ClipboardCheck, _AlertCircle
+  ChevronLeft, Upload, FileText, Link2, Check, AlertTriangle,
+  Shield, Eye, Pen, ClipboardCheck, AlertCircle
 } from "lucide-react";
 
 const FSLI_REGISTRY = {

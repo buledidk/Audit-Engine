@@ -1,12 +1,12 @@
 import { useState, useMemo } from "react";
 import { useParams } from "react-router-dom";
 import {
-  _PieChart, _Pie, _Cell, _BarChart, _Bar, _XAxis, _YAxis, _CartesianGrid,
-  _ResponsiveContainer, Tooltip as _RTooltip, _RadialBarChart, _RadialBar
+  PieChart, Pie, Cell, BarChart, Bar, XAxis, YAxis, CartesianGrid,
+  ResponsiveContainer, Tooltip as RTooltip, RadialBarChart, RadialBar
 } from "recharts";
 import {
-  _ShieldCheck, AlertTriangle, CheckCircle2, Clock, _TrendingUp,
-  _Download, _FileText, _Search, _Eye
+  ShieldCheck, AlertTriangle, CheckCircle2, Clock, TrendingUp,
+  Download, FileText, Search, Eye
 } from "lucide-react";
 import { IPV_CONTROLS, ISA_620_CHECKLIST, IFRS13_HIERARCHY } from "@/services/ipvEngine";
 

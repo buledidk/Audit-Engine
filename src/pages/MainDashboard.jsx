@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import {
-  _BarChart, _Bar, _XAxis, _YAxis, Tooltip as _RTooltip, _ResponsiveContainer,
-  _PieChart, _Pie, _Cell, _RadialBarChart, _RadialBar
+  BarChart, Bar, XAxis, YAxis, Tooltip as RTooltip, ResponsiveContainer,
+  PieChart, Pie, Cell, RadialBarChart, RadialBar
 } from "recharts";
 import {
-  _LayoutDashboard, _Plus, _BarChart3, _ShieldCheck, _Bell, _Clock, _Users,
-  _FileCheck, _AlertTriangle, _CheckCircle2, _ArrowRight, _TrendingUp, _Briefcase
+  LayoutDashboard, Plus, BarChart3, ShieldCheck, Bell, Clock, Users,
+  FileCheck, AlertTriangle, CheckCircle2, ArrowRight, TrendingUp, Briefcase
 } from "lucide-react";
 import { listEngagements, createEngagement, setActiveEngagementId, createStorageEngine } from "../StorageEngine";
 import { DEMO_ENGAGEMENT } from "@/data/demoEngagement";

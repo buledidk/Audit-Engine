@@ -1,11 +1,11 @@
 import { useMemo } from "react";
 import { useNavigate, useOutletContext } from "react-router-dom";
 import {
-  _RadialBarChart, _RadialBar, _ResponsiveContainer, _PieChart, _Pie, _Cell
+  RadialBarChart, RadialBar, ResponsiveContainer, PieChart, Pie, Cell
 } from "recharts";
 import {
   CheckCircle2, Clock, AlertTriangle, FileText, ArrowRight, // eslint-disable-line no-unused-vars
-  _Zap, ShieldCheck, BarChart3, Users, _Calendar, _Brain
+  Zap, ShieldCheck, BarChart3, Users, Calendar, Brain
 } from "lucide-react";
 
 import { useEngagement } from "@/context/EngagementContext";
