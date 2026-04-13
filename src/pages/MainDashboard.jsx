@@ -34,12 +34,14 @@ const OVERDUE_ITEMS = [
   { name: "Going concern assessment", engagement: "Oakhaven Charity", days: 2 },
 ];
 
+const demoNow = Date.now();
+
 export default function MainDashboard() {
   const navigate = useNavigate();
   const [engagements, setEngagements] = useState([]);
 
   useEffect(() => {
-    setEngagements(listEngagements());
+    setTimeout(() => { setEngagements(listEngagements()); }, 0);
   }, []);
 
   const stats = {
@@ -294,10 +296,10 @@ export default function MainDashboard() {
         <CardContent>
           <div className="space-y-2">
             {(engagements.length > 0 ? engagements : [
-              { id: "demo-1", name: "Acme Holdings Ltd", created: Date.now() - 86400000 * 30 },
-              { id: "demo-2", name: "Meridian Finance PLC", created: Date.now() - 86400000 * 15 },
-              { id: "demo-3", name: "BuildRight Construction", created: Date.now() - 86400000 * 7 },
-              { id: "demo-4", name: "Oakhaven Charity", created: Date.now() - 86400000 * 3 },
+              { id: "demo-1", name: "Acme Holdings Ltd", created: demoNow - 86400000 * 30 },
+              { id: "demo-2", name: "Meridian Finance PLC", created: demoNow - 86400000 * 15 },
+              { id: "demo-3", name: "BuildRight Construction", created: demoNow - 86400000 * 7 },
+              { id: "demo-4", name: "Oakhaven Charity", created: demoNow - 86400000 * 3 },
             ]).map((eng, i) => {
               const phases = ["Planning", "Execution", "Completion", "Review"];
               const phase = phases[i % 4];

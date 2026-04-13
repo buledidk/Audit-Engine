@@ -65,9 +65,9 @@ export const SampleCalcModal=()=>{
 export const WelcomeWizard=()=>{
   const { showWelcome, setShowWelcome, setCfg, setTbData, showToast } = useEngagement();
   const { _inp } = useAuditHelpers();
-    if(!showWelcome)return null;
     const[step,setStep]=useState(1);
     const[wCfg,setWCfg]=useState({industry:"",framework:"",entityName:"",fye:"",entitySize:"",engagementType:"statutory"});
+    if(!showWelcome)return null;
     const industryList=Object.entries(I).map(([k,v])=>({k,l:v.l,ic:v.ic}));
     return<div style={{position:"fixed",inset:0,background:"rgba(0,0,0,0.85)",zIndex:2000,display:"flex",alignItems:"center",justifyContent:"center"}}>
       <div style={{background:"#151D30",border:"1px solid "+C.acc+"44",borderRadius:16,padding:32,width:560,maxWidth:"95vw",maxHeight:"85vh",overflowY:"auto"}}>

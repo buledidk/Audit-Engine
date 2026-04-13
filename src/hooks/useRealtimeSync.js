@@ -43,8 +43,10 @@ export function useRealtimeSync(tables = [], options = {}) {
     const supabase = getSupabaseClient();
 
     if (!isSupabaseConfigured() || !supabase) {
-      setData(generateDemoData(tables));
-      setConnected(false);
+      setTimeout(() => {
+        setData(generateDemoData(tables));
+        setConnected(false);
+      }, 0);
       if (enablePolling) {
         pollTimerRef.current = setInterval(() => {
           if (mountedRef.current) {
@@ -59,7 +61,7 @@ export function useRealtimeSync(tables = [], options = {}) {
       };
     }
 
-    fetchInitialData();
+    setTimeout(() => { fetchInitialData(); }, 0);
 
     tables.forEach(table => {
       const channel = supabase

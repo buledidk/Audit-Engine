@@ -70,7 +70,7 @@ export default function AuditEngine() {
         findings: []
       };
     });
-    setEngagementData(prev => ({ ...prev, phases }));
+    setTimeout(() => { setEngagementData(prev => ({ ...prev, phases })); }, 0);
   }, []);
 
   const handlePhaseChange = useCallback((phaseId) => {

@@ -12,6 +12,38 @@
 
 import { useState, useMemo } from 'react';
 
+const getRiskColor = (riskLevel) => {
+  if (riskLevel >= 0.7) return '#ff4757'; // RED
+  if (riskLevel >= 0.4) return '#ffa502'; // ORANGE
+  if (riskLevel >= 0.2) return '#ffd93d'; // YELLOW
+  return '#2ed573'; // GREEN
+};
+
+const getRiskLabel = (riskLevel) => {
+  if (riskLevel >= 0.7) return 'HIGH';
+  if (riskLevel >= 0.4) return 'MEDIUM-HIGH';
+  if (riskLevel >= 0.2) return 'MEDIUM';
+  return 'LOW';
+};
+
+const RiskBar = ({ risk, label, width = '100%' }) => ( // eslint-disable-line no-unused-vars
+  <div className="risk-bar-container" style={{ width }}>
+    <div className="risk-bar-label">{label}</div>
+    <div className="risk-bar-track">
+      <div
+        className="risk-bar-fill"
+        style={{
+          width: `${Math.max(risk * 100, 5)}%`,
+          backgroundColor: getRiskColor(risk)
+        }}
+      >
+        <span className="risk-bar-text">{(risk * 100).toFixed(0)}%</span>
+      </div>
+    </div>
+    <div className="risk-bar-label">{getRiskLabel(risk)}</div>
+  </div>
+);
+
 const RiskDashboard = ({ _engagementId, format = 'HEATMAP', riskData = null }) => {
   const [selectedArea, setSelectedArea] = useState(null);
   const [viewMode, setViewMode] = useState(format);
@@ -76,37 +108,7 @@ const RiskDashboard = ({ _engagementId, format = 'HEATMAP', riskData = null }) =
     return inherentRisk * controlRisk;
   }, [data]);
 
-  const getRiskColor = (riskLevel) => {
-    if (riskLevel >= 0.7) return '#ff4757'; // RED
-    if (riskLevel >= 0.4) return '#ffa502'; // ORANGE
-    if (riskLevel >= 0.2) return '#ffd93d'; // YELLOW
-    return '#2ed573'; // GREEN
-  };
 
-  const getRiskLabel = (riskLevel) => {
-    if (riskLevel >= 0.7) return 'HIGH';
-    if (riskLevel >= 0.4) return 'MEDIUM-HIGH';
-    if (riskLevel >= 0.2) return 'MEDIUM';
-    return 'LOW';
-  };
-
-  const RiskBar = ({ risk, label, width = '100%' }) => ( // eslint-disable-line no-unused-vars
-    <div className="risk-bar-container" style={{ width }}>
-      <div className="risk-bar-label">{label}</div>
-      <div className="risk-bar-track">
-        <div
-          className="risk-bar-fill"
-          style={{
-            width: `${Math.max(risk * 100, 5)}%`,
-            backgroundColor: getRiskColor(risk)
-          }}
-        >
-          <span className="risk-bar-text">{(risk * 100).toFixed(0)}%</span>
-        </div>
-      </div>
-      <div className="risk-bar-label">{getRiskLabel(risk)}</div>
-    </div>
-  );
 
   return (
     <div className="risk-dashboard">
