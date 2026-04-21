@@ -6,7 +6,7 @@
  * Model: Claude 3.5 Sonnet
  */
 
-import { Anthropic } from "@anthropic-ai/sdk";
+import Anthropic from "@anthropic-ai/sdk";
 
 export class EvidenceAnalysisAgent {
   constructor() {

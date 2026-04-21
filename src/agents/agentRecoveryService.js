@@ -9,7 +9,7 @@
 
 import EventEmitter from 'events';
 import agentMonitoringService from './agentMonitoringService.js';
-import selfHealingService from './selfHealingService.js';
+import selfHealingService from '../services/selfHealingService.js';
 
 class AgentRecoveryService extends EventEmitter {
   constructor() {

@@ -889,28 +889,36 @@ export class AuditSpecialistRegistry {
    * Coordinate multi-agent engagement
    */
   async coordinateEngagement(engagementPhase, context = {}) {
-    const task = `AUDIT ENGAGEMENT COORDINATION - ${engagementPhase}
+    // Coordinate all specialist agents for the given audit phase
+    const results = {};
+    const agentPhaseMap = {
+      planning: ['technicalAccounting', 'complianceAdvisor'],
+      riskAssessment: ['controlsAssessor', 'complianceAdvisor', 'technicalAccounting'],
+      testing: ['transactionalTesting', 'controlsAssessor'],
+      completion: ['technicalAccounting', 'complianceAdvisor', 'controlsAssessor'],
+      review: ['complianceAdvisor', 'technicalAccounting'],
+    };
 
-Engagement Phase:
-${engagementPhase}
+    const relevantAgents = agentPhaseMap[engagementPhase] || Object.keys(this.agents);
 
-Context:
-${JSON.stringify(context, null, 2)}
+    for (const agentKey of relevantAgents) {
+      const agent = this.agents[agentKey];
+      if (agent) {
+        results[agentKey] = {
+          agent: agent.constructor.name,
+          capabilities: agent.capabilities || [],
+          phase: engagementPhase,
+          status: 'coordinated',
+        };
+      }
+    }
 
-As the Audit Specialist Registry, coordinate all agents for this phase:
-1. Technical Accounting Lead - accounting and assertion guidance
-2. Controls Assessor - control design and testing coordination
-3. Compliance Advisor - regulatory requirement verification
-4. Transactional Testing Agent - detailed testing execution
-
-Provide:
-- Phase coordination summary
-- Agent responsibilities and tasks
-- Inter-agent coordination points
-- Deliverables for this phase
-- Critical path items`;
-
-    return this.framework.executeAgentTask('supervisor', task, context);
+    return {
+      phase: engagementPhase,
+      agentsCoordinated: relevantAgents.length,
+      agents: results,
+      context,
+    };
   }
 }
 

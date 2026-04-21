@@ -1,29 +1,37 @@
 /**
  * AI AGENT ORCHESTRATOR - MASTER COORDINATOR
- * Coordinates 8+ AI agents for unified audit automation
+ * Coordinates 13 AI agents for unified audit automation
  *
  * Status: ✅ PRODUCTION READY
- * Agents: 9 total (4 engines + 5 agents)
+ * Agents: 13 total (4 engines + 5 agents + 4 methodology agents)
  * Coordination: Full orchestration with caching and fallback
  * Quality Control: ISA 220 compliance with quality assessment
  * Real-time KPIs: Live metrics collection and broadcasting
+ * ISA 330: Smart methodology pipeline (agents 10-13)
  */
 
 // Import all agents and engines
+import Anthropic from "@anthropic-ai/sdk";
 import { AIProcedureEngine } from "./aiProcedureEngine.js";
 import { ExceptionPredictionEngine } from "./exceptionPredictionEngine.js";
 import { JurisdictionEngine } from "./jurisdictionEngine.js";
 import { MaterialityEngine } from "./materialityEngine.js";
-import { ReportGenerationAgent } from "./reportGenerationAgent.js";
-import { RiskAssessmentAgent } from "./riskAssessmentAgent.js";
-import { ComplianceAgent } from "./complianceAgent.js";
-import { EvidenceAnalysisAgent } from "./evidenceAnalysisAgent.js";
-import { WorkflowAssistantAgent } from "./workflowAssistantAgent.js";
+import { ReportGenerationAgent } from "../agents/reportGenerationAgent.js";
+import { RiskAssessmentAgent } from "../agents/riskAssessmentAgent.js";
+import { ComplianceAgent } from "../agents/complianceAgent.js";
+import { EvidenceAnalysisAgent } from "../agents/evidenceAnalysisAgent.js";
+import { WorkflowAssistantAgent } from "../agents/workflowAssistantAgent.js";
 import { agentQualityAssessmentService } from "./agentQualityAssessmentService.js";
+
+// ISA 330 Methodology Agents (10-13)
+import { AuditSectionsService } from "./auditSectionsService.js";
+import { ControlsTestingAgent } from "./controlsTestingAgent.js";
+import { SubstantiveProceduresAgent } from "./substantiveProceduresAgent.js";
+import { SmartProceduresEngine } from "./smartProceduresEngine.js";
 
 class AIAgentOrchestrator {
   constructor() {
-    // Initialize all 9 agents
+    // Initialize all 13 agents
     this.agents = {
       // Core Engines (4)
       procedures: new AIProcedureEngine(),
@@ -36,6 +44,11 @@ class AIAgentOrchestrator {
       compliance: new ComplianceAgent(),
       evidence: new EvidenceAnalysisAgent(),
       workflow: new WorkflowAssistantAgent(),
+      // ISA 330 Methodology Agents (4)
+      sections: new AuditSectionsService(),
+      controlsTesting: new ControlsTestingAgent(),
+      substantive: new SubstantiveProceduresAgent(),
+      smartProcedures: new SmartProceduresEngine(),
     };
 
     // Caching system
@@ -131,6 +144,36 @@ class AIAgentOrchestrator {
 
         case "RISK_ASSESSMENT_SUITE":
           result = await this._riskAssessmentSuite(request.params);
+          break;
+
+        // ISA 330 Methodology request types
+        case "EVALUATE_CONTROLS":
+          result = await this.agents.controlsTesting.evaluateControls(request.params);
+          break;
+
+        case "GENERATE_SUBSTANTIVE_PROGRAMME":
+          result = await this.agents.substantive.generateSubstantiveProgramme(request.params);
+          break;
+
+        case "ANALYZE_SECTIONS":
+          result = request.params.initialize
+            ? this.agents.sections.initializeSections(request.engagementId, request.params)
+            : this.agents.sections.getAllSections(request.engagementId);
+          break;
+
+        case "SMART_PROCEDURES":
+          result = await this.agents.smartProcedures.executeMethodologySuite(request.params);
+          break;
+
+        case "METHODOLOGY_SUITE":
+          result = await this.agents.smartProcedures.executeMethodologySuite({
+            ...request.params,
+            engagementId: request.engagementId,
+          });
+          break;
+
+        case "AI_CHAT":
+          result = await this._handleAIChat(request.params);
           break;
 
         default:
@@ -301,6 +344,24 @@ class AIAgentOrchestrator {
       (this.metrics.averageLatency * (allLatencies - 1) + latency) / allLatencies;
   }
 
+  async _handleAIChat(params) {
+    const { system, messages } = params;
+    if (!messages || !Array.isArray(messages) || messages.length === 0) {
+      throw new Error("AI_CHAT requires a non-empty messages array");
+    }
+    const client = new Anthropic({
+      apiKey: process.env.ANTHROPIC_API_KEY || process.env.VITE_CLAUDE_API_KEY,
+    });
+    const response = await client.messages.create({
+      model: "claude-sonnet-4-20250514",
+      max_tokens: 1500,
+      system: system || "You are an expert UK statutory auditor.",
+      messages: messages.slice(-6),
+    });
+    const text = response.content?.map(b => b.text || "").join("\n") || "";
+    return { text, model: response.model, usage: response.usage };
+  }
+
   _calculateOverallRisk(risk, exceptions) {
     const riskScore = risk?.score || 50;
     const exceptionScore = exceptions?.exception_probability * 100 || 0;
@@ -313,15 +374,23 @@ class AIAgentOrchestrator {
 
   _getFallbackResult(type) {
     const fallbacks = {
-      SUGGEST_PROCEDURES: { suggestions: [], note: "Cached - API rate limited" },
-      PREDICT_EXCEPTIONS: { probability: 0, confidence: "low", cached: true },
-      PLAN_JURISDICTION: { plan: "Standard audit approach", fallback: true },
+      SUGGEST_PROCEDURES: { suggestions: [] },
+      PREDICT_EXCEPTIONS: { probability: 0, confidence: "low" },
+      PLAN_JURISDICTION: { plan: "Standard audit approach" },
       GENERATE_REPORT: { summary: "Report generation available on next request" },
-      ASSESS_RISK: { riskLevel: "MEDIUM", note: "Cached result" },
-      CHECK_COMPLIANCE: { status: "PENDING", note: "Cached result" },
-      ANALYZE_EVIDENCE: { sufficiency: "UNKNOWN", cached: true },
+      ASSESS_RISK: { riskLevel: "MEDIUM" },
+      CHECK_COMPLIANCE: { status: "PENDING" },
+      ANALYZE_EVIDENCE: { sufficiency: "UNKNOWN" },
+      EVALUATE_CONTROLS: { controlAssessments: [] },
+      GENERATE_SUBSTANTIVE_PROGRAMME: { procedures: [] },
+      ANALYZE_SECTIONS: { sections: [] },
+      SMART_PROCEDURES: { success: false },
+      METHODOLOGY_SUITE: { success: false },
     };
-    return fallbacks[type] || { status: "FALLBACK_MODE" };
+    const result = fallbacks[type] || { status: "FALLBACK_MODE" };
+    result.__fallback = true;
+    result.__reason = "Rate limited (429) — not a real agent result";
+    return result;
   }
 
   /**
@@ -355,6 +424,10 @@ class AIAgentOrchestrator {
         compliance: this.agents.compliance.getMetrics?.() || { status: "READY" },
         evidence: this.agents.evidence.getMetrics?.() || { status: "READY" },
         workflow: this.agents.workflow.getMetrics?.() || { status: "READY" },
+        sections: this.agents.sections.getMetrics?.() || { status: "READY" },
+        controlsTesting: this.agents.controlsTesting.getMetrics?.() || { status: "READY" },
+        substantive: this.agents.substantive.getMetrics?.() || { status: "READY" },
+        smartProcedures: this.agents.smartProcedures.getMetrics?.() || { status: "READY" },
       },
     };
   }
@@ -392,7 +465,12 @@ class AIAgentOrchestrator {
       'ASSESS_RISK': 'RiskAssessmentAgent',
       'CHECK_COMPLIANCE': 'ComplianceAgent',
       'ANALYZE_EVIDENCE': 'EvidenceAnalysisAgent',
-      'GET_WORKFLOW_GUIDANCE': 'WorkflowAssistantAgent'
+      'GET_WORKFLOW_GUIDANCE': 'WorkflowAssistantAgent',
+      'EVALUATE_CONTROLS': 'ControlsTestingAgent',
+      'GENERATE_SUBSTANTIVE_PROGRAMME': 'SubstantiveProceduresAgent',
+      'ANALYZE_SECTIONS': 'AuditSectionsService',
+      'SMART_PROCEDURES': 'SmartProceduresEngine',
+      'METHODOLOGY_SUITE': 'SmartProceduresEngine'
     };
     return mapping[requestType] || null;
   }
@@ -405,9 +483,11 @@ console.log(`
 ╔════════════════════════════════════════════════════════════╗
 ║    AI AGENT ORCHESTRATOR - PRODUCTION READY                ║
 ╠════════════════════════════════════════════════════════════╣
-║  Agents: 9 Total                                           ║
+║  Agents: 13 Total                                          ║
 ║  ├─ Procedures, Exceptions, Jurisdictions, Materiality    ║
 ║  ├─ Reports, Risk, Compliance, Evidence, Workflow         ║
+║  ├─ Sections, ControlsTesting, Substantive, SmartProcs    ║
+║  ISA 330: Smart Methodology Pipeline ✅                    ║
 ║  Cache: 5-minute TTL                                       ║
 ║  Status: ✅ READY                                          ║
 ╚════════════════════════════════════════════════════════════╝

@@ -112,12 +112,24 @@ export function useAgents() {
       const updated = prev.map(r => r.id === resultId ? { ...r, status: 'accepted' } : r);
       const accepted = updated.find(r => r.id === resultId);
       if (accepted && accepted.cellKey && accepted.value && engagement.setCellData) {
+        // Validate cellKey: must be a string matching WP ID patterns (e.g. a1_, b2_, d3_)
+        const cellKey = accepted.cellKey;
+        if (typeof cellKey !== 'string' || cellKey.length > 200 || /[^a-zA-Z0-9_.\-:]/.test(cellKey)) {
+          console.warn('[useAgents] Rejected invalid cellKey:', cellKey);
+          return updated;
+        }
+        // Validate value: must be string or number, not object/function
+        const value = accepted.value;
+        if (typeof value === 'function' || (typeof value === 'object' && value !== null)) {
+          console.warn('[useAgents] Rejected non-primitive value for cellKey:', cellKey);
+          return updated;
+        }
         engagement.setCellData(prevData => ({
           ...prevData,
-          [accepted.cellKey]: accepted.value,
+          [cellKey]: value,
         }));
         if (engagement.showToast) {
-          engagement.showToast(`Applied: ${accepted.cellKey}`);
+          engagement.showToast(`Applied: ${cellKey}`);
         }
       }
       return updated;

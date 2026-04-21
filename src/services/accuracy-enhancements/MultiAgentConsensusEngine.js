@@ -180,17 +180,23 @@ export class MultiAgentConsensusEngine {
   }
 
   /**
-   * Simulate agent confidence (production: use actual agent confidence)
+   * Compute agent confidence from finding characteristics
    */
   _simulateAgentConfidence(finding, agentKey) {
-    // Different agents have different confidence levels
-    const baseConfidence = 0.75 + Math.random() * 0.25;
+    // Deterministic confidence based on available data quality
+    const hasRisk = typeof finding.riskScore === 'number';
+    const hasEvidence = typeof finding.evidenceStrength === 'number';
+    const hasMateriality = typeof finding.materiality === 'number';
+    const dataQuality = (hasRisk ? 0.1 : 0) + (hasEvidence ? 0.1 : 0) + (hasMateriality ? 0.05 : 0);
+    const baseConfidence = 0.75 + dataQuality;
 
     switch (agentKey) {
       case 'evidence':
         return finding.evidenceStrength || baseConfidence;
       case 'riskAssessment':
         return 1 - (finding.riskScore || 0.5);
+      case 'materiality':
+        return hasMateriality ? (1 - finding.materiality) * 0.5 + 0.5 : baseConfidence;
       default:
         return baseConfidence;
     }
@@ -235,20 +241,26 @@ export class MultiAgentConsensusEngine {
   _flattenFindings(findings) {
     const flattened = [];
 
-    const flattenObj = (obj, prefix = '') => {
+    const flattenObj = (obj, prefix = '', depth = 0) => {
       if (Array.isArray(obj)) {
-        obj.forEach((item, idx) => flattenObj(item, `${prefix}[${idx}]`));
+        obj.forEach((item, idx) => flattenObj(item, `${prefix}[${idx}]`, depth + 1));
       } else if (typeof obj === 'object' && obj !== null) {
         for (const [key, value] of Object.entries(obj)) {
           if (typeof value === 'object') {
-            flattenObj(value, `${prefix}.${key}`);
+            flattenObj(value, `${prefix}.${key}`, depth + 1);
           } else {
+            // Derive scores from value characteristics instead of random
+            const numericValue = typeof value === 'number' ? value : 0;
+            const keyLower = key.toLowerCase();
+            const isRiskRelated = /risk|error|exception|fraud|override/.test(keyLower);
+            const isHighValue = Math.abs(numericValue) > 100000;
+
             flattened.push({
               id: `${prefix}.${key}`,
               value: value,
-              riskScore: Math.random(),
-              evidenceStrength: Math.random(),
-              materiality: Math.random()
+              riskScore: isRiskRelated ? 0.7 : isHighValue ? 0.5 : 0.3,
+              evidenceStrength: depth <= 1 ? 0.8 : 0.6,
+              materiality: isHighValue ? 0.6 : 0.2
             });
           }
         }

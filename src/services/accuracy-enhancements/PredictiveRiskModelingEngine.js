@@ -24,15 +24,24 @@ export class PredictiveRiskModelingEngine {
   }
 
   _predictRestatement(auditData) {
-    const score = (Math.random() * 0.3); // Base: 0-30% risk
-    
+    // Base risk from entity characteristics — no randomness
+    let score = 0.15;
+
+    // Risk factors: negative equity, large transactions, estimate-heavy accounts
     if (auditData.accounts?.some(a => a.type === 'EQUITY' && a.balance < 0)) score += 0.15;
     if (auditData.transactions?.some(t => Math.abs(t.amount) > 10000000)) score += 0.1;
+    if (auditData.accounts?.filter(a => a.type === 'ESTIMATE' || a.type === 'PROVISION').length > 5) score += 0.1;
+    if (auditData.isFirstYear) score += 0.1;
+
+    const factors = [];
+    if (score > 0.15) factors.push('Account composition');
+    if (auditData.transactions?.length > 100) factors.push('Transaction volume');
+    if (factors.length === 0) factors.push('Standard risk profile');
 
     return {
       probability: Math.min(0.9, score),
       timeframe: '1-12 months',
-      factors: ['Account composition', 'Transaction patterns'],
+      factors,
       recommendations: ['Enhanced procedures for complex accounts', 'Increased focus on estimates']
     };
   }

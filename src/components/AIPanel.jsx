@@ -1,5 +1,6 @@
 import { useEngagement } from "../context/EngagementContext";
 import { WPS } from "../data";
+import { getSession } from "../lib/supabaseClient";
 
 // ═══ AI ENGINE HOOK — Claude Intelligence Layer ═══
 export function useAIEngine() {
@@ -47,15 +48,19 @@ Respond as a senior audit manager. Be specific with ISA paragraph references. Fo
     setAiMessages(newMsgs);
     setAiInput("");
     try {
-      const resp = await fetch("https://api.anthropic.com/v1/messages", {
-        method: "POST", headers: { "Content-Type": "application/json" },
+      const session = await getSession();
+      const headers = { "Content-Type": "application/json" };
+      if (session?.access_token) headers["Authorization"] = `Bearer ${session.access_token}`;
+      const resp = await fetch("/api/orchestrator/request", {
+        method: "POST", headers,
         body: JSON.stringify({
-          model: "claude-sonnet-4-20250514", max_tokens: 1000, system: getAuditContext(),
-          messages: newMsgs.slice(-6)
+          type: "AI_CHAT",
+          engagementId: cfg.engagementId || "default",
+          params: { system: getAuditContext(), messages: newMsgs.slice(-6) }
         })
       });
       const data = await resp.json();
-      const aiText = data.content?.map(b => b.text || "").join("\n") || "No response received.";
+      const aiText = data.result?.text || data.error || "No response received.";
       setAiMessages(prev => [...prev, { role: "assistant", content: aiText }]);
       logAIUsage(WPS.find(w => w.id === activeWP)?.ref || "N/A", userMsg, aiText);
     } catch (err) {
