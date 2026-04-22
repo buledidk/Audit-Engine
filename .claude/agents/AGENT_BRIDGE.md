@@ -82,6 +82,28 @@ routes through `aiAgentOrchestrator.js` to the appropriate engine or agent.
 | audit-payroll-specialist | audit-payroll-employee-benefits | Payroll / benefits (P&L/BS) | Occurrence, accuracy |
 | audit-related-parties-specialist | audit-related-parties-disclosure | Cross-cutting | Completeness, disclosure |
 
+## Financial Reporting Lifecycle Agents (added 22 Apr 2026)
+
+15 skills covering the full reporting lifecycle from COA through to regulatory returns.
+
+| Claude Code Agent | Skill | Stage |
+|-------------------|-------|-------|
+| finance-coa-specialist | finance-chart-of-accounts-gl | Foundation |
+| finance-policy-specialist | finance-accounting-policies | Foundation |
+| finance-month-end-specialist | finance-month-end-close | Period close |
+| finance-year-end-specialist | finance-year-end-close | Period close |
+| finance-reconciliation-specialist | finance-balance-sheet-reconciliation | Controls |
+| finance-frs102-specialist | finance-statutory-accounts-frs102 | Statements |
+| finance-ifrs-specialist | finance-ifrs-financial-statements | Statements |
+| finance-disclosures-specialist | finance-notes-disclosures | Statements |
+| finance-directors-report-specialist | finance-directors-strategic-report | Statements |
+| finance-consolidation-specialist | finance-group-consolidation | Group |
+| finance-intercompany-specialist | finance-intercompany | Group |
+| finance-lease-specialist | finance-lease-accounting | Technical |
+| finance-instruments-specialist | finance-financial-instruments-accounting | Technical |
+| finance-tax-specialist | finance-tax-computation-reporting | Tax |
+| finance-regulatory-specialist | finance-regulatory-returns | Regulatory |
+
 ## Gaps to fill
 
 Two .claude/ agents have no src/ equivalent:
