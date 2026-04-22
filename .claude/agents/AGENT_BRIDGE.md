@@ -53,6 +53,35 @@ Results appear as cell suggestions that can be accepted/rejected.
 **From the backend API:** POST to `/api/orchestrator/request` with a valid `type`
 routes through `aiAgentOrchestrator.js` to the appropriate engine or agent.
 
+## Architecture & Meta Agents (added 21 Apr 2026)
+
+| Claude Code Agent | Skill | Purpose |
+|-------------------|-------|---------|
+| audit-architect | auditengine-saas-architecture | Platform stack, deployment, compliance, 8 hard rules |
+| audit-methodology-librarian | auditengine-methodology-library | Pre-populated ISA content, zero-placeholder principle |
+| audit-industry-profiler | auditengine-industry-profiles | 8-industry risk library, FSLI maps |
+| audit-wp-architect | auditengine-working-paper-architecture | 47-WP audit file tree, CaseWare-style refs |
+| audit-workpaper-engine | audit-workpaper-engine | Master content generation across all ISA areas |
+
+## FSLI / Assertion Risk Area Agents (added 22 Apr 2026)
+
+12 skills covering every significant risk area across BS and P&L, for both FS and non-FS entities.
+
+| Claude Code Agent | Skill | FSLI | Primary assertions |
+|-------------------|-------|------|-------------------|
+| audit-revenue-specialist | audit-revenue-recognition | Revenue (P&L) | Occurrence, accuracy, cut-off |
+| audit-cash-specialist | audit-cash-bank-confirmations | Cash & bank (BS) | Existence, completeness |
+| audit-receivables-specialist | audit-receivables-credit-losses | Receivables (BS) | Existence, valuation (ECL) |
+| audit-inventory-specialist | audit-inventory-cost-of-sales | Inventory / COGS (BS/P&L) | Existence, valuation (NRV) |
+| audit-investments-specialist | audit-investments-securities | Investments (BS) | Existence, valuation, classification |
+| audit-fixed-assets-specialist | audit-ppe-intangibles-impairment | PPE / intangibles (BS) | Existence, valuation (impairment) |
+| audit-estimates-specialist | audit-estimates-fair-value | Cross-cutting | Valuation, accuracy |
+| audit-payables-specialist | audit-payables-accruals-provisions | Payables / provisions (BS) | Completeness, cut-off |
+| audit-borrowings-specialist | audit-borrowings-covenants | Borrowings (BS) | Completeness, classification |
+| audit-tax-specialist | audit-tax-current-deferred | Tax (BS/P&L) | Accuracy, valuation (DTA) |
+| audit-payroll-specialist | audit-payroll-employee-benefits | Payroll / benefits (P&L/BS) | Occurrence, accuracy |
+| audit-related-parties-specialist | audit-related-parties-disclosure | Cross-cutting | Completeness, disclosure |
+
 ## Gaps to fill
 
 Two .claude/ agents have no src/ equivalent:
