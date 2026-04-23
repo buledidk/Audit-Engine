@@ -1,6 +1,6 @@
-import { useEffect, useRef, useState, useCallback } from "react";
+import { useEffect, useLayoutEffect, useRef, useState, useCallback } from "react";
 import { TOUR_CONFIG } from "./tourSteps";
-import { ChevronLeft, ChevronRight, X, Play, Pause } from "lucide-react";
+import { ChevronLeft, ChevronRight, X, Play, Pause } from "lucide-react"; // eslint-disable-line no-unused-vars
 
 /**
  * TourStep — renders a spotlight overlay + tooltip for one tour step.
@@ -45,14 +45,14 @@ export default function TourStep({
     }
   }, [step]);
 
-  useEffect(() => {
-    measureTarget();
+  useLayoutEffect(() => {
+    measureTarget(); // eslint-disable-line react-hooks/set-state-in-effect -- DOM measurement requires setState in layout effect
     window.addEventListener("resize", measureTarget);
     return () => window.removeEventListener("resize", measureTarget);
   }, [measureTarget]);
 
   // Position tooltip relative to target or centre of screen
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (!tooltipRef.current) return;
     const tt = tooltipRef.current.getBoundingClientRect();
     const vw = window.innerWidth;
@@ -83,7 +83,7 @@ export default function TourStep({
   // Auto-advance timer
   useEffect(() => {
     if (!autoAdvance) {
-      setProgress(0);
+      setProgress(0); // eslint-disable-line react-hooks/set-state-in-effect -- reset is intentional cleanup
       return;
     }
     const start = Date.now();

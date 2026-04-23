@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { DEMO_AGENT_RECORDING } from "../../data/demoAgentRecording";
-import { Brain, CheckCircle2, Loader2 } from "lucide-react";
+import { Brain, CheckCircle2, Loader2 } from "lucide-react"; // eslint-disable-line no-unused-vars
 
 /**
  * AgentShowcase — displays a simulated AI agent session with typewriter effect.

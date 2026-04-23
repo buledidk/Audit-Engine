@@ -1,7 +1,7 @@
 import { useState, useCallback } from "react";
 import { TOUR_STEPS } from "./tourSteps";
-import TourStep from "./TourStep";
-import AgentShowcase from "./AgentShowcase";
+import TourStep from "./TourStep"; // eslint-disable-line no-unused-vars
+import AgentShowcase from "./AgentShowcase"; // eslint-disable-line no-unused-vars
 
 /**
  * DemoTour — orchestrates the guided demo walkthrough.

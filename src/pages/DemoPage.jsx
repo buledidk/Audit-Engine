@@ -1,12 +1,12 @@
 import { useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
-import {
+import { // eslint-disable-next-line no-unused-vars
   Play, ArrowRight, Download, Building2, Landmark, Heart,
   Brain, FileText, ShieldCheck, BarChart3
 } from "lucide-react";
 import { generateDemoState, generateDemoFinancialServices, generateDemoCharity } from "../demoSeed";
-import DemoTour from "../components/DemoTour/DemoTour";
-import AgentShowcase from "../components/DemoTour/AgentShowcase";
+import DemoTour from "../components/DemoTour/DemoTour"; // eslint-disable-line no-unused-vars
+import AgentShowcase from "../components/DemoTour/AgentShowcase"; // eslint-disable-line no-unused-vars
 
 const DEMO_OPTIONS = [
   {
@@ -58,7 +58,7 @@ function loadDemoIntoStorage(generator) {
 export default function DemoPage() {
   const navigate = useNavigate();
   const [tourActive, setTourActive] = useState(false);
-  const [selectedIndustry, setSelectedIndustry] = useState(null);
+  const [_selectedIndustry, setSelectedIndustry] = useState(null);
   const [showAgentStandalone, setShowAgentStandalone] = useState(false);
 
   const handleStartTour = useCallback((option) => {
@@ -121,7 +121,7 @@ export default function DemoPage() {
         {/* Stats */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-10 max-w-2xl mx-auto">
           {STATS.map((s) => {
-            const Icon = s.icon;
+            const Icon = s.icon; // eslint-disable-line no-unused-vars
             return (
               <div key={s.label} className="flex flex-col items-center gap-1 p-3 rounded-lg bg-[#0f1729] border border-ae-border/30">
                 <Icon className="h-4 w-4 text-brand mb-1" />
@@ -140,7 +140,7 @@ export default function DemoPage() {
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-4xl mx-auto">
           {DEMO_OPTIONS.map((opt) => {
-            const Icon = opt.icon;
+            const Icon = opt.icon; // eslint-disable-line no-unused-vars
             return (
               <div
                 key={opt.id}
@@ -212,7 +212,7 @@ export default function DemoPage() {
             { label: "Lead Schedule Workbook", format: "Excel (.xlsx)", desc: "P&L and balance sheet lead schedules with prior year comparatives and WP references", icon: BarChart3 },
             { label: "Audit Report", format: "PDF", desc: "Independent auditor's report with unmodified opinion under FRS 102", icon: ShieldCheck },
           ].map((item) => {
-            const Icon = item.icon;
+            const Icon = item.icon; // eslint-disable-line no-unused-vars
             return (
               <button
                 key={item.label}
