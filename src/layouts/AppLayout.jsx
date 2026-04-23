@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useParams, NavLink } from "react-router-dom";
 import { useState, useEffect } from "react";
 import {
   LayoutDashboard, Briefcase, Users, BarChart3, ShieldCheck, // eslint-disable-line no-unused-vars
@@ -50,9 +50,10 @@ export default function AppLayout() {
 
   const renderNav = (items) =>
     items.map((item) => {
+      const ItemIcon = item.icon;
       return (
         <NavLink key={item.to} to={item.to} end={item.end} className={navLinkClass}>
-          <Icon className="h-4 w-4 flex-shrink-0" />
+          <ItemIcon className="h-4 w-4 flex-shrink-0" />
           {!collapsed && <span className="truncate">{item.label}</span>}
         </NavLink>
       );

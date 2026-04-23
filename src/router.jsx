@@ -15,6 +15,7 @@ const SettingsFirmSetup = lazy(() => import("./pages/SettingsFirmSetup"));
 const ClientPortal = lazy(() => import("./pages/ClientPortal"));
 const LandingPage = lazy(() => import("./pages/LandingPage"));
 const AuthLogin = lazy(() => import("./pages/AuthLogin"));
+const DemoPage = lazy(() => import("./pages/DemoPage"));
 
 // Engagement shell + pages
 const EngagementShell = lazy(() => import("./layouts/EngagementShell"));
@@ -139,6 +140,10 @@ const router = createBrowserRouter([
   {
     path: "/welcome",
     element: <LazyWrap><LandingPage /></LazyWrap>,
+  },
+  {
+    path: "/demo",
+    element: <LazyWrap><DemoPage /></LazyWrap>,
   },
   { path: "*", element: <Navigate to="/" replace /> }
 ]);

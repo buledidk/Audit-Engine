@@ -74,7 +74,7 @@ export default function LandingPage() {
           <Button size="lg" onClick={() => navigate("/")} className="gap-2 text-base px-8">
             Start Free Trial <ArrowRight className="h-4 w-4" />
           </Button>
-          <Button size="lg" variant="outline" onClick={() => navigate("/")} className="gap-2 text-base px-8">
+          <Button size="lg" variant="outline" onClick={() => navigate("/demo")} className="gap-2 text-base px-8">
             View Demo
           </Button>
         </div>

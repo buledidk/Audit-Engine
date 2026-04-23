@@ -649,4 +649,5 @@ export function getSupabaseClient() {
   return supabase;
 }
 
+export { supabase };
 export default supabase;
