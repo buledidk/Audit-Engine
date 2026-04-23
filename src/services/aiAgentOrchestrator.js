@@ -353,7 +353,7 @@ class AIAgentOrchestrator {
       apiKey: process.env.ANTHROPIC_API_KEY || process.env.VITE_CLAUDE_API_KEY,
     });
     const response = await client.messages.create({
-      model: "claude-sonnet-4-20250514",
+      model: "claude-sonnet-4-6",
       max_tokens: 1500,
       system: system || "You are an expert UK statutory auditor.",
       messages: messages.slice(-6),

@@ -61,12 +61,20 @@ describe('AgentFramework', () => {
         compliance: { gdprRequired: true }
       };
 
-      const prompt = framework.buildSystemPrompt(agent, context);
+      const blocks = framework.buildSystemPrompt(agent, context);
 
-      expect(prompt).toContain('Base prompt');
-      expect(prompt).toContain('test-id');
-      expect(prompt).toContain('test-capability');
-      expect(prompt).toContain('gdprRequired');
+      // buildSystemPrompt now returns an array of cache-optimised blocks
+      expect(Array.isArray(blocks)).toBe(true);
+      expect(blocks.length).toBe(2);
+
+      // Block 1: cached static persona
+      expect(blocks[0].type).toBe('text');
+      expect(blocks[0].text).toContain('Base prompt');
+      expect(blocks[0].cache_control).toEqual({ type: 'ephemeral' });
+
+      // Block 2: dynamic context
+      expect(blocks[1].text).toContain('test-capability');
+      expect(blocks[1].text).toContain('gdprRequired');
     });
 
     it('should include compliance requirements in prompt', () => {
@@ -84,9 +92,11 @@ describe('AgentFramework', () => {
         }
       };
 
-      const prompt = framework.buildSystemPrompt(agent, context);
-      expect(prompt).toContain('transparent');
-      expect(prompt).toContain('Compliance');
+      const blocks = framework.buildSystemPrompt(agent, context);
+      // Static block contains audit rules including transparency
+      expect(blocks[0].text).toContain('transparent');
+      // Dynamic block contains compliance data
+      expect(blocks[1].text).toContain('Compliance');
     });
   });
 

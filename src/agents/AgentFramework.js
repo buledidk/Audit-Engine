@@ -34,7 +34,10 @@ export class AgentFramework extends EventEmitter {
       successfulRequests: 0,
       failedRequests: 0,
       totalTokensUsed: 0,
-      averageResponseTime: 0
+      averageResponseTime: 0,
+      totalCacheCreationTokens: 0,
+      totalCacheReadTokens: 0,
+      cacheHitRate: 0
     };
     this.compliance = {
       gdprCompliant: true,
@@ -94,26 +97,41 @@ export class AgentFramework extends EventEmitter {
       const systemPrompt = this.buildSystemPrompt(agent, context);
       const userMessage = this.buildUserMessage(task, context);
 
+      // Build request params with prompt caching + adaptive thinking
+      const buildParams = (model, maxTokens, temperature) => {
+        const params = {
+          model,
+          max_tokens: maxTokens,
+          temperature,
+          system: systemPrompt,
+          messages: [{ role: 'user', content: userMessage }]
+        };
+        // Enable adaptive thinking for Opus 4.6 and Sonnet 4.6
+        if (model === 'claude-opus-4-6' || model === 'claude-sonnet-4-6') {
+          params.thinking = { type: 'adaptive' };
+        }
+        return params;
+      };
+
       // Execute with selected model and retries
       const response = await this.executeWithRetry(
         () => {
           if (modelSelection.key === 'primary' && modelSelection.client) {
-            // Use selected model client
-            return modelSelection.client.messages.create({
-              model: modelSelection.config.model,
-              max_tokens: modelSelection.config.maxTokens,
-              temperature: modelSelection.config.temperature,
-              system: systemPrompt,
-              messages: [{ role: 'user', content: userMessage }]
-            });
+            return modelSelection.client.messages.create(
+              buildParams(
+                modelSelection.config.model,
+                modelSelection.config.maxTokens,
+                modelSelection.config.temperature
+              )
+            );
           } else {
-            // Fallback to primary client
-            return this.client.messages.create({
-              model: this.config.model,
-              max_tokens: this.config.maxTokens,
-              system: systemPrompt,
-              messages: [{ role: 'user', content: userMessage }]
-            });
+            return this.client.messages.create(
+              buildParams(
+                this.config.model,
+                this.config.maxTokens,
+                this.config.temperature
+              )
+            );
           }
         }
       );
@@ -121,13 +139,23 @@ export class AgentFramework extends EventEmitter {
       const executionTime = Date.now() - startTime;
       this.updateMetrics(response, executionTime);
 
+      // Extract text from response (skip thinking blocks from adaptive thinking)
+      const textBlock = response.content.find(b => b.type === 'text');
+      const thinkingBlock = response.content.find(b => b.type === 'thinking');
+
       const result = {
         taskId,
         agentName,
         status: 'completed',
-        output: response.content[0].text,
+        output: textBlock?.text || '',
+        thinking: thinkingBlock?.thinking || null,
         executionTime,
         tokenUsage: response.usage,
+        cacheMetrics: {
+          cacheCreationTokens: response.usage.cache_creation_input_tokens || 0,
+          cacheReadTokens: response.usage.cache_read_input_tokens || 0,
+          inputTokens: response.usage.input_tokens || 0
+        },
         modelUsed: modelSelection.key
       };
 
@@ -155,24 +183,41 @@ export class AgentFramework extends EventEmitter {
   }
 
   /**
-   * Build system prompt with agent context
+   * Build system prompt as structured blocks for prompt caching.
+   * Static content (agent persona + audit rules) is cached; dynamic
+   * context (compliance, per-request data) goes after the cache boundary.
    */
   buildSystemPrompt(agent, context) {
-    return `${agent.systemPrompt}
+    const blocks = [];
 
-Context:
-- Agent ID: ${agent.id}
-- Agent Type: ${agent.type}
-- Capabilities: ${agent.capabilities.join(', ')}
-- Timestamp: ${new Date().toISOString()}
+    // Block 1: Static agent persona — CACHED (reused across all calls for this agent)
+    blocks.push({
+      type: 'text',
+      text: `${agent.systemPrompt}
 
-CRITICAL: You must be transparent about:
-1. Your limitations and uncertainties
-2. Data being processed and why
-3. Decisions made and rationale
-4. Compliance requirements being followed
+CRITICAL AUDIT RULES (apply to every response):
+1. Be transparent about limitations and uncertainties.
+2. Cite the data being processed and why.
+3. State decisions made and rationale.
+4. Note compliance requirements being followed.
+5. Use ISA (UK) terminology and UK English spelling.`,
+      cache_control: { type: 'ephemeral' }
+    });
 
-${context.compliance ? `Compliance Requirements:\n${JSON.stringify(context.compliance, null, 2)}` : ''}`;
+    // Block 2: Dynamic per-request context — NOT cached (changes each call)
+    const dynamicParts = [
+      `Agent: ${agent.name} (${agent.type})`,
+      `Capabilities: ${agent.capabilities.join(', ')}`
+    ];
+    if (context.compliance) {
+      dynamicParts.push(`Compliance Requirements:\n${JSON.stringify(context.compliance, null, 2)}`);
+    }
+    blocks.push({
+      type: 'text',
+      text: dynamicParts.join('\n')
+    });
+
+    return blocks;
   }
 
   /**
@@ -230,6 +275,17 @@ ${context.requirements ? `Requirements: ${context.requirements.join('\n')}` : ''
     this.metrics.totalRequests++;
     this.metrics.successfulRequests++;
     this.metrics.totalTokensUsed += response.usage.input_tokens + response.usage.output_tokens;
+
+    // Track prompt caching metrics
+    const cacheCreation = response.usage.cache_creation_input_tokens || 0;
+    const cacheRead = response.usage.cache_read_input_tokens || 0;
+    this.metrics.totalCacheCreationTokens += cacheCreation;
+    this.metrics.totalCacheReadTokens += cacheRead;
+
+    const totalCachedOps = this.metrics.totalCacheCreationTokens + this.metrics.totalCacheReadTokens;
+    if (totalCachedOps > 0) {
+      this.metrics.cacheHitRate = (this.metrics.totalCacheReadTokens / totalCachedOps * 100).toFixed(1);
+    }
 
     const avgTime = (this.metrics.averageResponseTime * (this.metrics.successfulRequests - 1) + executionTime)
       / this.metrics.successfulRequests;

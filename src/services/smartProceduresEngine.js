@@ -30,7 +30,7 @@ class SmartProceduresEngine {
     this.client = new Anthropic({
       apiKey: process.env.ANTHROPIC_API_KEY || process.env.VITE_CLAUDE_API_KEY,
     });
-    this.model = "claude-sonnet-4-20250514";
+    this.model = "claude-sonnet-4-6";
     this.executions = new Map(); // Store completed executions
   }
 
