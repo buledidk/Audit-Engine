@@ -11,14 +11,25 @@ export default defineConfig({
     },
   },
   build: {
+    // Strip console.log/warn in production — keeps source clean, removes 879 debug statements from bundles
+    esbuild: {
+      drop: ['console', 'debugger'],
+    },
+    // Enable source maps for error tracking (hidden from devtools)
+    sourcemap: 'hidden',
+    // Target modern browsers for smaller output
+    target: 'es2022',
     rollupOptions: {
       output: {
         manualChunks(id) {
           // Vendor chunks
+          if (id.includes('node_modules/recharts') || id.includes('node_modules/d3-')) return 'vendor-charts';
           if (id.includes('node_modules/xlsx')) return 'vendor-xlsx';
           if (id.includes('node_modules/docx')) return 'vendor-docx';
           if (id.includes('node_modules/pdfkit') || id.includes('node_modules/pdfmake')) return 'vendor-pdf';
           if (id.includes('node_modules/exceljs')) return 'vendor-exceljs';
+          if (id.includes('node_modules/@radix-ui')) return 'vendor-radix';
+          if (id.includes('node_modules/@supabase')) return 'vendor-supabase';
           if (id.includes('node_modules/react-dom')) return 'vendor-react';
           if (id.includes('node_modules/react-router')) return 'vendor-react';
           if (id.includes('node_modules/react/')) return 'vendor-react';
