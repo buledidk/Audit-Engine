@@ -7,6 +7,8 @@ import { AIProcedureEngine } from '../services/aiProcedureEngine.js';
 import { ExceptionPredictionEngine } from '../services/exceptionPredictionEngine.js';
 import { ISA_UK_STANDARDS } from '../StandardsLibrary.js';
 import { CROSS_REFERENCE_INDEX } from '../CrossReferenceIndex.js';
+import { agenticFileProcessor } from '../services/AgenticFileProcessor.js';
+import { fileIngestionEngine } from '../services/FileIngestionEngine.js';
 
 // Instantiate engines for tool use
 const aiProcedureEngine = new AIProcedureEngine();
@@ -54,6 +56,21 @@ export const TOOL_DEFINITIONS = {
     name: 'setCellData',
     description: 'Write a value to an engagement cell (queued as suggestion)',
     params: ['table', 'row', 'col', 'value'],
+  },
+  processFile: {
+    name: 'processFile',
+    description: 'Ingest and analyse a file through specialised AI agents (TB, journals, bank statements). Handles Excel, CSV, JSON up to 100MB with chunked processing.',
+    params: ['source', 'options'],
+  },
+  ingestTrialBalance: {
+    name: 'ingestTrialBalance',
+    description: 'Specialised TB ingestion — auto-detects columns, validates balance, maps to FSLI codes',
+    params: ['source', 'options'],
+  },
+  summariseForAgent: {
+    name: 'summariseForAgent',
+    description: 'Compress ingested file data into a compact summary for AI agent context windows',
+    params: ['ingestedData', 'options'],
   },
 };
 
@@ -269,7 +286,30 @@ export function executeTool(toolName, params, engagementState) {
       return executeGetCellData(params, engagementState?.cellData);
     case 'setCellData':
       return executeSetCellData(params);
+    case 'processFile':
+      return executeProcessFile(params);
+    case 'ingestTrialBalance':
+      return executeIngestTrialBalance(params);
+    case 'summariseForAgent':
+      return executeSummariseForAgent(params);
     default:
       return { success: false, error: `Unknown tool: ${toolName}` };
   }
+}
+
+// ─── FILE PROCESSING TOOLS ─────────────────────────────────────────
+
+export async function executeProcessFile({ source, options }) {
+  return agenticFileProcessor.processFile(source, options || {});
+}
+
+export async function executeIngestTrialBalance({ source, options }) {
+  return fileIngestionEngine.ingestTrialBalance(source, options || {});
+}
+
+export function executeSummariseForAgent({ ingestedData, options }) {
+  return {
+    success: true,
+    result: fileIngestionEngine.summariseForAgent(ingestedData, options || {}),
+  };
 }
